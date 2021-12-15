@@ -1,0 +1,35 @@
+﻿<div class="input-group mb-2">
+    <input @bind="@filterText" @onkeydown="OnKeyDown" class="form-control" placeholder="@PlaceHolder" />
+    <div class="input-group-append">
+        <button class="btn btn-outline-danger" type="button" @onclick="OnSearchChanged">
+            <span class="oi oi-magnifying-glass"></span>
+        </button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnFilter { get; set; }
+
+    [Parameter]
+    public string PlaceHolder { get; set; } = "Filter";
+
+    private string filterText = "", previousFilterText = "";
+
+    private async Task SearchRequested()
+    {
+        if (!filterText.Equals(previousFilterText, StringComparison.OrdinalIgnoreCase))
+        {
+            previousFilterText = filterText;
+            await OnFilter.InvokeAsync(filterText);
+        }
+    }
+
+    private Task OnSearchChanged(MouseEventArgs _) => SearchRequested();
+
+    public async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+            await SearchRequested();
+    }
+}

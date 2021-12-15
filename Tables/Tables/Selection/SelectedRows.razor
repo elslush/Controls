@@ -1,0 +1,80 @@
+﻿@typeparam TColumn
+@typeparam TRow
+
+@if (RowSelectState.Items.Count < 1 || string.IsNullOrWhiteSpace(SelectedColumn?.Name))
+{
+    <div class="card text-center">
+        <div class="card-header">
+            <h5>No Rows Selected</h5>
+        </div>
+    </div>
+}
+else
+{
+    <div class="card text-center">
+        <div class="card-header">
+            <h5>Selected Rows</h5>
+        </div>
+        <div class="card-body">
+            <div class="container column-container">
+                <div class="row justify-content-start">
+                    <div class="col">
+                        <Dropdown Items="Columns" TItem="Column" OnSelect="SelectColumn"
+                                    ItemName="Column"
+                                    ItemNamePlural="Columns"
+                                    SelectedItem="SelectedColumn">
+                            <ItemTemplate Context="column">
+                                @column.Name
+                            </ItemTemplate>
+                        </Dropdown>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-primary">Copy</button>
+                        <button type="button" class="btn btn-secondary">Secondary</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <ul class="list-group">
+                            @foreach (var selected in RowSelectState.Items.Select(row => row.Columns[SelectedColumn.Name].Value))
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    @selected
+                                    <TestBuilder.Client.Shared.Controls.Tooltip
+                                        Text="Deselect">
+                                        <ChildContent>
+                                            <button type="button" class="btn btn-outline-dark">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </ChildContent>
+                                    </TestBuilder.Client.Shared.Controls.Tooltip>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@code {
+    [Parameter]
+    public TColumn SelectedColumn { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public IEnumerable<TColumn> Columns { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public HashSet<TRow> RowSelectState { get; set; }
+
+    private void SelectColumn(TColumn column)
+    {
+        SelectedColumn = column;
+        StateHasChanged();
+    }
+}

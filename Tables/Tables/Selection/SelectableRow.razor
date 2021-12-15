@@ -1,0 +1,47 @@
+﻿@typeparam TItem
+
+<tr class="@RowCssCss">
+    @if (IsSelectable)
+    {
+        <td>
+            <input checked="@IsSelected" type="checkbox" @onchange="OnChange" />
+        </td>
+    }
+    @Content
+</tr>
+
+@code {
+    [Parameter]
+    public bool IsSelectable { get; set; }
+
+    [Parameter]
+    public bool IsSelected { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment Content { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public TItem? Value { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public EventCallback<TItem> OnRowAdded { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public EventCallback<TItem> OnRowRemoved { get; set; }
+
+    private string? RowCssCss => IsSelectable && IsSelected ? "selected" : null;
+
+    private async Task OnChange(ChangeEventArgs args)
+    {
+        _ = bool.TryParse(args.Value?.ToString(), out bool isSelected);
+
+        if (isSelected)
+            await OnRowAdded.InvokeAsync(Value);
+        else
+            await OnRowRemoved.InvokeAsync(Value);
+    }
+}

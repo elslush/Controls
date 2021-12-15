@@ -1,0 +1,9 @@
+﻿table {
+    table-layout: fixed;
+}
+
+.table-container {
+    overflow-x: auto;
+    width: 80vw;
+    max-height: 800px;
+}

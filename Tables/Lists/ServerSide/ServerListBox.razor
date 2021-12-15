@@ -1,0 +1,116 @@
+﻿@typeparam TItem where TItem : IListItem
+
+@using Microsoft.AspNetCore.Components.Web.Virtualization;
+@using Controls.Filtering;
+@using Controls.ServerSide;
+
+@if (IsFilterable)
+{
+    <div class="row">
+        <div class="col">
+            <SearchButtonFilter OnFilter="OnGlobalSort"></SearchButtonFilter>
+        </div>
+    </div>
+}
+
+<Virtualize ItemsProvider="CollectionFactory.LoadItems" @ref="Virtualize" Context="item" TItem="TItem" ItemSize="ROW_CACHE">
+    <ItemContent>
+        <SelectableRow Value="row" @key="row.Key" OnRowAdded="OnRowAdded" OnRowRemoved="OnRowRemoved">
+            <Content>
+                @foreach (var record in row.Records)
+                {
+                    <EditableCell TItem="Key" Key="row.Key" Value="@record.Value" InputType="@record.Column.Type" onCellChange="CellChange">
+
+                    </EditableCell>
+                }
+            </Content>
+        </SelectableRow>
+    </ItemContent>
+    <Placeholder>
+        <p>
+            Loading&hellip;
+        </p>
+    </Placeholder>
+</Virtualize>
+
+@if (filteredGroupItems != null)
+{
+    foreach (DropdownGroup<TItem> group in filteredGroupItems)
+    {
+        if (!string.IsNullOrWhiteSpace(group.GroupName) && group.Items.Any())
+        {
+            <b>@group.GroupName</b>
+        }
+        foreach (TItem item in group.Items)
+        {
+            <a class="dropdown-item mr-1" href="javascript:void(0)" @onclick="@(_ => OnSelect.InvokeAsync(item))">@ItemTemplate(item)</a>
+        }
+    }
+}
+
+@if (filteredItems != null)
+{
+    foreach (TItem item in filteredItems)
+    {
+        <a class="dropdown-item mr-1" href="javascript:void(0)" @onclick="@(_ => OnSelect.InvokeAsync(item))">@ItemTemplate(item)</a>
+    }
+}
+
+@code {
+    private const int ROW_CACHE = 30;
+
+    [Parameter]
+    public RenderFragment<TItem> ItemTemplate { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public IServerCollectionFactory<TItem> CollectionFactory { get; set; };
+
+    [Parameter]
+    public EventCallback<TItem> OnSelect { get; set; }
+
+    [Parameter]
+    public bool IsFilterable { get; set; }
+
+    [Parameter]
+    public string ItemNamePlural { get; set; }
+
+    private Virtualize<TItem>? Virtualize { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        ResetItems();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        CollectionFactory.OnRefreshData += Virtualize.RefreshDataAsync;
+    }
+
+    private void ResetItems()
+    {
+        this.filteredItems = Items;
+        this.filteredGroupItems = GroupItems;
+    }
+
+    private void OnFilterChanged(ChangeEventArgs e)
+    {
+        string filterValue = e.Value.ToString().ToLower();
+        if (!string.IsNullOrWhiteSpace(filterValue))
+        {
+            filteredGroupItems = GroupItems
+                .Select(group => group.Copy(group.Items.Where(item => OnFilter(item, filterValue))))
+                .Where(group => group.Items.Count() > 0);
+
+            filteredItems = Items.Where(item => OnFilter(item, filterValue));
+        }
+        else
+            ResetItems();
+    }
+
+    private void ClearFilterText()
+    {
+        filterText = "";
+        ResetItems();
+    }
+}
