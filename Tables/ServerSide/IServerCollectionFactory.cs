@@ -35,32 +35,32 @@ public abstract class IServerCollectionFactory<T>
         return new ItemsProviderResult<T>(collection.Items, total);
     }
 
-    public EventCallback OnRefreshData { get; set; }
+    public event Action? OnRefreshData;
 
     private int ItemCount { get; set; } = 0;
 
-    private async Task OnPage(Pagination pagination)
+    private void OnPage(Pagination pagination)
     {
         queryProperties.Pagination = pagination;
-        await OnRefreshData.InvokeAsync();
+        OnRefreshData?.Invoke();
     }
 
     private async Task OnSortAdd(IEnumerable<Sort> sort)
     {
         queryProperties.Sorts.UnionWith(sort);
-        await OnRefreshData.InvokeAsync();
+        OnRefreshData?.Invoke();
     }
 
     private async Task OnSortRemove(IEnumerable<Sort> sort)
     {
         queryProperties.Sorts.ExceptWith(sort);
-        await OnRefreshData.InvokeAsync();
+        OnRefreshData?.Invoke();
     }
 
     private async Task OnGlobalSort(string filterText)
     {
         queryProperties.GlobalFilter = filterText;
-        await OnRefreshData.InvokeAsync();
+        OnRefreshData?.Invoke();
     }
 
     protected abstract Task<IServerCollection<T>> GetCollection(QueryProperties queryProperties, CancellationToken cancellationToken);

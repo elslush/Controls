@@ -12,8 +12,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
-    <PackageReference Include="System.Text.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.1" />
+    <PackageReference Include="System.Text.Json" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Groups\" />
+    <Folder Include="Calendars\" />
+    <Folder Include="Chips\" />
+    <Folder Include="DatePickers\" />
+    <Folder Include="Modals\" />
+    <Folder Include="Icons\" />
+    <Folder Include="Grid\" />
+    <Folder Include="Alerts\" />
+    <Folder Include="Breadcrumbs\" />
+    <Folder Include="Snackbars\" />
+    <Folder Include="Ripples\" />
+    <Folder Include="ProgressBars\" />
+    <Folder Include="Spinners\" />
+    <Folder Include="Sliders\" />
   </ItemGroup>
 
 </Project>
