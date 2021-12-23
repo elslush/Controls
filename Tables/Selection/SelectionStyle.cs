@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Controls.Selection
 {
-    public enum SelectionType
+    public enum SelectionStyle
     {
         /// <summary>No styling will be added when selected</summary>
         None,
+        /// <summary>No styling will be added when selected</summary>
+        Disabled,
         /// <summary>Selections will be highlighted.</summary>
         Highlight,
         /// <summary>Selections will trigger a radio button.</summary>

@@ -1,0 +1,26 @@
+﻿<div class="sidebar-container">
+    <div class="sidebar-header">
+        @if (Logo is not null)
+        {
+            <div class="sidebar-icon">
+                @Logo
+            </div>
+        }
+        <span class="sidebar-title">@Title</span>
+    </div>
+    
+    <ul class="sidebar-list">
+        <SidebarList Items="Items"></SidebarList>
+    </ul>
+  </div>
+
+@code {
+    [Parameter]
+    public IEnumerable<ISidebarItem> Items { get; set; } = Array.Empty<ISidebarItem>();
+
+    [Parameter]
+    public RenderFragment? Logo { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+}

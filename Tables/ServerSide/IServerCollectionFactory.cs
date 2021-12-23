@@ -1,5 +1,5 @@
 ﻿using Controls.Paging;
-using Controls.QueryOptions;
+using Controls.Sorting;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 using System;

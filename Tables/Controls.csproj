@@ -26,6 +26,17 @@
     <Folder Include="Grid\" />
     <Folder Include="Alerts\" />
     <Folder Include="Breadcrumbs\" />
+    <Folder Include="FileDrops\" />
+    <Folder Include="Dragging\" />
+    <Folder Include="Animations\" />
+    <Folder Include="Cookies\" />
+    <Folder Include="Editing\" />
+    <Folder Include="Catpchas\" />
+    <Folder Include="Clipboards\" />
+    <Folder Include="Ratings\" />
+    <Folder Include="Scrolling\" />
+    <Folder Include="Tabs\" />
+    <Folder Include="Overlays\" />
     <Folder Include="Snackbars\" />
     <Folder Include="Ripples\" />
     <Folder Include="ProgressBars\" />

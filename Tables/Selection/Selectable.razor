@@ -1,14 +1,14 @@
-﻿@switch (SelectionType)
+﻿@switch (SelectionStyle)
 {
-    case SelectionType.None:
+    case SelectionStyle.None:
         @Content
         break;
-    case SelectionType.Highlight:
+    case SelectionStyle.Highlight:
         <a href="#" class="selectable @Class" @onclick="Click">
             @Content
         </a>
         break;
-    case SelectionType.Radio:
+    case SelectionStyle.Radio:
         <div class="selection-group">
             <div class="selection-group-prepend">
 
@@ -19,6 +19,7 @@
 
 
 @code {
+
     [Parameter]
     public bool IsClicked { get; set; }
 
@@ -26,10 +27,10 @@
     public RenderFragment? Content { get; set; }
 
     [Parameter]
-    public EventCallback<bool> OnSelect { get; set; }
+    public EventCallback<bool> IsClickedChanged { get; set; }
 
     [Parameter]
-    public SelectionType SelectionType { get; set; } = SelectionType.None;
+    public SelectionStyle SelectionStyle { get; set; } = SelectionStyle.None;
 
     private string? Class => IsClicked ? "selected" : null;
 
@@ -37,6 +38,6 @@
     {
         IsClicked = !IsClicked;
         StateHasChanged();
-        return OnSelect.InvokeAsync(IsClicked);
+        return IsClickedChanged.InvokeAsync(IsClicked);
     }
 }

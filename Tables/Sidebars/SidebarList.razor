@@ -1,0 +1,24 @@
+﻿@using Controls.Lists;
+
+<ClientList 
+    Items="Items"
+    Context="item"
+    TItem="ISidebarItem"
+>
+    <ItemTemplate>
+        @switch(item.ItemType)
+        {
+            case SidebarItemType.NavHeader:
+                <SidebarNavHeader Item="item"></SidebarNavHeader>
+                break;
+            case SidebarItemType.NavItem:
+                <SidebarNavItem Item="item"></SidebarNavItem>
+                break;
+        }
+    </ItemTemplate>
+</ClientList>
+
+@code {
+    [Parameter]
+    public IEnumerable<ISidebarItem> Items { get; set; } = Array.Empty<ISidebarItem>();
+}

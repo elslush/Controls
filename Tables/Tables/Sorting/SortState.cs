@@ -1,4 +1,4 @@
-﻿namespace Controls.Tables.Sorting;
+﻿namespace Controls.Sorting;
 public class SortState
 {
     public event EventHandler<IEnumerable<Sort>>? OnSortAdd;

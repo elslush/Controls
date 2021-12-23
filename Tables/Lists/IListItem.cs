@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Controls.Selection;
 
 namespace Controls.Lists
 {
@@ -11,8 +12,10 @@ namespace Controls.Lists
     {
         public IListItem? Child { get; set; }
 
-        public RenderFragment Render();
-
         public string SearchQuery { get; set; }
+
+        public bool IsSelected { get; set; }
+
+        public SelectionStyle SelectionStyle { get; set; }
     }
 }

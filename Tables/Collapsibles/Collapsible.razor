@@ -1,0 +1,15 @@
+﻿
+<div class="@Class">
+    @Template
+</div>
+
+@code {
+    private string? Class => IsCollapsed ? "collapsed" : null;
+
+    [Parameter]
+    public bool IsCollapsed { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment Template { get; set; }
+}

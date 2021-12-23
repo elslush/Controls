@@ -1,0 +1,44 @@
+﻿@inherits LayoutComponentBase
+@using Controls.Sidebars
+@using Controls.Images
+
+<div class="page">
+    <Sidebar
+        Title="@title"
+        Items="sidebarItems"
+    >
+        <Logo>
+            <MMCube></MMCube>
+        </Logo>
+    </Sidebar>
+
+    <main>
+        <div class="top-row px-4">
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+@code {
+    private const string title = "Example Controls";
+    private static readonly ISidebarItem[] sidebarItems = new ISidebarItem[]
+    {
+        new NavHeader("Header 1", new ISidebarItem[]
+        {
+            new NavItem("Item 1", "#", ""),
+            new NavItem("Item 2", "#", ""),
+            new NavHeader("Header 2", new ISidebarItem[]
+            {
+                new NavItem("Item 4", "#", ""),
+                new NavItem("Item 5", "#", ""),
+                new NavItem("Item 6", "#", ""),
+            }),
+            new NavItem("Item 7", "#", ""),
+        }),
+        new NavItem("Item 8", "#", ""),
+    };
+}

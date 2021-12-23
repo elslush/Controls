@@ -1,0 +1,11 @@
+﻿<li class="nav-item">
+    <a href="@Item.Link" class="nav-link">
+        <svg class="nav-icon" width="16" height="16"><use href="#@Item.SvgTag"></use></svg>
+        @Item.Text
+    </a>
+</li>
+
+@code {
+    [Parameter]
+    public ISidebarItem Item { get; set; }
+}

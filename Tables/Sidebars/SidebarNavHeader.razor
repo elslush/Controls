@@ -1,0 +1,23 @@
+﻿@using Controls.Collapsibles;
+
+<button @onclick="OnClick" class="btn btn-toggle align-items-center rounded">
+    @Item.Text
+</button>
+<Collapsible IsCollapsed="@isCollapsed">
+    <Template>
+        <SidebarList Items="Item.Children"></SidebarList>
+    </Template>
+</Collapsible>
+
+@code {
+    private bool isCollapsed = true;
+
+    [Parameter]
+    public ISidebarItem Item { get; set; }
+
+    public void OnClick()
+    {
+        isCollapsed = !isCollapsed;
+        StateHasChanged();
+    }
+}

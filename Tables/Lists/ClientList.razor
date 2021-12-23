@@ -1,0 +1,71 @@
+﻿@typeparam TItem
+
+@using Controls.Selection;
+
+@foreach (TItem item in Items)
+{
+    var selectionStyle = IsAtMax && !selected.Contains(item)
+        ? SelectionStyle.Disabled
+        : SelectionStyle;
+    <Selectable SelectionStyle="selectionStyle" IsClickedChanged="isClicked => OnClick(item, isClicked)">
+        <Content>
+            @ItemTemplate(item)
+        </Content>
+    </Selectable>
+}
+
+@code {
+    private HashSet<TItem> selected = new();
+    private Func<TItem, bool, Task> OnClick = OnClickNothing;
+
+    private bool IsAtMax => selected.Count >= MaxSelectCount;
+
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment<TItem> ItemTemplate { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public IEnumerable<TItem> Items { get; set; } = Array.Empty<TItem>();
+
+    [Parameter]
+    public EventCallback<HashSet<TItem>> OnSelect { get; set; }
+
+    [Parameter]
+    public int MaxSelectCount { get; set; } = int.MaxValue;
+
+    [Parameter]
+    public SelectionStyle SelectionStyle { get; set; } = SelectionStyle.None;
+
+    protected override void OnParametersSet()
+    {
+        if (MaxSelectCount < 1)
+            OnClick = OnClickNothing;
+        else if (MaxSelectCount == 1)
+            OnClick = OnClickSingle;
+        else
+            OnClick = OnClickMultiple;
+    }
+
+    private static Task OnClickNothing(TItem _, bool __) => Task.CompletedTask;
+
+    private Task OnClickSingle(TItem item, bool isClicked)
+    {
+        selected.Clear();
+        if (isClicked)
+            selected.Add(item);
+
+        return OnSelect.InvokeAsync(selected);
+    }
+
+    private Task OnClickMultiple(TItem item, bool isClicked)
+    {
+        if (isClicked)
+            selected.Add(item);
+        else
+            selected.Remove(item);
+
+        StateHasChanged();
+        return OnSelect.InvokeAsync(selected);
+    }
+}

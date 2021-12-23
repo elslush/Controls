@@ -2,11 +2,12 @@
 
 @using System.Text.Json
 @using Microsoft.AspNetCore.Components.Web.Virtualization;
-@using Controls.QueryOptions;
+@using Controls.ServerSide;
 @using Controls.Tables.Paging;
 @using Controls.Tables.Filtering;
 @using Controls.Tables.Selection;
-@using Controls.Tables.Sorting;
+@using Controls.Sorting;
+@using Controls.Paging;
 @using Microsoft.JSInterop;
 
 @inject IJSRuntime JS
@@ -23,11 +24,11 @@
 
 <div class="row" >
     <div class="col-4">
-        <SelectedRows
+        @*<SelectedRows
             RowSelectState="rowSelectState"
             Columns="columns"
             SelectedColumn="@columns.FirstOrDefault()"
-        ></SelectedRows>
+        ></SelectedRows>*@
 	</div>
     <div class="col-8">
         <div class="table-container">
@@ -38,7 +39,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <Virtualize ItemsProvider="LoadRows" @ref="Virtualize" Context="row" TItem="TItem" ItemSize="ROW_CACHE">
+                    @*<Virtualize ItemsProvider="LoadRows" @ref="Virtualize" Context="row" TItem="TItem" ItemSize="ROW_CACHE">
                         <ItemContent>
                             <SelectableRow Value="row" @key="row.Key" OnRowAdded="OnRowAdded" OnRowRemoved="OnRowRemoved">
                                 <Content>
@@ -56,7 +57,7 @@
                                 Loading&hellip;
                             </p>
                         </Placeholder>
-                    </Virtualize>
+                    </Virtualize>*@
                 </tbody>
             </table>
         </div>
@@ -134,24 +135,24 @@
         await Virtualize.RefreshDataAsync();
     }
 
-    private async ValueTask<ItemsProviderResult<TItem>> LoadRows(ItemsProviderRequest request)
-    {
-        if (!CollectionFactory.IsValid)
-            return new ItemsProviderResult<TItem>(Array.Empty<TItem>(), 0);
+    //private async ValueTask<ItemsProviderResult<TItem>> LoadRows(ItemsProviderRequest request)
+    //{
+    //    if (!CollectionFactory.IsValid)
+    //        return new ItemsProviderResult<TItem>(Array.Empty<TItem>(), 0);
 
-        var numRows = Math.Min(request.Count, queryProperties.Pagination.Take);
-        queryProperties.Pagination = new()
-        {
-            Skip = queryProperties.Pagination.Skip + request.StartIndex,
-            Take = numRows,
-        };
+    //    var numRows = Math.Min(request.Count, queryProperties.Pagination.Take);
+    //    queryProperties.Pagination = new()
+    //    {
+    //        Skip = queryProperties.Pagination.Skip + request.StartIndex,
+    //        Take = numRows,
+    //    };
 
-        var collection = await CollectionFactory.GetCollection(queryProperties, request.CancellationToken);
-        ItemCount = collection.Count;
+    //    var collection = await CollectionFactory.GetCollection(queryProperties, request.CancellationToken);
+    //    ItemCount = collection.Count;
 
-        //rowSelectState.AllItems = rowCollection.Rows;
+    //    //rowSelectState.AllItems = rowCollection.Rows;
 
-        var total = Math.Min(collection.Count - queryProperties.Pagination.Skip, queryProperties.Pagination.Take);
-        return new ItemsProviderResult<TItem>(collection.Rows, total);
-    }
+    //    var total = Math.Min(collection.Count - queryProperties.Pagination.Skip, queryProperties.Pagination.Take);
+    //    return new ItemsProviderResult<TItem>(collection.Rows, total);
+    //}
 }

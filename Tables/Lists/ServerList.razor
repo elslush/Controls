@@ -1,4 +1,4 @@
-﻿@typeparam TItem where TItem : IListItem
+﻿@*@typeparam TItem where TItem : IListItem
 
 @using Microsoft.AspNetCore.Components.Web.Virtualization;
 @using Controls.Filtering;
@@ -82,7 +82,7 @@
     public bool IsFilterable { get; set; }
 
     [Parameter]
-    public SelectionType SelectionType { get; set; } = SelectionType.None;
+    public SelectionStyle SelectionType { get; set; } = SelectionStyle.None;
 
     private Virtualize<TItem>? Virtualize { get; set; }
 
@@ -131,3 +131,4 @@
         ResetItems();
     }
 }
+*@

@@ -1,5 +1,6 @@
 ﻿using Controls.Filtering;
 using Controls.Paging;
+using Controls.Sorting;
 
 namespace Controls.ServerSide;
 
