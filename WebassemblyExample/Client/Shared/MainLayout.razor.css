@@ -1,4 +1,50 @@
-.page {
+.body {
+    margin: 0;
+}
+
+/*
+    https://codepen.io/mozilladevelopers/pen/dVpQVV
+    https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Grids
+    https://hacks.mozilla.org/2017/04/replace-bootstrap-layouts-with-css-grid/
+*/
+
+.container {
+    display: grid;
+    height: 100vh;
+    width: 100vw;
+    grid-template-columns: 
+        [footer-start sidebar-start] auto
+        [sidebar-end header-start content-start] 1fr 
+        [column3-start] 1fr 
+        [footer-end header-end content-start];
+    grid-template-rows:
+        [row1-start] 80px 
+        [row2-start] 1fr 
+        [row4-start] 50px 
+        [row4-end];
+}
+
+.header {
+    grid-column: header-start / header-end;
+    grid-row: row1-start / row2-start;
+}
+
+.sidebar {
+    grid-column: sidebar-start / sidebar-end;
+    grid-row: row1-start / row4-start;
+}
+
+.footer {
+    grid-column: main-start / main-end;
+    grid-row: row4-start / row4-end;
+}
+
+.content {
+    grid-column: content-start / content-end;
+    grid-row: row2-start / row4-start;
+}
+
+/*.page {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -79,3 +125,4 @@ main {
         padding-right: 1.5rem !important;
     }
 }
+*/
