@@ -1,0 +1,9 @@
+﻿.btn {
+    border: 0;
+    padding: 0.5rem 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 0.475rem;
+    text-decoration: none;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}

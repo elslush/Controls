@@ -32,7 +32,6 @@
     <Folder Include="Editing\" />
     <Folder Include="Catpchas\" />
     <Folder Include="Clipboards\" />
-    <Folder Include="NewFolder\" />
     <Folder Include="Ratings\" />
     <Folder Include="Scrolling\" />
     <Folder Include="Tabs\" />

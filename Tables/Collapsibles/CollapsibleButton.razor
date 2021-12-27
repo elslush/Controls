@@ -1,0 +1,40 @@
+﻿@using Controls.Buttons;
+
+<Button 
+    OnClick="OnButtonClick"
+    ButtonInfo="ButtonInfo"
+    Display="@Display"
+>
+    <Content>
+        <span class="collapsible-btn-container">
+	        <span class="collapsible-btn-content">@Content</span>
+	        <span class="collapsible-btn-arrow @CollapsedArrowClass"></span>
+        </span>
+    </Content>
+</Button>
+
+
+@code {
+    private bool isClicked = false;
+
+    private string? CollapsedArrowClass => isClicked ? "collapsible-btn-arrow-active" : null;
+
+    [Parameter]
+    public string? Display { get; set; }
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment? Content { get; set; }
+
+    [Parameter]
+    public ButtonInfo ButtonInfo { get; set; } = ButtonInfo.Default;
+
+    public Task OnButtonClick()
+    {
+        isClicked = !isClicked;
+        return OnClick.InvokeAsync();
+    }
+}

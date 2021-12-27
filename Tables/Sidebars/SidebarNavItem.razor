@@ -1,11 +1,29 @@
-﻿<li class="nav-item">
-    <a href="@Item.Link" class="nav-link">
-        <svg class="nav-icon" width="16" height="16"><use href="#@Item.SvgTag"></use></svg>
+﻿@using Controls.Buttons;
+
+<Button 
+    Href="@Item.Link"
+    ButtonInfo="ButtonInfo"
+    Display="@display"
+    IsSelected="IsSelected"
+>
+    <Content>
+        @if (!string.IsNullOrWhiteSpace(Item.SvgTag))
+        {
+            <svg class="nav-icon" width="16" height="16"><use href="#@Item.SvgTag"></use></svg>
+        }
         @Item.Text
-    </a>
-</li>
+    </Content>
+</Button>
 
 @code {
+    private const string display = "block";
+
     [Parameter]
     public ISidebarItem Item { get; set; }
+
+    [Parameter]
+    public ButtonInfo ButtonInfo { get; set; } = ButtonInfo.Default;
+
+    [Parameter]
+    public bool IsSelected { get; set; }
 }

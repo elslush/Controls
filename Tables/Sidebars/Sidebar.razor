@@ -1,4 +1,6 @@
-﻿<div class="sidebar-container">
+﻿@using Buttons;
+
+<div class="sidebar-container">
     <div class="sidebar-header">
         @if (Logo is not null)
         {
@@ -9,10 +11,10 @@
         <span class="sidebar-title">@Title</span>
     </div>
     
-    <ul class="sidebar-list">
-        <SidebarList Items="Items"></SidebarList>
-    </ul>
-  </div>
+    <div class="sidebar-list">
+        <SidebarList Items="Items" ButtonInfo="ButtonInfo"></SidebarList>
+    </div>
+</div>
 
 @code {
     [Parameter]
@@ -23,4 +25,7 @@
 
     [Parameter]
     public string? Title { get; set; }
+
+    [Parameter]
+    public ButtonInfo ButtonInfo { get; set; } = ButtonInfo.Default;
 }
