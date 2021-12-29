@@ -1,10 +1,10 @@
 ﻿
-<div class="@Class">
+<div class="collapsible @Class">
     @Template
 </div>
 
 @code {
-    private string? Class => IsCollapsed ? "collapsed" : null;
+    private string? Class => IsCollapsed ? null : "hidden";
 
     [Parameter]
     public bool IsCollapsed { get; set; }

@@ -1,9 +1,10 @@
 ﻿@using Controls.Collapsibles;
 @using Controls.Buttons;
+@using Controls.Lists.SelectionCollections
 
 <CollapsibleButton 
-    OnClick="OnClick"
-    ButtonInfo="ButtonInfo"
+    OnCollapse="OnCollapse"
+    Colors="Item.SelectionColors"
     Display="@display"
 >
     <Content>
@@ -13,7 +14,7 @@
 <div class="nav-header-children">
     <Collapsible IsCollapsed="@isCollapsed">
         <Template>
-            <SidebarList Items="Item.Children" ButtonInfo="ButtonInfo"></SidebarList>
+            <SidebarList Items="Item.Children" SelectionCollection="SelectionCollection"></SidebarList>
         </Template>
     </Collapsible>
 </div>
@@ -21,14 +22,18 @@
 @code {
     private const string display = "block";
 
-    private bool isCollapsed = true;
-
-    [Parameter]
-    public ButtonInfo ButtonInfo { get; set; } = ButtonInfo.Default;
+    private bool isCollapsed = false;
 
     [EditorRequired]
     [Parameter]
     public ISidebarItem Item { get; set; }
 
-    public void OnClick() => isCollapsed = !isCollapsed;
+    [Parameter]
+    public SelectionCollection<ISidebarItem> SelectionCollection { get; set; } = new(SelectionType.Single);
+
+    public void OnCollapse(bool isCollapsed)
+    {
+        this.isCollapsed = isCollapsed;
+        StateHasChanged();
+    }
 }

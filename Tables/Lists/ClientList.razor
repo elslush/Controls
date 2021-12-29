@@ -1,24 +1,30 @@
-﻿@typeparam TItem
+﻿@typeparam TItem where TItem : IListItem
 
 @using Controls.Selection;
+@using Controls.Lists.SelectionCollections;
 
-@foreach (TItem item in Items)
+@foreach (var itemAction in itemActions)
 {
-    var selectionStyle = IsAtMax && !selected.Contains(item)
-        ? SelectionStyle.Disabled
-        : SelectionStyle;
-    <Selectable SelectionStyle="selectionStyle" IsClickedChanged="isClicked => OnClick(item, isClicked)">
-        <Content>
-            @ItemTemplate(item)
-        </Content>
-    </Selectable>
+    <Selectable 
+        OnSelect="itemAction.OnSelect"
+        OnDeselect="itemAction.OnDeselect"
+        TItem="TItem"
+        Item="itemAction.Item" 
+        Content="ItemTemplate"
+    ></Selectable>
 }
 
 @code {
-    private HashSet<TItem> selected = new();
-    private Func<TItem, bool, Task> OnClick = OnClickNothing;
+    private bool isDisabled, shouldRender;
 
-    private bool IsAtMax => selected.Count >= MaxSelectCount;
+    private int previousMaxSelectCount = int.MinValue;
+    private IEnumerable<TItem> previousItems = Enumerable.Empty<TItem>();
+    private SelectionCollection<TItem>? previousSelectionCollection;
+
+    private List<ItemAction> itemActions = new();
+
+    [Parameter]
+    public SelectionCollection<TItem> SelectionCollection { get; set; } = new(SelectionType.Single);
 
     [EditorRequired]
     [Parameter]
@@ -26,46 +32,75 @@
 
     [EditorRequired]
     [Parameter]
-    public IEnumerable<TItem> Items { get; set; } = Array.Empty<TItem>();
+    public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
 
     [Parameter]
-    public EventCallback<HashSet<TItem>> OnSelect { get; set; }
-
-    [Parameter]
-    public int MaxSelectCount { get; set; } = int.MaxValue;
-
-    [Parameter]
-    public SelectionStyle SelectionStyle { get; set; } = SelectionStyle.None;
+    public int MaxSelectionCount { get; set; } = 0;
 
     protected override void OnParametersSet()
     {
-        if (MaxSelectCount < 1)
-            OnClick = OnClickNothing;
-        else if (MaxSelectCount == 1)
-            OnClick = OnClickSingle;
-        else
-            OnClick = OnClickMultiple;
+        switch (SelectionCollection.Type)
+        {
+            case SelectionType.Single:
+                SelectionCollection.SelectionChanged -= CheckIsMax;
+                break;
+            case SelectionType.Multiple:
+                SelectionCollection.SelectionChanged += CheckIsMax;
+                break;
+        }
+
+        bool haveItemsChanged;
+        if (!(haveItemsChanged = Items.SequenceEqual(previousItems)))
+        {
+            SelectionCollection.Remove(previousItems);
+            itemActions.Clear();
+            foreach (var item in Items)
+            {
+                var itemAction = new ItemAction() { Item = item, };
+                if (item.IsSelectable)
+                {
+                    itemAction.OnSelect = () => SelectionCollection.Select(item);
+                    itemAction.OnDeselect = () => SelectionCollection.Deselect(item);
+                }
+                itemActions.Add(itemAction);
+            }
+        }
+
+        if (previousSelectionCollection != SelectionCollection)
+            SelectionCollection.Add(Items);
+
+        shouldRender = !haveItemsChanged
+            || previousMaxSelectCount != MaxSelectionCount;
+
+        previousMaxSelectCount = MaxSelectionCount;
+        previousItems = Items;
+        previousSelectionCollection = SelectionCollection;
     }
 
-    private static Task OnClickNothing(TItem _, bool __) => Task.CompletedTask;
-
-    private Task OnClickSingle(TItem item, bool isClicked)
+    private void CheckIsMax(object? sender, EventArgs e)
     {
-        selected.Clear();
-        if (isClicked)
-            selected.Add(item);
-
-        return OnSelect.InvokeAsync(selected);
+        if (SelectionCollection.Selected.Count > MaxSelectionCount && !isDisabled)
+        {
+            foreach (var nonSelected in SelectionCollection.NonSelected)
+                nonSelected.Disable(true);
+            isDisabled = true;
+        }
+        else if (isDisabled)
+        {
+            foreach (var nonSelected in SelectionCollection.NonSelected)
+                nonSelected.Disable(false);
+            isDisabled = false;
+        }
     }
 
-    private Task OnClickMultiple(TItem item, bool isClicked)
-    {
-        if (isClicked)
-            selected.Add(item);
-        else
-            selected.Remove(item);
+    protected override bool ShouldRender() => shouldRender;
 
-        StateHasChanged();
-        return OnSelect.InvokeAsync(selected);
+    private class ItemAction
+    {
+        public TItem? Item { get; set; }
+
+        public Action OnSelect { get; set; } = () => {};
+
+        public Action OnDeselect { get; set; } = () => {};
     }
 }

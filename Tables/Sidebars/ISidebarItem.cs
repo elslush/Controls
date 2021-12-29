@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Controls.Lists;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace Controls.Sidebars
 {
-    public interface ISidebarItem
+    public abstract class ISidebarItem : IListItem
     {
-        public string? Text { get; }
+        public abstract string? Text { get; }
 
-        public string? Link { get; }
+        public abstract string? Link { get; }
 
-        public string? SvgTag { get; }
+        public abstract string? SvgTag { get; }
 
-        public IEnumerable<ISidebarItem> Children { get; }
+        public abstract IEnumerable<ISidebarItem> Children { get; }
 
-        internal SidebarItemType ItemType { get; } 
+        internal abstract SidebarItemType ItemType { get; } 
     }
 
     internal enum SidebarItemType

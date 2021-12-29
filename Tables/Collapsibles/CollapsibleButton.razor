@@ -1,21 +1,28 @@
 ﻿@using Controls.Buttons;
+@using Controls.Selection;
 
-<Button 
-    OnClick="OnButtonClick"
-    ButtonInfo="ButtonInfo"
-    Display="@Display"
->
+<Button Display="@Display">
     <Content>
-        <span class="collapsible-btn-container">
-	        <span class="collapsible-btn-content">@Content</span>
-	        <span class="collapsible-btn-arrow @CollapsedArrowClass"></span>
-        </span>
+        <Selectable 
+            OnSelect="OnSelect"
+            OnDeselect="OnDeselect"
+            TItem="Selectable"
+            Item="selectable" 
+        >
+            <Content>
+                <span class="collapsible-btn-container">
+	                <span class="collapsible-btn-content">@Content</span>
+	                <span class="collapsible-btn-arrow @CollapsedArrowClass"></span>
+                </span>
+            </Content>
+        </Selectable>
     </Content>
 </Button>
 
 
 @code {
     private bool isClicked = false;
+    private readonly Selectable selectable = new();
 
     private string? CollapsedArrowClass => isClicked ? "collapsible-btn-arrow-active" : null;
 
@@ -23,18 +30,29 @@
     public string? Display { get; set; }
 
     [Parameter]
-    public EventCallback OnClick { get; set; }
+    public EventCallback<bool> OnCollapse { get; set; }
 
     [EditorRequired]
     [Parameter]
     public RenderFragment? Content { get; set; }
 
     [Parameter]
-    public ButtonInfo ButtonInfo { get; set; } = ButtonInfo.Default;
+    public SelectionColors Colors { get; set; } = new();
 
-    public Task OnButtonClick()
+    protected override void OnParametersSet()
     {
-        isClicked = !isClicked;
-        return OnClick.InvokeAsync();
+        selectable.SelectionColors = Colors;
+    }
+
+    private Task OnSelect()
+    {
+        isClicked = true;
+        return OnCollapse.InvokeAsync(isClicked);
+    }
+
+    private Task OnDeselect()
+    {
+        isClicked = false;
+        return OnCollapse.InvokeAsync(isClicked);
     }
 }

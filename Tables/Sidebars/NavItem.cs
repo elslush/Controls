@@ -1,4 +1,5 @@
 ﻿using Controls.Lists;
+using Controls.Selection;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
@@ -10,21 +11,23 @@ namespace Controls.Sidebars
 {
     public class NavItem : ISidebarItem
     {
-        public NavItem(string? text, string? link, string? svgTag)
+        public NavItem(string? text, string? link, string? svgTag, SelectionColors selectionColors)
         {
             Text = text;
             Link = link;
             SvgTag = svgTag;
+            SelectionColors = selectionColors;
+            IsSelectable = true;
         }
 
-        public string? Text { get; }
+        public override string? Text { get; }
 
-        public string? Link { get; }
+        public override string? Link { get; }
 
-        public string? SvgTag { get; }
+        public override string? SvgTag { get; }
 
-        public IEnumerable<ISidebarItem> Children => Enumerable.Empty<ISidebarItem>();
+        public override IEnumerable<ISidebarItem> Children => Enumerable.Empty<ISidebarItem>();
 
-        SidebarItemType ISidebarItem.ItemType => SidebarItemType.NavItem;
+        internal override SidebarItemType ItemType => SidebarItemType.NavItem;
     }
 }

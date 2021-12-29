@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Controls.Selection
-{
-    public interface ISelectable
-    {
+namespace Controls.Lists.SelectionCollections;
 
-    }
+public enum SelectionType
+{
+    Single,
+    Multiple,
 }

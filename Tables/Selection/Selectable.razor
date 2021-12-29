@@ -1,43 +1,82 @@
-﻿@switch (SelectionStyle)
-{
-    case SelectionStyle.None:
-        @Content
-        break;
-    case SelectionStyle.Highlight:
-        <a href="#" class="selectable @Class" @onclick="Click">
-            @Content
-        </a>
-        break;
-    case SelectionStyle.Radio:
-        <div class="selection-group">
-            <div class="selection-group-prepend">
+﻿@typeparam TItem where TItem : Selectable
 
-            </div>
-        </div>
-        break;
-}
+<span style="@Style" @onmouseover="OnMouseOver" @onmouseout="OnMouseOut" @onclick="OnClick">
+    @Content(Item)
+</span>
 
 
 @code {
+    private TItem? previousItem;
+    private bool isHovered = false;
+
+    private string ColorStyle => 
+        IsDisabled
+            ? Item.SelectionColors.DisabledColors.Styles
+            : isHovered 
+                ? Item.SelectionColors.HoverColors.Styles 
+                : IsSelected 
+                    ? Item.SelectionColors.ClickedColors.Styles 
+                    : Item.SelectionColors.StaticColors.Styles;
+    private string CursorStyle => IsDisabled ? string.Empty : "cursor: pointer;";
+    private string Style => $"{ColorStyle}{CursorStyle}";
 
     [Parameter]
-    public bool IsClicked { get; set; }
+    public string Href { get; set; } = "javascript: void(0);";
 
     [Parameter]
-    public RenderFragment? Content { get; set; }
+    public bool IsSelected { get; set; }
 
     [Parameter]
-    public EventCallback<bool> IsClickedChanged { get; set; }
+    public bool IsDisabled { get; set; }
 
     [Parameter]
-    public SelectionStyle SelectionStyle { get; set; } = SelectionStyle.None;
+    public TItem Item { get; set; }
 
-    private string? Class => IsClicked ? "selected" : null;
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment<TItem> Content { get; set; }
 
-    private Task Click()
+    [EditorRequired]
+    [Parameter]
+    public EventCallback OnSelect { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public EventCallback OnDeselect { get; set; }
+
+    protected override void OnParametersSet()
     {
-        IsClicked = !IsClicked;
-        StateHasChanged();
-        return IsClickedChanged.InvokeAsync(IsClicked);
+        if (Item is not null && Item != previousItem)
+        {
+            Item.OnSelect += OnSelectChanged;
+            Item.OnDisable += OnDisableChanged;
+        }
+
+        previousItem = Item;
     }
+
+    private void OnSelectChanged(object? sender, bool isSelected)
+    {
+        IsSelected = isSelected;
+        StateHasChanged();
+    }
+
+    private void OnDisableChanged(object? sender, bool isDisabled)
+    {
+        IsDisabled = isDisabled;
+        StateHasChanged();
+    }
+
+    private Task OnClick()
+    {
+        IsSelected = !IsSelected;
+        if (IsSelected)
+            return OnSelect.InvokeAsync(IsSelected);
+        else
+            return OnDeselect.InvokeAsync(IsSelected);
+    }
+
+    private void OnMouseOver() => isHovered = true;
+
+    private void OnMouseOut() => isHovered = false;
 }

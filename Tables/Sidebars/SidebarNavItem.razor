@@ -2,9 +2,7 @@
 
 <Button 
     Href="@Item.Link"
-    ButtonInfo="ButtonInfo"
     Display="@display"
-    IsSelected="IsSelected"
 >
     <Content>
         @if (!string.IsNullOrWhiteSpace(Item.SvgTag))
@@ -20,10 +18,4 @@
 
     [Parameter]
     public ISidebarItem Item { get; set; }
-
-    [Parameter]
-    public ButtonInfo ButtonInfo { get; set; } = ButtonInfo.Default;
-
-    [Parameter]
-    public bool IsSelected { get; set; }
 }

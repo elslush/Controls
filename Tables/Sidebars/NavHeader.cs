@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Controls.Sidebars
 {
-    public record NavHeader : ISidebarItem
+    public class NavHeader : ISidebarItem
     {
         public NavHeader(string? text, IEnumerable<ISidebarItem> subHeaders)
         {
@@ -17,14 +17,14 @@ namespace Controls.Sidebars
                 throw new ArgumentException("Sub Headers Must not be Empty");
         }
 
-        public string? Text { get; }
+        public override string? Text { get; }
 
-        public string? Link => string.Empty;
+        public override string? Link => string.Empty;
 
-        public string? SvgTag => string.Empty;
+        public override string? SvgTag => string.Empty;
 
-        public IEnumerable<ISidebarItem> Children { get; }
+        public override IEnumerable<ISidebarItem> Children { get; }
 
-        SidebarItemType ISidebarItem.ItemType => SidebarItemType.NavHeader;
+        internal override SidebarItemType ItemType => SidebarItemType.NavHeader;
     }
 }

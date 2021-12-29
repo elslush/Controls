@@ -1,12 +1,6 @@
-﻿.selectable.selected {
+﻿.selectable {
     z-index: 2;
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
-}
-
-.selectable:focus, .selectable:hover {
-    color: #495057;
-    text-decoration: none;
-    background-color: #f8f9fa;
 }

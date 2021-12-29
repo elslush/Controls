@@ -1,4 +1,5 @@
 ﻿@using Buttons;
+@using Controls.Lists.SelectionCollections
 
 <div class="sidebar-container">
     <div class="sidebar-header">
@@ -12,11 +13,13 @@
     </div>
     
     <div class="sidebar-list">
-        <SidebarList Items="Items" ButtonInfo="ButtonInfo"></SidebarList>
+        <SidebarList Items="Items" SelectionCollection="selectionCollection"></SidebarList>
     </div>
 </div>
 
 @code {
+    private readonly SelectionCollection<ISidebarItem> selectionCollection = new(SelectionType.Single);
+
     [Parameter]
     public IEnumerable<ISidebarItem> Items { get; set; } = Array.Empty<ISidebarItem>();
 
@@ -25,7 +28,4 @@
 
     [Parameter]
     public string? Title { get; set; }
-
-    [Parameter]
-    public ButtonInfo ButtonInfo { get; set; } = ButtonInfo.Default;
 }

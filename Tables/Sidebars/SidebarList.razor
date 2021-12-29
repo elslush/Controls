@@ -1,37 +1,30 @@
 ﻿@using Controls.Lists;
 @using Controls.Buttons;
+@using Controls.Lists.SelectionCollections
 
 <ClientList 
     Items="Items"
     Context="item"
     TItem="ISidebarItem"
-    OnSelect="OnSelectChanged"
+    SelectionCollection="SelectionCollection"
 >
     <ItemTemplate>
         @switch(item.ItemType)
         {
             case SidebarItemType.NavHeader:
-                <SidebarNavHeader Item="item" ButtonInfo="ButtonInfo"></SidebarNavHeader>
+                <SidebarNavHeader Item="item" SelectionCollection="SelectionCollection"></SidebarNavHeader>
                 break;
             case SidebarItemType.NavItem:
-                <SidebarNavItem Item="item" ButtonInfo="ButtonInfo" IsSelected="SelectedItems.Contains(item)"></SidebarNavItem>
+                <SidebarNavItem Item="item"></SidebarNavItem>
                 break;
         }
     </ItemTemplate>
 </ClientList>
 
 @code {
-    private HashSet<ISidebarItem> SelectedItems { get; set; } = new();
+    [Parameter]
+    public IEnumerable<ISidebarItem> Items { get; set; } = Enumerable.Empty<ISidebarItem>();
 
     [Parameter]
-    public ButtonInfo ButtonInfo { get; set; } = ButtonInfo.Default;
-
-    [Parameter]
-    public IEnumerable<ISidebarItem> Items { get; set; } = Array.Empty<ISidebarItem>();
-
-    private void OnSelectChanged(HashSet<ISidebarItem> selectedItems)
-    {
-        SelectedItems = selectedItems;
-        StateHasChanged();
-    }
+    public SelectionCollection<ISidebarItem> SelectionCollection { get; set; } = new(SelectionType.Single);
 }
