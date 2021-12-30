@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Controls.Selection;
+using Controls.Selection.SelectionBehaviors;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +10,16 @@ namespace Controls.Sidebars
 {
     public class NavHeader : ISidebarItem
     {
-        public NavHeader(string? text, IEnumerable<ISidebarItem> subHeaders)
+        public NavHeader(string? text, IEnumerable<ISidebarItem> subHeaders, SelectionColors selectionColors)
+            : this(text, subHeaders, selectionColors, new SelectionCollection(ISelectionBehavior.Single))
+        {}
+
+        public NavHeader(string? text, IEnumerable<ISidebarItem> subHeaders, SelectionColors selectionColors, in SelectionCollection selectionCollection)
+            : base(selectionCollection)
         {
             Text = text;
             Children = subHeaders;
+            SelectionColors = selectionColors;
 
             if (!subHeaders.Any())
                 throw new ArgumentException("Sub Headers Must not be Empty");

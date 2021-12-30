@@ -1,18 +1,16 @@
 ﻿@using Controls.Lists;
 @using Controls.Buttons;
-@using Controls.Lists.SelectionCollections
 
 <ClientList 
     Items="Items"
     Context="item"
     TItem="ISidebarItem"
-    SelectionCollection="SelectionCollection"
 >
     <ItemTemplate>
         @switch(item.ItemType)
         {
             case SidebarItemType.NavHeader:
-                <SidebarNavHeader Item="item" SelectionCollection="SelectionCollection"></SidebarNavHeader>
+                <SidebarNavHeader Item="item"></SidebarNavHeader>
                 break;
             case SidebarItemType.NavItem:
                 <SidebarNavItem Item="item"></SidebarNavItem>
@@ -24,7 +22,4 @@
 @code {
     [Parameter]
     public IEnumerable<ISidebarItem> Items { get; set; } = Enumerable.Empty<ISidebarItem>();
-
-    [Parameter]
-    public SelectionCollection<ISidebarItem> SelectionCollection { get; set; } = new(SelectionType.Single);
 }

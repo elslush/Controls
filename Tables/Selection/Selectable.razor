@@ -1,4 +1,4 @@
-﻿@typeparam TItem where TItem : Selectable
+﻿@typeparam TItem where TItem : SelectableValue
 
 <span style="@Style" @onmouseover="OnMouseOver" @onmouseout="OnMouseOut" @onclick="OnClick">
     @Content(Item)
@@ -21,9 +21,6 @@
     private string Style => $"{ColorStyle}{CursorStyle}";
 
     [Parameter]
-    public string Href { get; set; } = "javascript: void(0);";
-
-    [Parameter]
     public bool IsSelected { get; set; }
 
     [Parameter]
@@ -35,14 +32,6 @@
     [EditorRequired]
     [Parameter]
     public RenderFragment<TItem> Content { get; set; }
-
-    [EditorRequired]
-    [Parameter]
-    public EventCallback OnSelect { get; set; }
-
-    [EditorRequired]
-    [Parameter]
-    public EventCallback OnDeselect { get; set; }
 
     protected override void OnParametersSet()
     {
@@ -67,14 +56,7 @@
         StateHasChanged();
     }
 
-    private Task OnClick()
-    {
-        IsSelected = !IsSelected;
-        if (IsSelected)
-            return OnSelect.InvokeAsync(IsSelected);
-        else
-            return OnDeselect.InvokeAsync(IsSelected);
-    }
+    private void OnClick() => Item.SelectFromCollection(!IsSelected);
 
     private void OnMouseOver() => isHovered = true;
 

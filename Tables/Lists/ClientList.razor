@@ -1,30 +1,14 @@
 ﻿@typeparam TItem where TItem : IListItem
 
-@using Controls.Selection;
-@using Controls.Lists.SelectionCollections;
-
-@foreach (var itemAction in itemActions)
+@foreach (var item in Items)
 {
-    <Selectable 
-        OnSelect="itemAction.OnSelect"
-        OnDeselect="itemAction.OnDeselect"
-        TItem="TItem"
-        Item="itemAction.Item" 
-        Content="ItemTemplate"
-    ></Selectable>
+    @ItemTemplate(item)
 }
 
 @code {
-    private bool isDisabled, shouldRender;
+    private bool shouldRender;
 
-    private int previousMaxSelectCount = int.MinValue;
     private IEnumerable<TItem> previousItems = Enumerable.Empty<TItem>();
-    private SelectionCollection<TItem>? previousSelectionCollection;
-
-    private List<ItemAction> itemActions = new();
-
-    [Parameter]
-    public SelectionCollection<TItem> SelectionCollection { get; set; } = new(SelectionType.Single);
 
     [EditorRequired]
     [Parameter]
@@ -39,68 +23,9 @@
 
     protected override void OnParametersSet()
     {
-        switch (SelectionCollection.Type)
-        {
-            case SelectionType.Single:
-                SelectionCollection.SelectionChanged -= CheckIsMax;
-                break;
-            case SelectionType.Multiple:
-                SelectionCollection.SelectionChanged += CheckIsMax;
-                break;
-        }
-
-        bool haveItemsChanged;
-        if (!(haveItemsChanged = Items.SequenceEqual(previousItems)))
-        {
-            SelectionCollection.Remove(previousItems);
-            itemActions.Clear();
-            foreach (var item in Items)
-            {
-                var itemAction = new ItemAction() { Item = item, };
-                if (item.IsSelectable)
-                {
-                    itemAction.OnSelect = () => SelectionCollection.Select(item);
-                    itemAction.OnDeselect = () => SelectionCollection.Deselect(item);
-                }
-                itemActions.Add(itemAction);
-            }
-        }
-
-        if (previousSelectionCollection != SelectionCollection)
-            SelectionCollection.Add(Items);
-
-        shouldRender = !haveItemsChanged
-            || previousMaxSelectCount != MaxSelectionCount;
-
-        previousMaxSelectCount = MaxSelectionCount;
+        shouldRender = !Items.SequenceEqual(previousItems);
         previousItems = Items;
-        previousSelectionCollection = SelectionCollection;
-    }
-
-    private void CheckIsMax(object? sender, EventArgs e)
-    {
-        if (SelectionCollection.Selected.Count > MaxSelectionCount && !isDisabled)
-        {
-            foreach (var nonSelected in SelectionCollection.NonSelected)
-                nonSelected.Disable(true);
-            isDisabled = true;
-        }
-        else if (isDisabled)
-        {
-            foreach (var nonSelected in SelectionCollection.NonSelected)
-                nonSelected.Disable(false);
-            isDisabled = false;
-        }
     }
 
     protected override bool ShouldRender() => shouldRender;
-
-    private class ItemAction
-    {
-        public TItem? Item { get; set; }
-
-        public Action OnSelect { get; set; } = () => {};
-
-        public Action OnDeselect { get; set; } = () => {};
-    }
 }

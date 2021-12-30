@@ -1,4 +1,5 @@
 ﻿using Controls.Lists;
+using Controls.Selection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,11 @@ namespace Controls.Sidebars
 {
     public abstract class ISidebarItem : IListItem
     {
+        protected ISidebarItem(in SelectionCollection selectionCollection) 
+            : base(selectionCollection)
+        {
+        }
+
         public abstract string? Text { get; }
 
         public abstract string? Link { get; }

@@ -1,39 +1,27 @@
 ﻿@using Controls.Collapsibles;
 @using Controls.Buttons;
-@using Controls.Lists.SelectionCollections
+@using Controls.Selection;
 
-<CollapsibleButton 
-    OnCollapse="OnCollapse"
-    Colors="Item.SelectionColors"
-    Display="@display"
->
+<Selectable TItem="ISidebarItem" Item="Item">
     <Content>
-        @Item.Text
+        <CollapsibleButton TItem="ISidebarItem" Item="Item">
+            <Content>
+                @Item.Text
+            </Content>
+        </CollapsibleButton>
     </Content>
-</CollapsibleButton>
+</Selectable>
+
 <div class="nav-header-children">
-    <Collapsible IsCollapsed="@isCollapsed">
+    <Collapsible TItem="ISidebarItem" Item="Item">
         <Template>
-            <SidebarList Items="Item.Children" SelectionCollection="SelectionCollection"></SidebarList>
+            <SidebarList Items="Item.Children"></SidebarList>
         </Template>
     </Collapsible>
 </div>
 
 @code {
-    private const string display = "block";
-
-    private bool isCollapsed = false;
-
     [EditorRequired]
     [Parameter]
     public ISidebarItem Item { get; set; }
-
-    [Parameter]
-    public SelectionCollection<ISidebarItem> SelectionCollection { get; set; } = new(SelectionType.Single);
-
-    public void OnCollapse(bool isCollapsed)
-    {
-        this.isCollapsed = isCollapsed;
-        StateHasChanged();
-    }
 }

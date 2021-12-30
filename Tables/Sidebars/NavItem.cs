@@ -1,23 +1,21 @@
-﻿using Controls.Lists;
-using Controls.Selection;
-using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Controls.Selection;
+using Controls.Selection.SelectionBehaviors;
 
 namespace Controls.Sidebars
 {
     public class NavItem : ISidebarItem
     {
         public NavItem(string? text, string? link, string? svgTag, SelectionColors selectionColors)
+            : this(text, link, svgTag, selectionColors, new SelectionCollection(ISelectionBehavior.Single))
+        {}
+
+        public NavItem(string? text, string? link, string? svgTag, SelectionColors selectionColors, in SelectionCollection selectionCollection)
+            : base(selectionCollection)
         {
             Text = text;
             Link = link;
             SvgTag = svgTag;
             SelectionColors = selectionColors;
-            IsSelectable = true;
         }
 
         public override string? Text { get; }

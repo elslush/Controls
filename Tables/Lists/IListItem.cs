@@ -2,9 +2,12 @@
 
 namespace Controls.Lists;
 
-public class IListItem : Selectable
+public class IListItem : SelectableValue
 {
-    public SelectionStyle SelectionStyle { get; set; }
+    public IListItem(in SelectionCollection selectionCollection) 
+        : base(selectionCollection)
+    {
+    }
 
-    public bool IsSelectable { get; set; }
+    public SelectionStyle SelectionStyle { get; set; }
 }

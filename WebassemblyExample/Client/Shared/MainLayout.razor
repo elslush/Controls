@@ -1,10 +1,12 @@
 ﻿@inherits LayoutComponentBase
-@using Controls.Buttons
-@using Controls.Selection
-@using Controls.Sidebars
-@using Controls.Images
-@using System.Drawing
+@using Controls.Buttons;
+@using Controls.Selection;
+@using Controls.Selection.SelectionBehaviors;
+@using Controls.Sidebars;
+@using Controls.Images;
+@using System.Drawing;
 @using Controls.Containers;
+@using static Controls.ColorPickers.ColorExtensions;
 
 <div class="container">
     <div class="header">header</div>
@@ -32,6 +34,7 @@
 
 @code {
     private const string title = "Example Controls";
+    private static readonly SelectionCollection navItemSelectionCollection = new(ISelectionBehavior.SingleWODeselect);
     private static readonly SelectionColors navItemColors = new()
     {
         StaticColors = new(Color.Transparent, Color.Black),
@@ -39,60 +42,75 @@
         ClickedColors = ColorState.Default,
         DisabledColors = ColorState.Disabled,
     };
+    private static readonly ColorState headerHoverClickedColors = new(ColorState.DefaultBackgroundColor.ToDarkerHslStyle(2), Color.White.ToRGBStyle());
+    private static readonly SelectionColors headerItemColors = new()
+    {
+        StaticColors = new(Color.Transparent, Color.Black),
+        HoverColors = headerHoverClickedColors,
+        ClickedColors = headerHoverClickedColors,
+        DisabledColors = ColorState.Disabled,
+    };
     private static readonly ISidebarItem[] sidebarItems = new ISidebarItem[]
     {
-        new NavHeader("Layout", new ISidebarItem[]
-        {
-            new NavItem("Grids", "grids", string.Empty, navItemColors),
-            new NavItem("Sidebars", "sidebars", string.Empty, navItemColors),
-            new NavItem("Headers", "headers", string.Empty, navItemColors),
-            new NavItem("Footers", "footers", string.Empty, navItemColors),
-            new NavItem("Containers", "containers", string.Empty, navItemColors),
-            new NavItem("Code", "code", string.Empty, navItemColors),
-        }),
-        new NavItem("Alerts", "alerts", string.Empty, navItemColors),
-        
-        new NavItem("Breadcrumbs", "breadcrumbs", string.Empty, navItemColors),
-        
-        new NavItem("Calendars", "calendars", string.Empty, navItemColors),
-        new NavItem("Captchas", "captchas", string.Empty, navItemColors),
-        new NavItem("Chips", "chips", string.Empty, navItemColors),
-        new NavItem("Clipboard", "clipboard", string.Empty, navItemColors),
-        
-        new NavItem("Collapsibles", "collapsibles", string.Empty, navItemColors),
-        
-        
-        new NavItem("Cookies", "cookies", string.Empty, navItemColors),
-        
-        
-        
-        new NavHeader("Visual", new ISidebarItem[]
-        {
-            new NavItem("Animations", "animations", string.Empty, navItemColors),
-            new NavItem("Spinners", "spinners", string.Empty, navItemColors),
-        }),
+        new NavItem("Cookies", "cookies", string.Empty, navItemColors, in navItemSelectionCollection),
         new NavHeader("Data", new ISidebarItem[]
         {
-            new NavItem("Tables", "tables", string.Empty, navItemColors),
-            new NavItem("Filters", "filters", string.Empty, navItemColors),
-        }),
-        new NavHeader("Media", new ISidebarItem[]
-        {
-            new NavItem("Audio", "audio", string.Empty, navItemColors),
-            new NavItem("Images", "images", string.Empty, navItemColors),
-            new NavItem("Videos", "videos", string.Empty, navItemColors),
-        }),
+            new NavItem("Tables", "tables", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Filters", "filters", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Pagination", "pagination", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Selection", "selection", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Sorting", "sorting", string.Empty, navItemColors, in navItemSelectionCollection),
+        }, headerItemColors),
         new NavHeader("Inputs", new ISidebarItem[]
         {
-            new NavItem("Buttons", "buttons", string.Empty, navItemColors),
-            new NavItem("Check Boxes", "checkboxes", string.Empty, navItemColors),
-            new NavItem("Color Pickers", "colorpickers", string.Empty, navItemColors),
-            new NavItem("Date Pickers", "datepickers", string.Empty, navItemColors),
-            new NavItem("Draggables", "draggables", string.Empty, navItemColors),
-            new NavItem("Dropdowns", "dropdowns", string.Empty, navItemColors),
-            new NavItem("File Drops", "filedrops", string.Empty, navItemColors),
-            new NavItem("Text", "text", string.Empty, navItemColors),
-            //new NavItem("Text Editors", "editors", string.Empty, navItemColors),
-        }),
+            new NavItem("Buttons", "buttons", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Captchas", "captchas", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Check Boxes", "checkboxes", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Clipboard", "clipboard", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Color Pickers", "colorpickers", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Date Pickers", "datepickers", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Draggables", "draggables", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Dropdowns", "dropdowns", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("File Drops", "filedrops", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Text", "text", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Sliders", "sliders", string.Empty, navItemColors, in navItemSelectionCollection),
+            //new NavItem("Text Editors", "editors", string.Empty, navItemColors, in navItemSelectionCollection),
+        }, headerItemColors),
+        new NavHeader("Layout", new ISidebarItem[]
+        {
+            new NavItem("Containers", "containers", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Footers", "footers", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Headers", "headers", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Grids", "grids", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Overlays", "overlays", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Sidebars", "sidebars", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Tabs", "tabs", string.Empty, navItemColors, in navItemSelectionCollection),
+        }, headerItemColors),
+        new NavHeader("Media", new ISidebarItem[]
+        {
+            new NavItem("Audio", "audio", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Images", "images", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Videos", "videos", string.Empty, navItemColors, in navItemSelectionCollection),
+        }, headerItemColors),
+        new NavHeader("UI", new ISidebarItem[]
+        {
+            new NavItem("Alerts", "alerts", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Breadcrumbs", "breadcrumbs", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Calendars", "calendars", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Chips", "chips", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Code", "code", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Collapsibles", "collapsibles", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Icons", "icons", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Modals", "modals", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Progress Bars", "progressbars", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Ratings", "ratings", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Scroll Bars", "scrollbars", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Snack Bars", "snackbars", string.Empty, navItemColors, in navItemSelectionCollection),
+        }, headerItemColors),
+        new NavHeader("Visual", new ISidebarItem[]
+        {
+            new NavItem("Animations", "animations", string.Empty, navItemColors, in navItemSelectionCollection),
+            new NavItem("Spinners", "spinners", string.Empty, navItemColors, in navItemSelectionCollection),
+        }, headerItemColors),
     };
 }

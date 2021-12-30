@@ -1,4 +1,7 @@
-﻿
+﻿@using Controls.Selection;
+
+@typeparam TItem where TItem : SelectableValue
+
 <div class="collapsible @Class">
     @Template
 </div>
@@ -12,4 +15,19 @@
     [EditorRequired]
     [Parameter]
     public RenderFragment Template { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public TItem Item { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Item.OnSelect += OnSelect;
+    }
+
+    public void OnSelect(object? sender, bool isSelected)
+    {
+        IsCollapsed = isSelected;
+        StateHasChanged();
+    }
 }

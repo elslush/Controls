@@ -21,6 +21,7 @@
     <Folder Include="Calendars\" />
     <Folder Include="Chips\" />
     <Folder Include="DatePickers\" />
+    <Folder Include="Lists\SelectionCollections\" />
     <Folder Include="Modals\" />
     <Folder Include="Icons\" />
     <Folder Include="Alerts\" />

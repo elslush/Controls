@@ -1,17 +1,23 @@
 ﻿@using Controls.Buttons;
+@using Controls.Selection;
 
-<Button 
-    Href="@Item.Link"
-    Display="@display"
->
+<Selectable TItem="ISidebarItem" Item="Item">
     <Content>
-        @if (!string.IsNullOrWhiteSpace(Item.SvgTag))
-        {
-            <svg class="nav-icon" width="16" height="16"><use href="#@Item.SvgTag"></use></svg>
-        }
-        @Item.Text
+        <Button 
+            Href="@Item.Link"
+            Display="@display"
+        >
+            <Content>
+                @if (!string.IsNullOrWhiteSpace(Item.SvgTag))
+                {
+                    <svg class="nav-icon" width="16" height="16"><use href="#@Item.SvgTag"></use></svg>
+                }
+                @Item.Text
+            </Content>
+        </Button>
     </Content>
-</Button>
+</Selectable>
+
 
 @code {
     private const string display = "block";

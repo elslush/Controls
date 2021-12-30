@@ -17,10 +17,12 @@ namespace Controls.Selection
 
     public readonly struct ColorState
     {
-        private static readonly ColorState defaultColorState = new(Color.FromArgb(94, 164, 228), Color.White);
+        private static readonly Color defaultBackgroundColor = Color.FromArgb(94, 164, 228);
+        private static readonly ColorState defaultColorState = new(defaultBackgroundColor, Color.White);
         private static readonly ColorState disabledColorState = new(Color.Gray, Color.DarkGray);
         private static readonly ColorState emptyColorState = new();
         public static ColorState Default => defaultColorState;
+        public static Color DefaultBackgroundColor => defaultBackgroundColor;
         public static ColorState Empty => emptyColorState;
         public static ColorState Disabled => disabledColorState;
 
@@ -30,8 +32,8 @@ namespace Controls.Selection
             if (!string.IsNullOrWhiteSpace(background))
                 stringBuilder.Append($"background-color: {background};");
             if (!string.IsNullOrWhiteSpace(text))
-                stringBuilder.Append($"color: {background};");
-            if (!string.IsNullOrWhiteSpace(background))
+                stringBuilder.Append($"color: {text};");
+            if (!string.IsNullOrWhiteSpace(border))
                 stringBuilder.Append($"border-color: {border};");
             Styles = stringBuilder.ToString();
         }
