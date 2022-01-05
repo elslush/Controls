@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Controls.Disabling;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Controls.Selection.SelectionBehaviors
 {
-    public class MultipleBehavior : ISelectionBehavior
+    public class MultipleBehavior<T> : ISelectionBehavior<T> where T : IDisablable, ISelectable
     {
         private bool isDisabled;
 
@@ -19,16 +20,16 @@ namespace Controls.Selection.SelectionBehaviors
 
         public override bool Equals(object? obj)
         {
-            return obj is MultipleBehavior other && other.MaxCount == MaxCount;
+            return obj is MultipleBehavior<T> other && other.MaxCount == MaxCount;
         }
 
         public override int GetHashCode() => MaxCount.GetHashCode();
 
-        void ISelectionBehavior.Rebase(ISelectionBehavior? previousSelectionBehavior, HashSet<SelectableValue> selected, HashSet<SelectableValue> nonSelected)
+        public void Rebase(ISelectionBehavior<T>? previousSelectionBehavior, HashSet<T> selected, HashSet<T> nonSelected)
         {
         }
 
-        void ISelectionBehavior.Select(SelectableValue item, HashSet<SelectableValue> selected, HashSet<SelectableValue> nonSelected)
+        public void Select(T item, HashSet<T> selected, HashSet<T> nonSelected)
         {
             if (selected.Add(item))
             {
@@ -50,7 +51,7 @@ namespace Controls.Selection.SelectionBehaviors
             }
         }
 
-        void ISelectionBehavior.Deselect(SelectableValue item, HashSet<SelectableValue> selected, HashSet<SelectableValue> nonSelected)
+        public void Deselect(T item, HashSet<T> selected, HashSet<T> nonSelected)
         {
             if (selected.Remove(item))
             {

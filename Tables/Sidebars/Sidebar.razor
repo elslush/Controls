@@ -1,6 +1,8 @@
 ﻿@using Buttons;
 @using Controls.Selection;
 @using Controls.Selection.SelectionBehaviors;
+@using Controls.Sidebars.States
+@inject SidebarState State
 
 <div class="sidebar-container">
     <div class="sidebar-header">
@@ -10,23 +12,20 @@
                 @Logo
             </div>
         }
-        <span class="sidebar-title">@Title</span>
+        <span class="sidebar-title">@State.Title</span>
     </div>
     
     <div class="sidebar-list">
-        <SidebarList Items="Items"></SidebarList>
+        <SidebarList Items="State.Items"></SidebarList>
     </div>
 </div>
 
 @code {
-    private readonly SelectionCollection selectionCollection = new(ISelectionBehavior.Single);
-
-    [Parameter]
-    public IEnumerable<ISidebarItem> Items { get; set; } = Array.Empty<ISidebarItem>();
-
     [Parameter]
     public RenderFragment? Logo { get; set; }
 
-    [Parameter]
-    public string? Title { get; set; }
+    //protected override void OnInitialized()
+    //{
+    //    State.
+    //}
 }

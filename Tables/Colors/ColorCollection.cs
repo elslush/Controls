@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Controls.Selection;
-
-public enum SelectionType
+namespace Controls.Colors
 {
-    Single,
-    Multiple,
+    internal class ColorCollection
+    {
+    }
 }

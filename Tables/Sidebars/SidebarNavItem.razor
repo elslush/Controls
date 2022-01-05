@@ -1,27 +1,60 @@
 ﻿@using Controls.Buttons;
 @using Controls.Selection;
+@using Controls.Sidebars.States;
+@inject NavItemState State
 
-<Selectable TItem="ISidebarItem" Item="Item">
-    <Content>
-        <Button 
-            Href="@Item.Link"
-            Display="@display"
-        >
-            <Content>
-                @if (!string.IsNullOrWhiteSpace(Item.SvgTag))
-                {
-                    <svg class="nav-icon" width="16" height="16"><use href="#@Item.SvgTag"></use></svg>
-                }
-                @Item.Text
-            </Content>
-        </Button>
-    </Content>
-</Selectable>
+<span
+    @onclick="EventUtil.AsNonRenderingEventHandler(OnClick)"
+    @onmouseover="OnMouseOver"
+    @onmouseout="OnMouseOut"
+    style="@Style"
+>
+    <Button 
+        Href="@Item.Link"
+        Display="@display"
+        
+    >
+        <Content>
+            @if (!string.IsNullOrWhiteSpace(Item.SvgTag))
+            {
+                <svg class="nav-icon" width="16" height="16"><use href="#@Item.SvgTag"></use></svg>
+            }
+            @Item.Text
+        </Content>
+    </Button>
+</span>
+
 
 
 @code {
-    private const string display = "block";
+    private const string display = "block"; 
+    private bool isHovered;
+
+    private string Style 
+    {
+        get
+        {
+            if (isHovered)
+                return State.NavItemColors.HoverColors.Css;
+            if (Item.IsSelected)
+                return State.NavItemColors.ClickedColors.Css;
+            return State.NavItemColors.DefaultColors.Css;
+        }
+    }
 
     [Parameter]
-    public ISidebarItem Item { get; set; }
+    public NavItem Item { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Item.OnSelect += OnSelect;
+    }
+
+    private void OnSelect(object? sender, bool isSelected) => StateHasChanged();
+
+    private void OnClick() => State.NavItemCollection.Select(Item, !Item.IsSelected);
+
+    private void OnMouseOver() => isHovered = true;
+
+    private void OnMouseOut() => isHovered = false;
 }

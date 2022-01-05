@@ -10,10 +10,10 @@
         @switch(item.ItemType)
         {
             case SidebarItemType.NavHeader:
-                <SidebarNavHeader Item="item"></SidebarNavHeader>
+                <SidebarNavHeader Item="(NavHeader)item"></SidebarNavHeader>
                 break;
             case SidebarItemType.NavItem:
-                <SidebarNavItem Item="item"></SidebarNavItem>
+                <SidebarNavItem Item="(NavItem)item"></SidebarNavItem>
                 break;
         }
     </ItemTemplate>

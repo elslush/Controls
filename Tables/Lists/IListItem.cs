@@ -2,12 +2,7 @@
 
 namespace Controls.Lists;
 
-public class IListItem : SelectableValue
+public interface IListItem
 {
-    public IListItem(in SelectionCollection selectionCollection) 
-        : base(selectionCollection)
-    {
-    }
-
     public SelectionStyle SelectionStyle { get; set; }
 }

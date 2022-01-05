@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebassemblyExample.Client",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebassemblyExample.Shared", "WebassemblyExample\Shared\WebassemblyExample.Shared.csproj", "{01004250-532B-4440-B630-1FF61CAD7EC4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiExample", "MauiExample\MauiExample.csproj", "{3BE66127-CFB1-4C5A-90A1-7ADA47366E01}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,11 +45,6 @@ Global
 		{01004250-532B-4440-B630-1FF61CAD7EC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01004250-532B-4440-B630-1FF61CAD7EC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01004250-532B-4440-B630-1FF61CAD7EC4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3BE66127-CFB1-4C5A-90A1-7ADA47366E01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3BE66127-CFB1-4C5A-90A1-7ADA47366E01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3BE66127-CFB1-4C5A-90A1-7ADA47366E01}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{3BE66127-CFB1-4C5A-90A1-7ADA47366E01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3BE66127-CFB1-4C5A-90A1-7ADA47366E01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

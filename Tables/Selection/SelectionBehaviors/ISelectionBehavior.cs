@@ -6,16 +6,10 @@ using System.Threading.Tasks;
 
 namespace Controls.Selection.SelectionBehaviors
 {
-    public interface ISelectionBehavior
+    public interface ISelectionBehavior<T>
     {
-        private static readonly SingleBehavior singleBehavior = new();
-        private static readonly SingleWODeselectBehavior singleWODeselectBehavior = new();
-
-        public static SingleBehavior Single => singleBehavior;
-        public static SingleWODeselectBehavior SingleWODeselect => singleWODeselectBehavior;
-
-        internal void Rebase(ISelectionBehavior? previousSelectionBehavior, HashSet<SelectableValue> selected, HashSet<SelectableValue> nonSelected);
-        internal void Select(SelectableValue item, HashSet<SelectableValue> selected, HashSet<SelectableValue> nonSelected);
-        internal void Deselect(SelectableValue item, HashSet<SelectableValue> selected, HashSet<SelectableValue> nonSelected);
+        public void Rebase(ISelectionBehavior<T>? previousSelectionBehavior, HashSet<T> selected, HashSet<T> nonSelected);
+        public void Select(T item, HashSet<T> selected, HashSet<T> nonSelected);
+        public void Deselect(T item, HashSet<T> selected, HashSet<T> nonSelected);
     }
 }

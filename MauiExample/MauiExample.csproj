@@ -31,10 +31,7 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon
-			Include="Resources\appicon.svg"
-			ForegroundFile="Resources\appiconfg.svg"
-			Color="#512BD4" />
+		<MauiIcon Include="Resources\appicon.svg" ForegroundFile="Resources\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\appiconfg.svg" Color="#512BD4" />
@@ -59,6 +56,11 @@
 
 	<ItemGroup>
 		<Content Remove="Properties\launchSettings.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.0.0.30" />
+	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
 	</ItemGroup>
 
 </Project>

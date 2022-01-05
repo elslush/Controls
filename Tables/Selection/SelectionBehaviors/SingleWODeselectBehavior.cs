@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Controls.Disabling;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Controls.Selection.SelectionBehaviors
 {
-    public class SingleWODeselectBehavior : ISelectionBehavior
+    public class SingleWODeselectBehavior<T> : ISelectionBehavior<T> where T : ISelectable, IDisablable
     {
-        void ISelectionBehavior.Rebase(ISelectionBehavior? previousSelectionBehavior, HashSet<SelectableValue> selected, HashSet<SelectableValue> nonSelected)
+        public void Rebase(ISelectionBehavior<T>? previousSelectionBehavior, HashSet<T> selected, HashSet<T> nonSelected)
         {
-            if (previousSelectionBehavior is MultipleBehavior)
+            if (previousSelectionBehavior is MultipleBehavior<T>)
                 DeselectAll(selected, nonSelected);
         }
 
-        void ISelectionBehavior.Select(SelectableValue item, HashSet<SelectableValue> selected, HashSet<SelectableValue> nonSelected)
+        public void Select(T item, HashSet<T> selected, HashSet<T> nonSelected)
         {
             if (selected.Add(item))
             {
@@ -24,11 +25,11 @@ namespace Controls.Selection.SelectionBehaviors
             }
         }
 
-        void ISelectionBehavior.Deselect(SelectableValue item, HashSet<SelectableValue> selected, HashSet<SelectableValue> nonSelected)
+        public void Deselect(T item, HashSet<T> selected, HashSet<T> nonSelected)
         {
         }
 
-        private static void DeselectAll(HashSet<SelectableValue> selected, HashSet<SelectableValue> nonSelected, params SelectableValue[] excempt)
+        private static void DeselectAll(HashSet<T> selected, HashSet<T> nonSelected, params T[] excempt)
         {
             var deselected = selected.Except(excempt);
             foreach (var other in deselected)

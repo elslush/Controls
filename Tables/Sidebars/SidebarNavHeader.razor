@@ -1,19 +1,28 @@
 ﻿@using Controls.Collapsibles;
 @using Controls.Buttons;
-@using Controls.Selection;
+@using Controls.Sidebars.States;
+@inject NavHeaderState State
 
-<Selectable TItem="ISidebarItem" Item="Item">
-    <Content>
-        <CollapsibleButton TItem="ISidebarItem" Item="Item">
-            <Content>
-                @Item.Text
-            </Content>
-        </CollapsibleButton>
-    </Content>
-</Selectable>
+<span
+    @onclick="OnClick"
+    @onmouseover="OnMouseOver"
+    @onmouseout="OnMouseOut"
+    style="@Style"
+>
+    <CollapsibleButton 
+        TItem="NavHeader" 
+        Item="Item"
+    
+    >
+        <Content>
+            @Item.Text
+        </Content>
+    </CollapsibleButton>
+</span>
+
 
 <div class="nav-header-children">
-    <Collapsible TItem="ISidebarItem" Item="Item">
+    <Collapsible TItem="NavHeader" Item="Item">
         <Template>
             <SidebarList Items="Item.Children"></SidebarList>
         </Template>
@@ -21,7 +30,34 @@
 </div>
 
 @code {
+    private bool isSelected, isHovered;
+
+    private string Style 
+    {
+        get
+        {
+            if (isHovered)
+                return State.NavItemColors.HoverColors.Css;
+            if (isSelected)
+                return State.NavItemColors.ClickedColors.Css;
+            return State.NavItemColors.DefaultColors.Css;
+        }
+    }
+
     [EditorRequired]
     [Parameter]
-    public ISidebarItem Item { get; set; }
+    public NavHeader Item { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Item.OnSelect += OnSelect;
+    }
+
+    private void OnSelect(object? sender, bool isSelected) => this.isSelected = isSelected;
+
+    private void OnClick() => Item.Select(!isSelected);
+
+    private void OnMouseOver() => isHovered = true;
+
+    private void OnMouseOut() => isHovered = false;
 }

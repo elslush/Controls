@@ -10,29 +10,36 @@ namespace Controls.Sidebars
 {
     public class NavHeader : ISidebarItem
     {
-        public NavHeader(string? text, IEnumerable<ISidebarItem> subHeaders, SelectionColors selectionColors)
-            : this(text, subHeaders, selectionColors, new SelectionCollection(ISelectionBehavior.Single))
-        {}
+        public event EventHandler<bool>? OnSelect;
+        private bool isSelected;
 
-        public NavHeader(string? text, IEnumerable<ISidebarItem> subHeaders, SelectionColors selectionColors, in SelectionCollection selectionCollection)
-            : base(selectionCollection)
+        public NavHeader(string? text, IEnumerable<ISidebarItem> subHeaders)
         {
             Text = text;
             Children = subHeaders;
-            SelectionColors = selectionColors;
 
             if (!subHeaders.Any())
                 throw new ArgumentException("Sub Headers Must not be Empty");
         }
 
-        public override string? Text { get; }
+        public string? Text { get; }
 
-        public override string? Link => string.Empty;
+        public string? Link => string.Empty;
 
-        public override string? SvgTag => string.Empty;
+        public string? SvgTag => string.Empty;
 
-        public override IEnumerable<ISidebarItem> Children { get; }
+        public IEnumerable<ISidebarItem> Children { get; }
 
-        internal override SidebarItemType ItemType => SidebarItemType.NavHeader;
+        public SidebarItemType ItemType => SidebarItemType.NavHeader;
+
+        public SelectionStyle SelectionStyle { get; set; }
+
+        public bool IsSelected => isSelected;
+
+        public void Select(bool isSelected)
+        {
+            this.isSelected = isSelected;
+            OnSelect?.Invoke(this, isSelected);
+        }
     }
 }

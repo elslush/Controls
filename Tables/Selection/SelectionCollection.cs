@@ -1,4 +1,5 @@
-﻿using Controls.Selection;
+﻿using Controls.Disabling;
+using Controls.Selection;
 using Controls.Selection.SelectionBehaviors;
 using System;
 using System.Collections.Generic;
@@ -8,41 +9,42 @@ using System.Threading.Tasks;
 
 namespace Controls.Selection
 {
-    public class SelectionCollection
+    public class SelectionCollection<T> where T : ISelectable, IDisablable
     {
-        private readonly HashSet<SelectableValue> selected = new(), nonSelected = new();
-        private bool isDisabled;
-        private ISelectionBehavior previousSelectionBehavior;
+        private readonly HashSet<T> selected = new(), nonSelected = new();
+        private ISelectionBehavior<T> previousSelectionBehavior;
 
-        public SelectionCollection() : this(ISelectionBehavior.Single) { }
+        public SelectionCollection(ISelectionBehavior<T> selectionBehavior) => SetSelectionBehavior(selectionBehavior);
 
-        public SelectionCollection(ISelectionBehavior selectionBehavior) => SetSelectionBehavior(selectionBehavior);
+        public IReadOnlyCollection<T> Selected => selected;
 
-        public IReadOnlyCollection<SelectableValue> Selected => selected;
+        public IReadOnlyCollection<T> NonSelected => nonSelected;
 
-        public IReadOnlyCollection<SelectableValue> NonSelected => nonSelected;
-
-        public void SetSelectionBehavior(ISelectionBehavior selectionBehavior)
+        public void SetSelectionBehavior(ISelectionBehavior<T> selectionBehavior)
         {
             selectionBehavior.Rebase(previousSelectionBehavior, selected, nonSelected);
             previousSelectionBehavior = selectionBehavior;
         }
 
-        public void Deselect(SelectableValue item) =>  previousSelectionBehavior.Deselect(item, selected, nonSelected);
+        public void Select(T item, bool isSelected)
+        {
+            if (isSelected)
+                 previousSelectionBehavior.Select(item, selected, nonSelected);
+            else
+                previousSelectionBehavior.Deselect(item, selected, nonSelected);
+        }
 
-        public void Select(SelectableValue item) => previousSelectionBehavior.Select(item, selected, nonSelected);
+        public void Add(IEnumerable<T> items) => nonSelected.UnionWith(items);
 
-        public void Add(IEnumerable<SelectableValue> items) => nonSelected.UnionWith(items);
+        public void Add(T item) => nonSelected.Add(item);
 
-        public void Add(SelectableValue item) => nonSelected.Add(item);
-
-        public void Remove(SelectableValue item)
+        public void Remove(T item)
         {
             nonSelected.Remove(item);
             selected.Remove(item);
         }
 
-        public void Remove(IEnumerable<SelectableValue> items)
+        public void Remove(IEnumerable<T> items)
         {
             nonSelected.ExceptWith(items);
             selected.ExceptWith(items);
@@ -54,7 +56,7 @@ namespace Controls.Selection
             nonSelected.Clear();
         }
 
-        public void DeselectAll(params SelectableValue[] excempt)
+        public void DeselectAll(params T[] excempt)
         {
             var deselected = selected.Except(excempt);
             foreach (var other in deselected)
