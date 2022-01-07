@@ -1,0 +1,35 @@
+﻿@using System.Drawing;
+@using static Controls.Colors.ColorExtensions;
+
+<span class="@Class" style="background-color: @BackgroundColorStyle">
+    @Content
+</span>
+
+@code {
+    private string Class { 
+        get
+        {
+            switch (BadgeTypeValue)
+            {
+                case BadgeType.Rectangle:
+                    return "badge-rectangle";
+                case BadgeType.Square:
+                    return "badge-square";
+                case BadgeType.Circle:
+                    return "badge-circle";
+            }
+            return "badge-rectangle";
+        }
+    }
+
+    private string BackgroundColorStyle => BackgroundColor.ToRGBStyle();
+
+    [Parameter]
+    public RenderFragment Content {  get;  set; }
+
+    [Parameter]
+    public BadgeType BadgeTypeValue { get; set; } = BadgeType.Rectangle;
+
+    [Parameter]
+    public Color BackgroundColor { get; set; } = Color.White;
+}

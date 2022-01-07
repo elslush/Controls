@@ -1,9 +1,6 @@
-﻿using Controls.Colors.CssColors;
-using Controls.Selection;
-using Microsoft.AspNetCore.Components;
+﻿using Controls.Selection;
 using Microsoft.AspNetCore.Components.Routing;
 using System.Collections.Concurrent;
-using System.Drawing;
 
 namespace Controls.Sidebars.States
 {
@@ -12,7 +9,7 @@ namespace Controls.Sidebars.States
         private readonly ConcurrentDictionary<string, SidebarItemStack> locationLookup = new();
         private readonly SelectionCollection<NavItem> navItemCollection;
 
-        public SidebarState(NavigationManager navigationManager, NavItemState navItemState)
+        public SidebarState(NavItemState navItemState)
         {
             navItemCollection = navItemState.NavItemCollection;
         }
@@ -48,8 +45,6 @@ namespace Controls.Sidebars.States
                 }
             }
         }
-
-        private void HandleLocationChanged(object? sender, LocationChangedEventArgs e) => HandleNavigate(e.Location);
 
         public Task OnNavigateAsync(NavigationContext args)
         {

@@ -50,6 +50,7 @@ public static class ExampleSidebar
         new NavHeader("UI", new ISidebarItem[]
         {
             new NavItem("Alerts", "alerts", string.Empty),
+            new NavItem("Badges", "badges", string.Empty),
             new NavItem("Breadcrumbs", "breadcrumbs", string.Empty),
             new NavItem("Calendars", "calendars", string.Empty),
             new NavItem("Chips", "chips", string.Empty),

@@ -1,0 +1,36 @@
+﻿.badge-rectangle, .badge-square, .badge-circle {
+    font-size: .85rem;
+    font-weight: 600;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.475rem;
+    height: fit-content;
+}
+
+.badge-rectangle {
+    display: inline-block;
+    padding: 0.5em 0.85em;
+}
+
+.badge-square {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.75rem;
+    min-width: 1.75rem;
+    padding: 0 0.1rem;
+}
+
+.badge-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.75rem;
+    border-radius: 50%;
+    padding: 0;
+    min-width: unset;
+    width: 1.75rem;
+}

@@ -26,6 +26,9 @@
 .header {
     grid-column: header-start / header-end;
     grid-row: row1-start / row2-start;
+    display: flex;
+    align-items:center;
+    justify-content: space-between;
 }
 
 .sidebar {
