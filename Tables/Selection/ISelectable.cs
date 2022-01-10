@@ -10,7 +10,7 @@ namespace Controls.Selection
     {
         public event EventHandler<bool>? OnSelect;
 
-        public void Select(bool isSelected);
+        public void Select(bool isSelected, bool dispatchEvent = true);
         
         public bool IsSelected { get; }
     }

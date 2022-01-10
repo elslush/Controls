@@ -1,0 +1,38 @@
+﻿@using Controls.Selection
+@using Controls.Selection.SelectionBehaviors
+@using Controls.Sidebars.States;
+@using Controls.Sidebars;
+@inject NavigationState State
+
+<div class="sidebar-container">
+    <div class="sidebar-header">
+        @if (Logo is not null)
+        {
+            <div class="sidebar-icon">
+                @Logo
+            </div>
+        }
+        <span class="sidebar-title">@Title</span>
+    </div>
+    
+    <div class="sidebar-list">
+        <SidebarList Items="ExampleSidebar.Items" NavItemCollection="navItemCollection"></SidebarList>
+    </div>
+</div>
+
+@code {
+    private SidebarState? sidebarState;
+    private readonly SelectionCollection<NavItem> navItemCollection = new(new SingleWODeselectBehavior<NavItem>());
+
+    [Parameter]
+    public RenderFragment? Logo { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    protected override void OnInitialized()
+    {
+        sidebarState = new(State);
+        sidebarState.SetItems(ExampleSidebar.Items);
+    }
+}

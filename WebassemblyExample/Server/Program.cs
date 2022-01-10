@@ -1,8 +1,9 @@
+using Controls.Sidebars.States;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddSingleton<NavigationState, NavigationState>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -31,6 +32,6 @@ app.UseRouting();
 
 app.MapRazorPages();
 app.MapControllers();
-app.MapFallbackToFile("index.html");
+app.MapFallbackToPage("/_Host");
 
 app.Run();

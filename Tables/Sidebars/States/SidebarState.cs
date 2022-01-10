@@ -1,4 +1,5 @@
 ﻿using Controls.Selection;
+using Controls.Selection.SelectionBehaviors;
 using Microsoft.AspNetCore.Components.Routing;
 using System.Collections.Concurrent;
 
@@ -7,16 +8,16 @@ namespace Controls.Sidebars.States
     public class SidebarState
     {
         private readonly ConcurrentDictionary<string, SidebarItemStack> locationLookup = new();
-        private readonly SelectionCollection<NavItem> navItemCollection;
+        private readonly SelectionCollection<NavItem> navItemCollection = new(new SingleWODeselectBehavior<NavItem>());
 
-        public SidebarState(NavItemState navItemState)
+        public SidebarState(NavigationState navigationState)
         {
-            navItemCollection = navItemState.NavItemCollection;
+            //navigationState.NavigationContextChanged += HandleNavigate;
         }
 
-        public IEnumerable<ISidebarItem> Items { get; private set; } = Enumerable.Empty<ISidebarItem>();
+        public SelectionCollection<NavItem> NavItemCollection => navItemCollection;
 
-        public string Title { get; set; } = string.Empty;
+        public IEnumerable<ISidebarItem> Items { get; private set; } = Enumerable.Empty<ISidebarItem>();
 
         public void SetItems(IEnumerable<ISidebarItem> sidebarItems)
         {
@@ -46,11 +47,7 @@ namespace Controls.Sidebars.States
             }
         }
 
-        public Task OnNavigateAsync(NavigationContext args)
-        {
-            HandleNavigate(args.Path);
-            return Task.CompletedTask;
-        }
+        public void HandleNavigate(object? _, NavigationContext args) => HandleNavigate(args.Path);
 
         private void HandleNavigate(string path)
         {

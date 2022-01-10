@@ -1,13 +1,10 @@
-﻿<a href="@Href" class="btn" style="display: @Display">
+﻿<a href="@Href" class="btn">
     @Content
 </a>
 
 @code {
     [Parameter]
     public string Href { get; set; } = "javascript: void(0);";
-
-    [Parameter]
-    public string Display { get; set; } = "inline-block";
 
     [EditorRequired]
     [Parameter]

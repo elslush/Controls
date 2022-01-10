@@ -1,3 +1,7 @@
 ﻿.nav-header-children {
     padding-left: 1rem;
 }
+
+::deep a {
+    display: block;
+}

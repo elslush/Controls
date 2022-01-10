@@ -1,7 +1,7 @@
 ﻿@using Controls.Sidebars.States
-@inject SidebarState sidebarState
+@inject NavigationState navigationState
 
-<Router AppAssembly="@typeof(App).Assembly" OnNavigateAsync="@sidebarState.OnNavigateAsync">
+<Router AppAssembly="@typeof(App).Assembly" OnNavigateAsync="@navigationState.NavigationChange">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />

@@ -1,38 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    <PublishTrimmed>true</PublishTrimmed>
     
-    <InvariantGlobalization>true</InvariantGlobalization>
-    <EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
-    <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
-    <EventSourceSupport>false</EventSourceSupport>
-    <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
-    
-    <RunAOTCompilation>true</RunAOTCompilation>
     
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
+    
+    <UserSecretsId>da7efd03-2a37-4207-9712-f0cf76565e61</UserSecretsId>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Tables\Controls.csproj" />
     <ProjectReference Include="..\Shared\WebassemblyExample.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

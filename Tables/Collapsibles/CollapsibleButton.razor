@@ -4,9 +4,7 @@
 @typeparam TItem where TItem : ISelectable
 
 
-<Button 
-    Display="@Display"
->
+<Button>
     <Content>
         <span class="collapsible-btn-container">
 	        <span class="collapsible-btn-content">@Content</span>
@@ -17,16 +15,15 @@
 
 
 
-@code {
-    private bool isClicked = false;
 
-    private string? CollapsedArrowClass => isClicked ? "collapsible-btn-arrow-active" : null;
+@code {
+    private string? CollapsedArrowClass => IsCollapsed ? "collapsible-btn-arrow-active" : null;
+
+    [Parameter]
+    public bool IsCollapsed { get; set; }
 
     [Parameter]
     public TItem Item { get; set; }
-
-    [Parameter]
-    public string Display { get; set; } = "block";
 
     [EditorRequired]
     [Parameter]
@@ -37,9 +34,9 @@
         Item.OnSelect += OnSelect;
     }
 
-    private void OnSelect(object? sender, bool isSelected)
+    private async void OnSelect(object? sender, bool isSelected)
     {
-        isClicked = isSelected;
-        StateHasChanged();
+        IsCollapsed = isSelected;
+        await InvokeAsync(() => StateHasChanged());
     }
 }

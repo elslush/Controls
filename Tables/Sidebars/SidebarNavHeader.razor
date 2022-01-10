@@ -1,7 +1,9 @@
 ﻿@using Controls.Collapsibles;
 @using Controls.Buttons;
-@using Controls.Sidebars.States;
-@inject NavHeaderState State
+@using Controls.Selection;
+@using Controls.Selection.SelectionBehaviors
+@using Controls.Sidebars.States
+@inject NavigationState NavState
 
 <span
     @onclick="OnClick"
@@ -12,7 +14,7 @@
     <CollapsibleButton 
         TItem="NavHeader" 
         Item="Item"
-    
+        IsCollapsed="isSelected"
     >
         <Content>
             @Item.Text
@@ -22,9 +24,9 @@
 
 
 <div class="nav-header-children">
-    <Collapsible TItem="NavHeader" Item="Item">
+    <Collapsible TItem="NavHeader" Item="Item" IsCollapsed="isSelected">
         <Template>
-            <SidebarList Items="Item.Children"></SidebarList>
+            <SidebarList Items="Item.Children" NavItemCollection="NavItemCollection"></SidebarList>
         </Template>
     </Collapsible>
 </div>
@@ -37,10 +39,10 @@
         get
         {
             if (isHovered)
-                return State.NavItemColors.HoverColors.Css;
+                return Item.NavItemColors.HoverColors.Css;
             if (isSelected)
-                return State.NavItemColors.ClickedColors.Css;
-            return State.NavItemColors.DefaultColors.Css;
+                return Item.NavItemColors.ClickedColors.Css;
+            return Item.NavItemColors.DefaultColors.Css;
         }
     }
 
@@ -48,9 +50,29 @@
     [Parameter]
     public NavHeader Item { get; set; }
 
+    [Parameter]
+    public SelectionCollection<NavItem> NavItemCollection { get; set; } = new(new SingleWODeselectBehavior<NavItem>());
+
+    private bool ContainsChildPath(ISidebarItem item)
+    {
+        foreach (var child in item.Children)
+        {
+            if (child is NavItem navItem)
+            {
+                if (NavState.Path.Equals(navItem.Link, StringComparison.CurrentCultureIgnoreCase))
+                    return true;
+            }
+            else if (ContainsChildPath(child))
+                return true;
+        }
+        return false;
+    }
+
     protected override void OnParametersSet()
     {
         Item.OnSelect += OnSelect;
+        if (ContainsChildPath(Item))
+            isSelected = true;
     }
 
     private void OnSelect(object? sender, bool isSelected) => this.isSelected = isSelected;

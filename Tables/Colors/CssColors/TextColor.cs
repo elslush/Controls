@@ -2,7 +2,7 @@
 
 namespace Controls.Colors.CssColors
 {
-    internal readonly struct TextColor : ICssColor
+    public readonly struct TextColor : ICssColor
     {
         private const string cssName = "color";
 

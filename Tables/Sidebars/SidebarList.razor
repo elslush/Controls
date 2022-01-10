@@ -1,5 +1,7 @@
 ﻿@using Controls.Lists;
-@using Controls.Buttons;
+@using Controls.Selection;
+@using Controls.Selection.SelectionBehaviors
+@using Controls.Sidebars.States
 
 <ClientList 
     Items="Items"
@@ -10,16 +12,19 @@
         @switch(item.ItemType)
         {
             case SidebarItemType.NavHeader:
-                <SidebarNavHeader Item="(NavHeader)item"></SidebarNavHeader>
+                <SidebarNavHeader Item="(NavHeader)item" NavItemCollection="NavItemCollection"></SidebarNavHeader>
                 break;
             case SidebarItemType.NavItem:
-                <SidebarNavItem Item="(NavItem)item"></SidebarNavItem>
+                <SidebarNavItem Item="(NavItem)item" NavItemCollection="NavItemCollection"></SidebarNavItem>
                 break;
         }
     </ItemTemplate>
 </ClientList>
 
 @code {
+    [Parameter]
+    public SelectionCollection<NavItem> NavItemCollection { get; set; } = new(new SingleWODeselectBehavior<NavItem>());
+
     [Parameter]
     public IEnumerable<ISidebarItem> Items { get; set; } = Enumerable.Empty<ISidebarItem>();
 }

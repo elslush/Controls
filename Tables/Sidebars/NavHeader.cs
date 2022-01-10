@@ -1,10 +1,4 @@
 ﻿using Controls.Selection;
-using Controls.Selection.SelectionBehaviors;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Controls.Sidebars
 {
@@ -13,9 +7,10 @@ namespace Controls.Sidebars
         public event EventHandler<bool>? OnSelect;
         private bool isSelected;
 
-        public NavHeader(string? text, IEnumerable<ISidebarItem> subHeaders)
+        public NavHeader(string? text, NavColors navItemColors, IEnumerable<ISidebarItem> subHeaders)
         {
             Text = text;
+            NavItemColors = navItemColors;
             Children = subHeaders;
 
             if (!subHeaders.Any())
@@ -36,10 +31,13 @@ namespace Controls.Sidebars
 
         public bool IsSelected => isSelected;
 
-        public void Select(bool isSelected)
+        public NavColors NavItemColors { get; set; }
+
+        public void Select(bool isSelected, bool dispatchEvent = true)
         {
             this.isSelected = isSelected;
-            OnSelect?.Invoke(this, isSelected);
+            if (dispatchEvent)
+                OnSelect?.Invoke(this, isSelected);
         }
     }
 }

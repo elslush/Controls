@@ -6,16 +6,30 @@
 @using Controls.Images;
 @using System.Drawing;
 @using Controls.Containers;
-@using static Controls.Colors.ColorExtensions;
+@using Controls.Badges;
 
 <div class="container">
     <div class="header">
-        <Header>
-
-        </Header>
+        <div class="header-left">
+            <h3 class="header-title">Blazor Controls Documentation</h3>
+            <span class="header-badge">
+                <Badge BackgroundColor="Color.LightGray">
+                    <Content>
+                        v0.1
+                    </Content>
+                </Badge>
+            </span>
+        </div>
+        <div class="header-right">
+            <Button>
+                <Content>
+                    Purchase
+                </Content>
+            </Button>
+        </div>
     </div>
     <div class="sidebar">
-        <Sidebar>
+        <Sidebar Title="Component Library">
             <Logo>
                 <MMCube></MMCube>
             </Logo>
