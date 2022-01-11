@@ -1,7 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
-    
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
+    <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
+    <EventSourceSupport>false</EventSourceSupport>
+    <BlazorEnableTimeZoneSupport>false</BlazorEnableTimeZoneSupport>
+
+    <RunAOTCompilation>true</RunAOTCompilation>
+    <PublishReadyToRun>true</PublishReadyToRun>
+
+    <WasmBuildNative>true</WasmBuildNative>
     
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
