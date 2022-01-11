@@ -1,0 +1,37 @@
+﻿@using Controls.DynamicComponents
+@using Controls.Lists
+@using System.Collections.Immutable
+@using System.Drawing
+
+<div class="alert-container" style="@positionStyle">
+    @foreach (var metadata in Publisher.Alerts)
+    {
+        <DynamicComponent Type="metadata.ComponentType" Parameters="metadata.Parameters"></DynamicComponent>
+    }
+</div>
+
+@code {
+    private string? positionStyle = null;
+
+    [EditorRequired]
+    [Parameter]
+    public AlertPublisher Publisher { get; set; } = new();
+
+    [Parameter]
+    public AlertLocation Location { get; set; } = AlertLocation.LowerRight;
+
+    protected override void OnParametersSet()
+    {
+        positionStyle = Location switch
+        {
+            AlertLocation.UpperLeft => "upper:0;left:0;",
+            AlertLocation.UpperRight => "upper:0;right:0;",
+            AlertLocation.LowerLeft => "bottom:0;left:0;",
+            AlertLocation.LowerRight => "bottom:0;right:0;",
+            _ => "",
+        };
+        Publisher.OnAlertsChanged += OnAlertsChanged;
+    }
+
+    private void OnAlertsChanged(object? _, EventArgs __) => StateHasChanged();
+}

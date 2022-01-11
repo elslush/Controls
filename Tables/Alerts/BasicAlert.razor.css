@@ -1,0 +1,25 @@
+﻿.alert {
+    padding: 15px;
+    color: white;
+    margin-top: 15px;
+    border-radius: 10px;
+}
+
+/* The close button */
+::deep .btn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+::deep .btn:hover {
+    color: black;
+}
+
+.alert-button-container {
+    vertical-align: middle;
+}

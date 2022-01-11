@@ -1,0 +1,57 @@
+﻿@using Controls.Alerts
+@using System.Drawing
+
+@page "/alerts"
+
+<h1>Alerts</h1>
+
+Alerts are an easy way to display notifications to a user.
+
+<h2>The Alert Container</h2>
+
+<p>
+    Before alerts can be made, an <i>Alert Container</i> must first be created. 
+    This container specifies what part of the screen the alerts are posted to, 
+    as well as the maximum number of alerts to be displayed on the screen.
+</p>
+
+<p>A container can specify what part of the screen the alerts are posted to. The <i>AlertLocation</i> enum is used to specify this location:</p>
+
+<h3>Alert Location</h3>
+
+<code>AlertLocation.UpperLeft</code>
+<code>AlertLocation.UpperRight</code>
+<code>AlertLocation.LowerRight</code>
+<code>AlertLocation.LowerLeft</code>
+
+<AlertContainer Publisher="alertPublisher" Location="alertLocation">
+
+</AlertContainer>
+
+@code {
+    private readonly AlertPublisher alertPublisher = new(2);
+    private AlertLocation alertLocation = AlertLocation.LowerRight;
+
+    private readonly Random random = new();
+    private int testAlertCount = 1;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (alertPublisher is not null && firstRender)
+        {
+            alertPublisher.CreateBasicAlert("Test Alert 1", Color.Green);
+            alertPublisher.CreateBasicAlert("Test Alert 2", Color.BlueViolet);
+        }
+
+    }
+
+    private void PublishRandom()
+    {
+        alertPublisher.CreateBasicAlert($"Test Alert {testAlertCount}", GetRandomColor());
+        testAlertCount++;
+    }
+
+    private void ChangeLocation(AlertLocation alertLocation) => this.alertLocation = alertLocation;
+
+    private Color GetRandomColor() => Color.FromArgb(random.Next(0, 255), random.Next(0, 255), random.Next(0, 255));
+}

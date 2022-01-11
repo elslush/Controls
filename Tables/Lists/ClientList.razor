@@ -1,4 +1,4 @@
-﻿@typeparam TItem where TItem : IListItem
+﻿@typeparam TItem
 
 @foreach (var item in Items)
 {
@@ -17,9 +17,6 @@
     [EditorRequired]
     [Parameter]
     public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
-
-    [Parameter]
-    public int MaxSelectionCount { get; set; } = 0;
 
     protected override void OnParametersSet()
     {

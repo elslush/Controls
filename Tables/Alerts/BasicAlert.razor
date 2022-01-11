@@ -1,0 +1,34 @@
+﻿@using Controls.Icons
+@using Controls.Buttons
+@using System.Drawing
+@using Controls.Images
+@using static Controls.Colors.ColorExtensions;
+
+<div class="alert" style="@Style">
+    <InlineSvg FillColor="Color.White">
+        <Inner>
+            <ExclamationCircle></ExclamationCircle>
+        </Inner>
+    </InlineSvg>
+    @Text
+    <span class="alert-button-container" @onclick="OnClose">
+        <Button>
+            <Content>
+                &times;
+            </Content>
+        </Button>
+    </span>
+</div>
+
+@code {
+    private string Style => $"background-color:{BackgroundColor.ToRGBStyle()}";
+
+    [Parameter]
+    public Color BackgroundColor { get; set; } = Color.Green;
+
+    [Parameter]
+    public string? Text { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+}

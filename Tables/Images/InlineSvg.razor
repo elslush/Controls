@@ -1,0 +1,17 @@
+﻿@using System.Drawing
+@using static Controls.Colors.ColorExtensions;
+
+<svg class="inline-svg" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style="fill: @FillStyle;">
+    @Inner
+</svg>
+
+@code {
+    private string FillStyle => FillColor.ToRGBStyle();
+
+    [EditorRequired]
+    [Parameter]
+    public RenderFragment Inner { get; set; }
+
+    [Parameter]
+    public Color FillColor { get; set; }
+}
