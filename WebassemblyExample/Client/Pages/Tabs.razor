@@ -5,7 +5,7 @@
 @using System.Drawing
 
 <TabContainer Direction="tabDirection" TabType="tabType">
-    <Tab Colors="tabColors" >
+    <Tab Colors="tabColors" IsDefault=true>
         <Content>
             First tab
         </Content>
@@ -27,8 +27,8 @@
 </TabContainer>
 
 @code {
-    private readonly TabDirection tabDirection = TabDirection.Vertical;
-    private readonly TabType tabType = TabType.Pill;
+    private readonly TabDirection tabDirection = TabDirection.Horizontal;
+    private readonly TabType tabType = TabType.Line;
     private readonly TabColors tabColors = new()
         {
             DefaultColors = new(new BackgroundColor(Color.White), new TextColor(Color.FromArgb(0, 158, 247))),

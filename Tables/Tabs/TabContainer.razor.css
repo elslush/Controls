@@ -1,8 +1,10 @@
 ﻿.tab-container-horizontal {
+    display: flex;
     flex-direction: column;
 }
 
 .tab-container-vertical {
+    display: flex;
     flex-direction: row;
 }
 
