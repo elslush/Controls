@@ -1,0 +1,48 @@
+﻿@implements ITab
+
+<li>
+    <a
+        @onmouseover="OnMouseOver"
+        @onmouseout="OnMouseOut"
+        @onclick="ActivateTab" 
+        class="tab-item" 
+        style="@Style" 
+        role="button"
+    >
+        @Content
+    </a>
+</li>
+
+@code {
+    private bool isHovered;
+
+    private string Style 
+    {
+        get
+        {
+            if (ContainerTabSet?.ActiveTab == this)
+                return Colors.ClickedColors.Css;
+            if (isHovered)
+                return Colors.HoverColors.Css;
+            return Colors.DefaultColors.Css;
+        }
+    }
+
+    [CascadingParameter]
+    public TabContainer? ContainerTabSet { get; set; }
+
+    [Parameter]
+    public TabColors Colors { get; set; }
+
+    [Parameter]
+    public RenderFragment? Content { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private void ActivateTab() => ContainerTabSet?.SetActiveTab(this);
+
+    private void OnMouseOver() => isHovered = true;
+
+    private void OnMouseOut() => isHovered = false;
+}

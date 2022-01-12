@@ -6,4 +6,5 @@
     width: calc(100% - 2rem);
     border-radius: 10px;
     display: flex;
+    flex-direction: column;
 }

@@ -1,0 +1,57 @@
+﻿
+<div class="@TabConatinerDirectionClass">
+    <CascadingValue Value=this IsFixed=true>
+        <ul class="tab-header-container @TabDirectionClass @TableTypeClass">
+            @ChildContent
+        </ul>
+    </CascadingValue>
+
+    <div class="nav-tabs-body p-4">
+        @ActiveTab?.ChildContent
+    </div>
+</div>
+
+
+
+@code {
+    private string TabConatinerDirectionClass => Direction switch
+    {
+        TabDirection.Vertical => "tab-container-vertical",
+        TabDirection.Horizontal => "tab-container-horizontal",
+        _ => "",
+    };
+
+    private string TabDirectionClass => Direction switch
+    {
+        TabDirection.Vertical => "tab-header-container-vertical",
+        TabDirection.Horizontal => "tab-header-container-horizontal",
+        _ => "",
+    };
+
+    private string TableTypeClass => TabType switch
+    {
+        TabType.Line => "tab-container-line",
+        TabType.Pill => "tab-container-pill",
+        _ => "",
+    };
+
+    [Parameter]
+    public TabType TabType { get; set; } = TabType.Line;
+
+    [Parameter]
+    public TabDirection Direction { get; set; } = TabDirection.Horizontal;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    public ITab? ActiveTab { get; private set; }
+
+    public void SetActiveTab(ITab tab)
+    {
+        if (ActiveTab != tab)
+        {
+            ActiveTab = tab;
+            StateHasChanged();
+        }
+    }
+}

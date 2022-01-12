@@ -31,9 +31,10 @@
     <Folder Include="Editing\" />
     <Folder Include="Catpchas\" />
     <Folder Include="Clipboards\" />
+    <Folder Include="Chatting\" />
+    <Folder Include="QRCodes\" />
     <Folder Include="Ratings\" />
     <Folder Include="Scrolling\" />
-    <Folder Include="Tabs\" />
     <Folder Include="Overlays\" />
     <Folder Include="Snackbars\" />
     <Folder Include="Ripples\" />

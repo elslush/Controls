@@ -1,0 +1,41 @@
+﻿.tab-container-horizontal {
+    flex-direction: column;
+}
+
+.tab-container-vertical {
+    flex-direction: row;
+}
+
+.tab-header-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    list-style: none;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.tab-header-container-horizontal {
+    flex-direction: row;
+}
+
+.tab-header-container-vertical {
+    flex-direction: column;
+    margin-right: 1.25rem;
+}
+.tab-container-line ::deep .tab-item {
+    border: 0;
+    border-bottom: 1px solid transparent;
+    transition: color .2s ease,background-color .2s ease;
+    padding: 0.5rem 0;
+    margin: 0 1rem;
+}
+
+.tab-container-pill ::deep .tab-item {
+    display: block;
+    padding: 0.5rem 1rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+    background: 0 0;
+    border: 0;
+    border-radius: 0.475rem;
+}

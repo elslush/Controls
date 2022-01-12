@@ -1,0 +1,38 @@
+﻿@page "/tabs"
+
+@using Controls.Tabs
+@using Controls.Colors.CssColors
+@using System.Drawing
+
+<TabContainer Direction="tabDirection" TabType="tabType">
+    <Tab Colors="tabColors" >
+        <Content>
+            First tab
+        </Content>
+
+        <ChildContent>
+            <h4>Greetings from the first tab!</h4>
+        </ChildContent>
+    </Tab>
+
+    <Tab Colors="tabColors">
+        <Content>
+            Second tab
+        </Content>
+
+        <ChildContent>
+            <h4>Hello from the second tab!</h4>
+        </ChildContent>
+    </Tab>
+</TabContainer>
+
+@code {
+    private readonly TabDirection tabDirection = TabDirection.Vertical;
+    private readonly TabType tabType = TabType.Pill;
+    private readonly TabColors tabColors = new()
+        {
+            DefaultColors = new(new BackgroundColor(Color.White), new TextColor(Color.FromArgb(0, 158, 247))),
+            ClickedColors = new(new BackgroundColor(Color.FromArgb(0, 158, 247)), new TextColor(Color.White)),
+            HoverColors = new(new BackgroundColor(Color.White), new TextColor(Color.FromArgb(0, 109, 171))),
+        };
+}
