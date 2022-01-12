@@ -21,10 +21,10 @@
         get
         {
             if (ContainerTabSet?.ActiveTab == this)
-                return Colors.ClickedColors.Css;
+                return Colors.ClickedColors.Value;
             if (isHovered)
-                return Colors.HoverColors.Css;
-            return Colors.DefaultColors.Css;
+                return Colors.HoverColors.Value;
+            return Colors.DefaultColors.Value;
         }
     }
 

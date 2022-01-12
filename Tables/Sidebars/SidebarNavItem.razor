@@ -30,10 +30,10 @@
         get
         {
             if (isHovered)
-                return Item.NavItemColors.HoverColors.Css;
+                return Item.NavItemColors.HoverColors.Value;
             if (Item.IsSelected)
-                return Item.NavItemColors.ClickedColors.Css;
-            return Item.NavItemColors.DefaultColors.Css;
+                return Item.NavItemColors.ClickedColors.Value;
+            return Item.NavItemColors.DefaultColors.Value;
         }
     }
 

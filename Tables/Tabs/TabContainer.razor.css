@@ -25,6 +25,11 @@
     flex-direction: column;
     margin-right: 1.25rem;
 }
+
+.tab-container-line {
+    border-bottom: 1px solid #eff2f5;
+}
+
 .tab-container-line ::deep .tab-item {
     border: 0;
     border-bottom: 1px solid transparent;

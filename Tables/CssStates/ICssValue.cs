@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Controls.Colors
+namespace Controls.CssStates
 {
-    internal class ColorCollection
+    public interface ICssValue
     {
+        public string Value { get; }
     }
 }

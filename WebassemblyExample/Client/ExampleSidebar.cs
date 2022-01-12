@@ -1,4 +1,4 @@
-﻿using Controls.Colors.CssColors;
+﻿using Controls.CssStates;
 using Controls.Sidebars;
 using System.Drawing;
 
@@ -8,15 +8,15 @@ public static class ExampleSidebar
 {
     private static readonly NavColors navColors = new()
     {
-        DefaultColors = new(new BackgroundColor(Color.Transparent), new TextColor(Color.Black)),
-        HoverColors = new(new BackgroundColor(Color.FromArgb(94, 164, 228)), new TextColor(Color.White)),
-        ClickedColors = new(new BackgroundColor(Color.FromArgb(94, 164, 228)), new TextColor(Color.White)),
+        DefaultColors = new(new CssColor("background-color", Color.Transparent), new CssColor("color", Color.Black)),
+        HoverColors = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)), new CssColor("color", Color.White)),
+        ClickedColors = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)), new CssColor("color", Color.White)),
     };
     private static readonly NavColors headerColors = new()
     {
-        DefaultColors = new(new BackgroundColor(Color.Transparent), new TextColor(Color.Black)),
-        HoverColors = new(new TextColor(Color.FromArgb(0, 158, 247))),
-        ClickedColors = new(new TextColor(Color.FromArgb(0, 158, 247))),
+        DefaultColors = new(new CssColor("background-color", Color.Transparent), new CssColor("color", Color.Black)),
+        HoverColors = new(new CssColor("color", Color.FromArgb(0, 158, 247))),
+        ClickedColors = new(new CssColor("color", Color.FromArgb(0, 158, 247))),
     };
     public static readonly ISidebarItem[] Items = new ISidebarItem[]
     {

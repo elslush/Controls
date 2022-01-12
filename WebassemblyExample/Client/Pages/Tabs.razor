@@ -1,11 +1,11 @@
 ﻿@page "/tabs"
 
 @using Controls.Tabs
-@using Controls.Colors.CssColors
+@using Controls.CssStates
 @using System.Drawing
 
 <TabContainer Direction="tabDirection" TabType="tabType">
-    <Tab Colors="tabColors" IsDefault=true>
+    <Tab Colors="lineColors" IsDefault=true>
         <Content>
             First tab
         </Content>
@@ -15,7 +15,7 @@
         </ChildContent>
     </Tab>
 
-    <Tab Colors="tabColors">
+    <Tab Colors="lineColors">
         <Content>
             Second tab
         </Content>
@@ -29,10 +29,16 @@
 @code {
     private readonly TabDirection tabDirection = TabDirection.Horizontal;
     private readonly TabType tabType = TabType.Line;
-    private readonly TabColors tabColors = new()
-        {
-            DefaultColors = new(new BackgroundColor(Color.White), new TextColor(Color.FromArgb(0, 158, 247))),
-            ClickedColors = new(new BackgroundColor(Color.FromArgb(0, 158, 247)), new TextColor(Color.White)),
-            HoverColors = new(new BackgroundColor(Color.White), new TextColor(Color.FromArgb(0, 109, 171))),
+    private static readonly TabColors pillColors = new()
+    {
+        DefaultColors = new(new CssColor("background-color", Color.White), new CssColor("color", Color.FromArgb(0, 158, 247))),
+        ClickedColors = new(new CssColor("background-color", Color.FromArgb(0, 158, 247)), new CssColor("color", Color.White)),
+        HoverColors = new(new CssColor("background-color", Color.White), new CssColor("color", Color.FromArgb(0, 109, 171))),
         };
+    private static readonly TabColors lineColors = new()
+    {
+        DefaultColors = new(new CssColor("color", Color.Gray), new CssColor("border-bottom-color", Color.Transparent)),
+        ClickedColors = new(new CssColor("color", Color.Gray), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247))),
+        HoverColors = new(new CssColor("color", Color.Gray), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247))),
+    };
 }
