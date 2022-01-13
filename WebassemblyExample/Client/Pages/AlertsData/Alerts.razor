@@ -1,5 +1,6 @@
 ﻿@using Controls.Alerts
 @using System.Drawing
+@using Controls.Code
 
 @page "/alerts"
 
@@ -19,7 +20,9 @@ Alerts are an easy way to display notifications to a user.
 
 <h3>Alert Location</h3>
 
-<code>AlertLocation.UpperLeft</code>
+<CodeBlock Language="LanguageSpecification.CSharpSpecification">
+    AlertLocation.UpperLeft
+</CodeBlock>
 <code>AlertLocation.UpperRight</code>
 <code>AlertLocation.LowerRight</code>
 <code>AlertLocation.LowerLeft</code>
@@ -40,7 +43,7 @@ Alerts are an easy way to display notifications to a user.
         if (alertPublisher is not null && firstRender)
         {
             alertPublisher.CreateBasicAlert("Test Alert 1", Color.Green);
-            alertPublisher.CreateBasicAlert("Test Alert 2", Color.BlueViolet);
+            alertPublisher.CreateBasicAlert("Test Alert 2", Color.BlueViolet, TimeSpan.FromSeconds(10));
         }
 
     }

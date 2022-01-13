@@ -1,0 +1,48 @@
+﻿@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
+
+<pre class="code">
+    <code class="@Language.Name" @ref="codeReference">
+        @ChildContent
+    </code>
+</pre>
+
+@code {
+    private ElementReference codeReference;
+    private IJSObjectReference? highlightModule, languageModule, codeBlockModule;
+    private string? result;
+
+    [Parameter, EditorRequired] 
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter, EditorRequired] 
+    public LanguageSpecification Language { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            //highlightModule = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/highlight.min.js");
+            //languageModule = await JS.InvokeAsync<IJSObjectReference>("import", Language.JavascriptLocation);
+            codeBlockModule = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/Code/CodeBlock.razor.js");
+            if (codeBlockModule is not null)
+            {
+                await codeBlockModule.InvokeVoidAsync("importLanguage", Language.JavascriptLocation);
+                await codeBlockModule.InvokeVoidAsync("highlightSnippet", codeReference);
+            }
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (highlightModule is not null)
+            await highlightModule.DisposeAsync();
+
+        if (languageModule is not null)
+            await languageModule.DisposeAsync();
+
+        if (codeBlockModule is not null)
+            await codeBlockModule.DisposeAsync();
+    }
+}

@@ -33,15 +33,18 @@ namespace Controls.Alerts
             OnAlertsChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void CreateBasicAlert(string text, Color backgroundColor)
+        public void CreateBasicAlert(string text, Color backgroundColor, TimeSpan? autoHideTime = null)
         {
             ComponentMetadata alert = new(typeof(BasicAlert));
-            alert.Parameters = new Dictionary<string, object>()
+            var parameters = new Dictionary<string, object>()
             {
                 { "Text", text },
                 { "BackgroundColor", backgroundColor },
                 { "OnClose", EventCallback.Factory.Create(this, () => RemoveAlert(alert)) },
-            }.ToImmutableDictionary();
+            };
+            if (autoHideTime is not null)
+                parameters.Add("AutoHideTime", autoHideTime);
+            alert.Parameters = parameters.ToImmutableDictionary();
             AddAlert(alert);
         }
     }

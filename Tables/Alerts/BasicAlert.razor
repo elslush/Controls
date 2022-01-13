@@ -2,7 +2,9 @@
 @using Controls.Buttons
 @using System.Drawing
 @using Controls.Images
+@using System.Timers
 @using static Controls.Colors.ColorExtensions;
+@implements IDisposable
 
 <div class="alert" style="@Style">
     <InlineSvg FillColor="Color.White">
@@ -22,6 +24,7 @@
 
 @code {
     private string Style => $"background-color:{BackgroundColor.ToRGBStyle()}";
+    private Timer? timer;
 
     [Parameter]
     public Color BackgroundColor { get; set; } = Color.Green;
@@ -31,4 +34,25 @@
 
     [Parameter]
     public EventCallback OnClose { get; set; }
+
+    [Parameter]
+    public TimeSpan? AutoHideTime { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (AutoHideTime is not null && AutoHideTime.Value.TotalMilliseconds > 0)
+        {
+            timer = new(AutoHideTime.Value.TotalMilliseconds)
+            {
+                AutoReset = false,
+                Enabled = true,
+            };
+            timer.Elapsed += (_, __) => OnClose.InvokeAsync();
+        }
+    }
+
+    void IDisposable.Dispose()
+    {
+        timer?.Dispose();
+    }
 }

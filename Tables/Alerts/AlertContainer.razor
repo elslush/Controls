@@ -4,17 +4,19 @@
 @using System.Drawing
 
 <div class="alert-container" style="@positionStyle">
-    @foreach (var metadata in Publisher.Alerts)
-    {
-        <DynamicComponent Type="metadata.ComponentType" Parameters="metadata.Parameters"></DynamicComponent>
-    }
+    <CascadingValue Value=this IsFixed=true>
+        @foreach (var metadata in Publisher.Alerts)
+        {
+            <DynamicComponent Type="metadata.ComponentType" Parameters="metadata.Parameters"></DynamicComponent>
+        }
+    </CascadingValue>
+    
 </div>
 
 @code {
     private string? positionStyle = null;
 
-    [EditorRequired]
-    [Parameter]
+    [Parameter, EditorRequired]
     public AlertPublisher Publisher { get; set; } = new();
 
     [Parameter]
