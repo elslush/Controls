@@ -1,12 +1,31 @@
-﻿<a href="@Href" class="btn">
-    @Content
+﻿<a 
+    href="@Href" 
+    class="btn"
+    style="@Style"
+    @onclick="OnClick"
+    @onmouseover="OnMouseOver"
+    @onmouseout="OnMouseOut"
+>
+    @ChildContent
 </a>
 
 @code {
     [Parameter]
+    public string? Style { get; set; }
+
+    [Parameter]
     public string Href { get; set; } = "javascript: void(0);";
 
-    [EditorRequired]
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
     [Parameter]
-    public RenderFragment? Content { get; set; }
+    public EventCallback OnClick { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnHover { get; set; }
+
+    private Task OnMouseOver() => OnHover.InvokeAsync(true);
+
+    private Task OnMouseOut() => OnHover.InvokeAsync(false);
 }

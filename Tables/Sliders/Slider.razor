@@ -1,0 +1,58 @@
+﻿@using Microsoft.JSInterop
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<div class="slider-container" @ref="_sliderReference">
+    <CascadingValue Value=this IsFixed=true>
+        @ChildContent
+    </CascadingValue>
+</div>
+
+@code {
+    private ElementReference _sliderReference;
+    private IJSObjectReference? _jsModule;
+    private int ratio = 0;
+
+    [Parameter]
+    public int MinValue { get; set; } = 0;
+
+    [Parameter]
+    public int MaxValue { get; set; } = 100;
+
+    [Parameter]
+    public string Units { get; set; } = "%";
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        ratio = (MaxValue - MinValue) / 100;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/Sliders/Slider.razor.js");
+            if (_jsModule is not null)
+                await _jsModule.InvokeVoidAsync("initSlider", _sliderReference);
+        }
+    }
+
+    public int PercentageToRange(int percentage) => percentage * ratio + MinValue;
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (_jsModule is not null)
+            {
+                await _jsModule.DisposeAsync();
+            }
+        }
+        catch
+        {
+        }
+    }
+}

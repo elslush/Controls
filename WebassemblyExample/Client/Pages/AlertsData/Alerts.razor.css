@@ -1,0 +1,40 @@
+﻿.container {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    height: unset;
+    max-width: calc(100% - 80px);
+    max-height: calc(100% - 80px);
+}
+
+.header {
+    border-bottom: 1px solid #e4e6ef;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+}
+
+.content {
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.header-left {
+    display: block;
+}
+
+.header-left h1 {
+    margin-bottom: 0px;
+}
+
+.header-left small {
+    color: #505050
+}
+
+.example-button {
+    padding-top: 10px;
+}
+
+.alert-slider-container {
+    padding: 20px;
+}

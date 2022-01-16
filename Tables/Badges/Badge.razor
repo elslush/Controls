@@ -2,7 +2,7 @@
 @using static Controls.Colors.ColorExtensions;
 
 <span class="@Class" style="background-color: @BackgroundColorStyle">
-    @Content
+    @ChildContent
 </span>
 
 @code {
@@ -25,7 +25,7 @@
     private string BackgroundColorStyle => BackgroundColor.ToRGBStyle();
 
     [Parameter]
-    public RenderFragment Content {  get;  set; }
+    public RenderFragment? ChildContent {  get;  set; }
 
     [Parameter]
     public BadgeType BadgeTypeValue { get; set; } = BadgeType.Rectangle;

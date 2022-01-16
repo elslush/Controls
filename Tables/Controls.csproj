@@ -40,7 +40,10 @@
     <Folder Include="Ripples\" />
     <Folder Include="ProgressBars\" />
     <Folder Include="Spinners\" />
-    <Folder Include="Sliders\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Layout.css" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 
 @foreach (var item in Items)
 {
-    @ItemTemplate(item)
+    @ChildContent(item)
 }
 
 @code {
@@ -10,12 +10,10 @@
 
     private IEnumerable<TItem> previousItems = Enumerable.Empty<TItem>();
 
-    [EditorRequired]
-    [Parameter]
-    public RenderFragment<TItem> ItemTemplate { get; set; }
+    [Parameter, EditorRequired]
+    public RenderFragment<TItem> ChildContent { get; set; }
 
-    [EditorRequired]
-    [Parameter]
+    [Parameter, EditorRequired]
     public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
 
     protected override void OnParametersSet()

@@ -1,0 +1,28 @@
+﻿<Button 
+    Href="@Href"
+    Style="@Style"
+    OnClick="OnClick"
+    OnHover="OnHover"
+    ChildContent="ChildContent"
+>
+</Button>
+
+@code {
+    private bool isHovered;
+
+    private string Style => isHovered ? Colors.HoverColors.Value : Colors.DefaultColors.Value;
+
+    [Parameter]
+    public string? Href { get; set; }
+
+    [Parameter, EditorRequired]
+    public ButtonColors Colors { get; set; }
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    private void OnHover(bool isHovered) => this.isHovered = isHovered;
+}

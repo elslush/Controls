@@ -1,60 +1,177 @@
 ﻿@using Controls.Alerts
 @using System.Drawing
+@using Controls.Buttons
 @using Controls.Code
+@using Controls.Tabs
+@using Controls.CssStates
+@using Controls.Sliders
 
 @page "/alerts"
 
-<h1>Alerts</h1>
+<div class="container">
+    <div class="header">
+        <div class="header-left">
+            <h1>Alerts</h1>
+            <small>An easy way to display notifications to a user.</small>
+        </div>
+        <div class="header-right">
+            <small>By Matthew Ormson, 01/16/2022, 3 minutes to read</small>
+        </div>
+    </div>
 
-Alerts are an easy way to display notifications to a user.
+    <div class="content">
+        <h2 id="alert-container">The Alert Container</h2>
 
-<h2>The Alert Container</h2>
+        <p>
+            The <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertContainer</span></CodeBlock> is the location on the screen
+            where the alerts will be published to.
+        </p>
+        It determines:
+        <ol>
+            <li>Location of alerts.</li>
+            <li>Maximum number of alerts to be displayed at once.</li>
+        </ol>
 
-<p>
-    Before alerts can be made, an <i>Alert Container</i> must first be created. 
-    This container specifies what part of the screen the alerts are posted to, 
-    as well as the maximum number of alerts to be displayed on the screen.
-</p>
+        <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> 
+    <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"alertPublisher"</span>
+    <span class="hljs-attr">Location</span>=<span class="hljs-string">"alertLocation"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+        </CodeBlock>
 
-<p>A container can specify what part of the screen the alerts are posted to. The <i>AlertLocation</i> enum is used to specify this location:</p>
+        <h2 id="alert-location">Alert Location</h2>
 
-<h3>Alert Location</h3>
+        <p>The <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertLocation</span></CodeBlock> enum specifies what part of the screen the alerts are posted to</p>
 
-<CodeBlock Language="LanguageSpecification.CSharpSpecification">
-    AlertLocation.UpperLeft
-</CodeBlock>
-<code>AlertLocation.UpperRight</code>
-<code>AlertLocation.LowerRight</code>
-<code>AlertLocation.LowerLeft</code>
+        <TabContainer>
+            <Tab OnSelect="() => alertLocation = AlertLocation.LowerRight" IsDefault=true Colors="lineColors">
+                <Content>
+                    Lower Right
+                </Content>
+                <ChildContent>
+                    <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.LowerRight"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+                    </CodeBlock>
+                </ChildContent>
+            </Tab>
+            <Tab OnSelect="() => alertLocation = AlertLocation.LowerLeft" Colors="lineColors">
+                <Content>
+                    Lower Left
+                </Content>
+                <ChildContent>
+                    <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.LowerLeft"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+                    </CodeBlock>
+                </ChildContent>
+            </Tab>
+            <Tab OnSelect="() => alertLocation = AlertLocation.UpperLeft" Colors="lineColors">
+                <Content>
+                    Upper Left
+                </Content>
+                <ChildContent>
+                    <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.UpperLeft"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+                    </CodeBlock>
+                </ChildContent>
+            </Tab>
+            <Tab OnSelect="() => alertLocation = AlertLocation.UpperRight" Colors="lineColors">
+                <Content>
+                    Upper Right
+                </Content>
+                <ChildContent>
+                    <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.UpperRight"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+                    </CodeBlock>
+                </ChildContent>
+            </Tab>
+        </TabContainer>
+
+        <div class="example-button">
+            <BasicButton Colors=buttonColors OnClick="PublishRandom">
+                Display Example
+            </BasicButton>
+        </div>
+
+        <h2 id="alert-publisher">The Alert Publisher</h2>
+
+        <p>
+            The <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertPublisher</span></CodeBlock> 
+            is where you publish your alert to.
+        </p>
+
+        <p>
+            The <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">maximumAlerts</span></CodeBlock> parameter
+            determines how many alerts can be displayed at once.
+        </p>
+
+        <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+AlertPublisher alertPublisher = new(maximumAlerts: 2);
+        </CodeBlock>
+
+        <p>
+            An <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertContainer</span></CodeBlock>
+            requires an <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertPublisher</span></CodeBlock>.
+        </p>
+
+        <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> 
+    <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"alertPublisher"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+
+<span class="hljs-tag">&#64;<span class="hljs-name">code</span> {
+AlertPublisher alertPublisher = new(maximumAlerts: 2);
+}</span>
+        </CodeBlock>
+
+        <div class="alert-slider-container">
+            <SteppedSlider>
+            </SteppedSlider>
+        </div>
+
+    </div>
+</div>
 
 <AlertContainer Publisher="alertPublisher" Location="alertLocation">
 
 </AlertContainer>
 
 @code {
-    private readonly AlertPublisher alertPublisher = new(2);
+    private readonly AlertPublisher alertPublisher = new(maximumAlerts: 2);
     private AlertLocation alertLocation = AlertLocation.LowerRight;
+    private static readonly ButtonColors buttonColors = new()
+    {
+        DefaultColors = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)), new CssColor("color", Color.White)),
+        HoverColors = new(new CssColor("background-color", Color.FromArgb(79, 132, 185)), new CssColor("color", Color.White)),
+    };
+    private static readonly TabColors lineColors = new()
+    {
+        DefaultColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.Transparent)),
+        ClickedColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247))),
+        HoverColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247))),
+    };
 
     private readonly Random random = new();
     private int testAlertCount = 1;
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (alertPublisher is not null && firstRender)
-        {
-            alertPublisher.CreateBasicAlert("Test Alert 1", Color.Green);
-            alertPublisher.CreateBasicAlert("Test Alert 2", Color.BlueViolet, TimeSpan.FromSeconds(10));
-        }
+    //protected override void OnAfterRender(bool firstRender)
+    //{
+    //    if (alertPublisher is not null && firstRender)
+    //    {
+    //        alertPublisher.CreateBasicAlert("Test Alert 1", Color.Green);
+    //        alertPublisher.CreateBasicAlert("Test Alert 2", Color.BlueViolet, TimeSpan.FromSeconds(10));
+    //    }
 
-    }
+    //}
 
     private void PublishRandom()
     {
-        alertPublisher.CreateBasicAlert($"Test Alert {testAlertCount}", GetRandomColor());
+        alertPublisher.CreateBasicAlert($"Example Alert {testAlertCount}", GetRandomColor());
         testAlertCount++;
     }
-
-    private void ChangeLocation(AlertLocation alertLocation) => this.alertLocation = alertLocation;
 
     private Color GetRandomColor() => Color.FromArgb(random.Next(0, 255), random.Next(0, 255), random.Next(0, 255));
 }

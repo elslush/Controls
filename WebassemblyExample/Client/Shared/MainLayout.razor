@@ -13,35 +13,21 @@
         <div class="header-left">
             <h3 class="header-title">Blazor Controls Documentation</h3>
             <span class="header-badge">
-                <Badge BackgroundColor="Color.LightGray">
-                    <Content>
-                        v0.1
-                    </Content>
-                </Badge>
+                <Badge BackgroundColor="Color.LightGray">v0.1</Badge>
             </span>
         </div>
         <div class="header-right">
             <Button>
-                <Content>
-                    Purchase
-                </Content>
+                Purchase
             </Button>
         </div>
     </div>
     <div class="sidebar">
-        <Sidebar Title="Component Library">
-            <Logo>
-                <MMCube></MMCube>
-            </Logo>
-        </Sidebar>
+        <MainSidebar></MainSidebar>
     </div>
 
     <main class="content">
-        <Container>
-            <Content>
-                @Body
-            </Content>
-        </Container>
+        @Body
     </main>
 
     <div class="footer">footer</div>

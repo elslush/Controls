@@ -1,0 +1,67 @@
+﻿@using Controls.Collapsibles;
+@using Controls.Buttons;
+@using Controls.Selection;
+@using Controls.Selection.SelectionBehaviors
+@using Controls.Sidebars.States
+@inject NavigationState NavState
+
+@implements ISidebarItem
+
+<span
+    @onclick="OnClick"
+    @onmouseover="OnMouseOver"
+    @onmouseout="OnMouseOut"
+    style="@Style"
+>
+    <CollapsibleButton IsCollapsed="isSelected">@Text</CollapsibleButton>
+</span>
+
+
+<div class="nav-header-children">
+    <Collapsible IsCollapsed="isSelected">
+        <CascadingValue Value=this IsFixed=true>
+            @ChildContent
+        </CascadingValue>
+    </Collapsible>
+</div>
+
+@code {
+    private bool isSelected, isHovered;
+
+    private string Style 
+    {
+        get
+        {
+            if (isSelected)
+                return Colors.ClickedColors.Value;
+            if (isHovered)
+                return Colors.HoverColors.Value;
+            return Colors.DefaultColors.Value;
+        }
+    }
+
+    [CascadingParameter]
+    public NavHeader? CurrentHeader { get; set; }
+
+    [Parameter, EditorRequired]
+    public string? Text { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter, EditorRequired]
+    public NavColors Colors { get; set; }
+
+    public void Select(bool isSelected)
+    {
+        this.isSelected = isSelected;
+        if (CurrentHeader is not null)
+            CurrentHeader.Select(isSelected);
+    }
+
+    private void OnClick() => isSelected = !isSelected;
+
+    private void OnMouseOver() => isHovered = true;
+
+    private void OnMouseOut() => isHovered = false;
+}

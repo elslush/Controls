@@ -1,10 +1,11 @@
 ﻿
 <div class="@TabConatinerDirectionClass">
-    <CascadingValue Value=this IsFixed=true>
-        <ul class="tab-header-container @TabDirectionClass @TableTypeClass">
+    <ul class="tab-header-container @TabDirectionClass @TableTypeClass">
+        <CascadingValue Value=this IsFixed=true>
             @ChildContent
-        </ul>
-    </CascadingValue>
+        </CascadingValue>
+    </ul>
+    
 
     <div class="nav-tabs-body p-4">
         @ActiveTab?.ChildContent

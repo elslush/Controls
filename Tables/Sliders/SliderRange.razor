@@ -1,0 +1,15 @@
+﻿<span class="slider-range" style="@Style"></span>
+<CascadingValue Value=this IsFixed=true>
+    @ChildContent
+</CascadingValue>
+
+@code {
+    private string Style => $"left:{LowerValue}%;width:{(UpperValue - LowerValue)}%;";
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    public int LowerValue { get; set; }
+
+    public int UpperValue { get; set; }
+}

@@ -43,13 +43,20 @@
     [Parameter]
     public bool IsDefault { get; set; }
 
-    protected override void OnInitialized()
+    [Parameter]
+    public EventCallback OnSelect { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
         if (IsDefault)
-            ActivateTab();
+            await ActivateTab();
     }
 
-    private void ActivateTab() => ContainerTabSet?.SetActiveTab(this);
+    private Task ActivateTab()
+    {
+        ContainerTabSet?.SetActiveTab(this);
+        return OnSelect.InvokeAsync();
+    }
 
     private void OnMouseOver() => isHovered = true;
 

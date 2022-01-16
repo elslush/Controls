@@ -1,0 +1,43 @@
+﻿@using Controls.Lists
+
+<div class="sidebar-container">
+    <div class="sidebar-header">
+        @if (Logo is not null)
+        {
+            <div class="sidebar-icon">
+                @Logo
+            </div>
+        }
+        <span class="sidebar-title">@Title</span>
+    </div>
+    
+    <div class="sidebar-list">
+        <CascadingValue Value=this IsFixed=true>
+            @ChildContent
+        </CascadingValue>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public RenderFragment? Logo { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    public NavItem? ActiveNavItem { get; private set; }
+
+    public void SetActiveNavItem(NavItem navItem)
+    {
+        if (ActiveNavItem != navItem)
+        {
+            ActiveNavItem = navItem;
+            StateHasChanged();
+        }
+    }
+}

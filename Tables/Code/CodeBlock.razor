@@ -1,48 +1,39 @@
-﻿@using Microsoft.JSInterop
-@implements IAsyncDisposable
-@inject IJSRuntime JS
-
-<pre class="code">
-    <code class="@Language.Name" @ref="codeReference">
+﻿@if (Inline)
+{
+    <code class="hljs hljs-inline @ColorModeStyle">
         @ChildContent
     </code>
-</pre>
+}
+else
+{
+    <pre class="code">
+        <code class="hljs hljs-block @ColorModeStyle">
+            @ChildContent
+        </code>
+    </pre>
+}
+
 
 @code {
-    private ElementReference codeReference;
-    private IJSObjectReference? highlightModule, languageModule, codeBlockModule;
-    private string? result;
+    private string ColorModeStyle => Mode switch
+    {
+        ColorMode.Light => "light",
+        ColorMode.Dark => "dark",
+        _ => string.Empty,
+    };
 
     [Parameter, EditorRequired] 
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
-    [Parameter, EditorRequired] 
-    public LanguageSpecification Language { get; set; }
+    [Parameter]
+    public ColorMode Mode { get; set; } = ColorMode.Light;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    [Parameter]
+    public bool Inline { get; set; }
+
+    public enum ColorMode
     {
-        if (firstRender)
-        {
-            //highlightModule = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/highlight.min.js");
-            //languageModule = await JS.InvokeAsync<IJSObjectReference>("import", Language.JavascriptLocation);
-            codeBlockModule = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/Code/CodeBlock.razor.js");
-            if (codeBlockModule is not null)
-            {
-                await codeBlockModule.InvokeVoidAsync("importLanguage", Language.JavascriptLocation);
-                await codeBlockModule.InvokeVoidAsync("highlightSnippet", codeReference);
-            }
-        }
-    }
-
-    async ValueTask IAsyncDisposable.DisposeAsync()
-    {
-        if (highlightModule is not null)
-            await highlightModule.DisposeAsync();
-
-        if (languageModule is not null)
-            await languageModule.DisposeAsync();
-
-        if (codeBlockModule is not null)
-            await codeBlockModule.DisposeAsync();
+        Light,
+        Dark,
     }
 }

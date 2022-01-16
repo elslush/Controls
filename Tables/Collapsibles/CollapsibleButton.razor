@@ -1,16 +1,10 @@
 ﻿@using Controls.Buttons;
-@using Controls.Selection;
-
-@typeparam TItem where TItem : ISelectable
-
 
 <Button>
-    <Content>
-        <span class="collapsible-btn-container">
-	        <span class="collapsible-btn-content">@Content</span>
-	        <span class="collapsible-btn-arrow @CollapsedArrowClass"></span>
-        </span>
-    </Content>
+    <span class="collapsible-btn-container">
+	    <span class="collapsible-btn-content">@ChildContent</span>
+	    <span class="collapsible-btn-arrow @CollapsedArrowClass"></span>
+    </span>
 </Button>
 
 
@@ -22,21 +16,6 @@
     [Parameter]
     public bool IsCollapsed { get; set; }
 
-    [Parameter]
-    public TItem Item { get; set; }
-
-    [EditorRequired]
-    [Parameter]
-    public RenderFragment? Content { get; set; }
-
-    protected override void OnParametersSet()
-    {
-        Item.OnSelect += OnSelect;
-    }
-
-    private async void OnSelect(object? sender, bool isSelected)
-    {
-        IsCollapsed = isSelected;
-        await InvokeAsync(() => StateHasChanged());
-    }
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
 }

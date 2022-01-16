@@ -1,0 +1,82 @@
+﻿@using Controls.Sidebars
+@using Controls.Images
+@using Controls.CssStates
+@using System.Drawing
+
+<Sidebar Title="Component Library">
+    <Logo>
+        <MMCube></MMCube>
+    </Logo>
+    <ChildContent>
+        <NavItem Text="Cookies" Colors="navColors"></NavItem>
+        <NavHeader Text="Data" Colors="headerColors">
+            <NavItem Text="Tables" Colors="navColors"></NavItem>
+            <NavItem Text="Filters" Colors="navColors"></NavItem>
+            <NavItem Text="Pagination" Colors="navColors"></NavItem>
+            <NavItem Text="Selection" Colors="navColors"></NavItem>
+            <NavItem Text="Sorting" Colors="navColors"></NavItem>
+        </NavHeader>
+        <NavHeader Text="Inputs" Colors="headerColors">
+            <NavItem Text="Buttons" Colors="navColors"></NavItem>
+            <NavItem Text="Captchas" Colors="navColors"></NavItem>
+            <NavItem Text="Check Boxes" Colors="navColors"></NavItem>
+            <NavItem Text="Clipboard" Colors="navColors"></NavItem>
+            <NavItem Text="Color Pickers" Colors="navColors"></NavItem>
+            <NavItem Text="Date Pickers" Colors="navColors"></NavItem>
+            <NavItem Text="Draggables" Colors="navColors"></NavItem>
+            <NavItem Text="Dropdowns" Colors="navColors"></NavItem>
+            <NavItem Text="File Drops" Colors="navColors"></NavItem>
+            <NavItem Text="Text" Colors="navColors"></NavItem>
+            <NavItem Text="Sliders" Colors="navColors"></NavItem>
+            <NavItem Text="Text Editors" Colors="navColors"></NavItem>
+        </NavHeader>
+        <NavHeader Text="Layout" Colors="headerColors">
+            <NavItem Text="Containers" Colors="navColors"></NavItem>
+            <NavItem Text="Footers" Colors="navColors"></NavItem>
+            <NavItem Text="Headers" Colors="navColors"></NavItem>
+            <NavItem Text="Grids" Colors="navColors"></NavItem>
+            <NavItem Text="Overlays" Colors="navColors"></NavItem>
+            <NavItem Text="Sidebars" Colors="navColors"></NavItem>
+            <NavItem Text="Tabs" Colors="navColors"></NavItem>
+        </NavHeader>
+        <NavHeader Text="Media" Colors="headerColors">
+            <NavItem Text="Audio" Colors="navColors"></NavItem>
+            <NavItem Text="Images" Colors="navColors"></NavItem>
+            <NavItem Text="Videos" Colors="navColors"></NavItem>
+        </NavHeader>
+        <NavHeader Text="UI" Colors="headerColors">
+            <NavItem Text="Alerts" Colors="navColors"></NavItem>
+            <NavItem Text="Badges" Colors="navColors"></NavItem>
+            <NavItem Text="Breadcrumbs" Colors="navColors"></NavItem>
+            <NavItem Text="Calendars" Colors="navColors"></NavItem>
+            <NavItem Text="Chips" Colors="navColors"></NavItem>
+            <NavItem Text="Code" Colors="navColors"></NavItem>
+            <NavItem Text="Collapsibles" Colors="navColors"></NavItem>
+            <NavItem Text="Icons" Colors="navColors"></NavItem>
+            <NavItem Text="Modals" Colors="navColors"></NavItem>
+            <NavItem Text="Progress Bars" Colors="navColors"></NavItem>
+            <NavItem Text="Ratings" Colors="navColors"></NavItem>
+            <NavItem Text="Scroll Bars" Colors="navColors"></NavItem>
+            <NavItem Text="Snack Bars" Colors="navColors"></NavItem>
+        </NavHeader>
+        <NavHeader Text="Visual" Colors="headerColors">
+            <NavItem Text="Animations" Colors="navColors"></NavItem>
+            <NavItem Text="Spinners" Colors="navColors"></NavItem>
+        </NavHeader>
+    </ChildContent>
+</Sidebar>
+
+@code {
+    private static readonly NavColors navColors = new()
+    {
+        DefaultColors = new(new CssColor("background-color", Color.Transparent), new CssColor("color", Color.Black)),
+        HoverColors = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)), new CssColor("color", Color.White)),
+        ClickedColors = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)), new CssColor("color", Color.White)),
+    };
+    private static readonly NavColors headerColors = new()
+    {
+        DefaultColors = new(new CssColor("background-color", Color.Transparent), new CssColor("color", Color.Black)),
+        HoverColors = new(new CssColor("color", Color.FromArgb(0, 158, 247))),
+        ClickedColors = new(new CssColor("color", Color.FromArgb(0, 158, 247))),
+    };
+}

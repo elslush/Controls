@@ -1,0 +1,77 @@
+﻿@using Controls.Buttons
+@using Controls.Selection
+@using Controls.Sidebars.States
+@using Controls.Selection.SelectionBehaviors
+@using System.Text.RegularExpressions
+@inject NavigationState NavState
+
+@implements ISidebarItem
+
+<Button 
+    Href="@Link"
+    Style="@Style"
+    OnClick="EventUtil.AsNonRenderingEventHandler(OnClick)"
+    OnHover="OnHover"
+>
+    @if (!string.IsNullOrWhiteSpace(SvgTag))
+    {
+        <svg class="nav-icon" width="16" height="16"><use href="#@SvgTag"></use></svg>
+    }
+    @Text
+</Button>
+
+
+
+@code {
+    private bool isHovered;
+
+    private string Style 
+    {
+        get
+        {
+            if (Parent?.ActiveNavItem == this)
+                return Colors.ClickedColors.Value;
+            if (isHovered)
+                return Colors.HoverColors.Value;
+            return Colors.DefaultColors.Value;
+        }
+    }
+
+    [Parameter, EditorRequired]
+    public string? Text { get; set; }
+
+    [Parameter]
+    public string? Link { get; set; }
+
+    [Parameter]
+    public string? SvgTag { get; set; }
+
+    [Parameter, EditorRequired]
+    public NavColors Colors { get; set; }
+
+    [CascadingParameter]
+    public Sidebar? Parent { get; set; }
+
+    [CascadingParameter]
+    public NavHeader? CurrentHeader { get; set; }
+
+    private static readonly Regex sWhitespace = new Regex(@"\s+");
+    protected override void OnParametersSet()
+    {
+        if (Link is null && Text is not null)
+            Link = sWhitespace.Replace(Text.ToLower(), "");
+    }
+    
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender && NavState.Path.Equals(Link, StringComparison.CurrentCultureIgnoreCase))
+        {
+            Parent?.SetActiveNavItem(this);
+            CurrentHeader?.Select(true);
+        }
+    }
+
+    private void OnClick() => Parent?.SetActiveNavItem(this);
+
+    private void OnHover(bool isHovered) => this.isHovered = isHovered;
+}

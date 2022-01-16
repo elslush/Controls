@@ -1,0 +1,9 @@
+﻿.slider-container {
+    height: 0.5rem;
+    position: relative;
+    display: inline-block;
+    border: 1px solid #e0e1e4;
+    border-radius: 0.5rem;
+    background-color: #ffffff;
+    width: 100%;
+}
