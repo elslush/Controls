@@ -1,0 +1,49 @@
+﻿@using Controls.CssStates
+@using Controls.Selection
+
+<Button 
+    Href="@Href"
+    Style="@Style"
+    OnClick="OnClickChanged"
+    OnHover="OnHover"
+    ChildContent="ChildContent"
+>
+</Button>
+
+@code {
+    private bool isHovered;
+
+    private string Style => 
+        SelectionContainer?.ActiveValue == this 
+        ? SelectionColors.Value 
+        : isHovered ? HoverColors.Value : DefaultColors.Value;
+
+    [CascadingParameter]
+    public SingleSelectionContainer<SelectionButton>? SelectionContainer { get; set; }
+
+    [Parameter]
+    public string? Href { get; set; }
+
+    [Parameter, EditorRequired]
+    public CssState DefaultColors { get; init; }
+
+    [Parameter, EditorRequired]
+    public CssState HoverColors { get; init; }
+
+    [Parameter, EditorRequired]
+    public CssState SelectionColors { get; init; }
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    private void OnHover(bool isHovered) => this.isHovered = isHovered;
+
+    private Task OnClickChanged()
+    {
+        SelectionContainer?.UpdateValue(this);
+        return OnClick.InvokeAsync();
+    }
+}

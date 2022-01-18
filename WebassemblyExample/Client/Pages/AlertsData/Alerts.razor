@@ -7,6 +7,10 @@
 @using Controls.CssStates
 @using Controls.Sliders
 @using System.Collections.Immutable
+@using Controls.Lists
+@using Controls.Breadcrumbs
+@using Controls.Selection
+@using Microsoft.AspNetCore.Components.Rendering
 
 @page "/alerts"
 
@@ -15,6 +19,24 @@
         <div class="header-left">
             <h1>Alerts</h1>
             <small>An easy way to display notifications to a user.</small>
+            <List Orientation="ListOrientation.Horizontal">
+                <SelectionButton Href="#alert-container" DefaultColors=breadcrumbDefault HoverColors=breadcrumbHover SelectionColors=breadcrumbClicked>@name</SelectionButton>
+                <SelectionButton Href="@href" DefaultColors=breadcrumbDefault HoverColors=breadcrumbHover SelectionColors=breadcrumbClicked>@name</SelectionButton>
+                <SelectionButton Href="@href" DefaultColors=breadcrumbDefault HoverColors=breadcrumbHover SelectionColors=breadcrumbClicked>@name</SelectionButton>
+                <SelectionButton Href="@href" DefaultColors=breadcrumbDefault HoverColors=breadcrumbHover SelectionColors=breadcrumbClicked>@name</SelectionButton>
+                <SelectionButton Href="@href" DefaultColors=breadcrumbDefault HoverColors=breadcrumbHover SelectionColors=breadcrumbClicked>@name</SelectionButton>
+                <SingleSelectionContainer T="SelectionButton">
+                    @(item => builder => RenderBreadcrumb(builder, "", ""))
+                </SingleSelectionContainer>
+                <SelectionButton Href="">Alert Container</SelectionButton>
+                <BreadcrumbItem><a href="">Alert Container</a></BreadcrumbItem>
+                <BreadcrumbItem><a href="#alert-location">Alert Location</a></BreadcrumbItem>
+                <BreadcrumbItem><a href="#alert-publisher">Alert Publisher</a></BreadcrumbItem>
+                <BreadcrumbItem><a href="#multiple-alerts">Multiple Alerts</a></BreadcrumbItem>
+                <BreadcrumbItem><a href="#basic-alerts">Basic Alerts</a></BreadcrumbItem>
+                <BreadcrumbItem><a href="#custom-alerts">Custom Alerts</a></BreadcrumbItem>
+                <BreadcrumbItem><a href="#publisher-dependency-injection">Dependency Injection</a></BreadcrumbItem>
+            </List>
         </div>
         <div class="header-right">
             <small>By Matthew Ormson, 01/16/2022, 3 minutes to read</small>
@@ -446,6 +468,9 @@ builder.Services.AddSingleton&lt;AlertPublisher, AlertPublisher&gt;();
         ClickedColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247))),
         HoverColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247))),
     };
+    private static readonly CssState breadcrumbDefault = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)), new CssColor("color", Color.White)),
+        breadcrumbHover = new(new CssColor("background-color", Color.FromArgb(79, 132, 185)), new CssColor("color", Color.White)),
+        breadcrumbClicked = new(new CssColor("background-color", Color.FromArgb(79, 132, 185)), new CssColor("color", Color.White));
 
     private readonly Random random = new();
     private int testAlertCount = 1;

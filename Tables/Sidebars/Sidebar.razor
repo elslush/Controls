@@ -1,4 +1,4 @@
-﻿@using Controls.Lists
+﻿@using Controls.Selection
 
 <div class="sidebar-container">
     <div class="sidebar-header">
@@ -12,9 +12,9 @@
     </div>
     
     <div class="sidebar-list">
-        <CascadingValue Value=this IsFixed=true>
+        <SingleSelectionContainer T="NavItem" ActiveValueChanged="StateHasChanged">
             @ChildContent
-        </CascadingValue>
+        </SingleSelectionContainer>
     </div>
 </div>
 
@@ -29,15 +29,4 @@
 
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
-
-    public NavItem? ActiveNavItem { get; private set; }
-
-    public void SetActiveNavItem(NavItem navItem)
-    {
-        if (ActiveNavItem != navItem)
-        {
-            ActiveNavItem = navItem;
-            StateHasChanged();
-        }
-    }
 }

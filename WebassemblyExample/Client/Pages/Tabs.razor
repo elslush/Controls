@@ -1,10 +1,11 @@
 ﻿@page "/tabs"
 
 @using Controls.Tabs
+@using Controls.Lists
 @using Controls.CssStates
 @using System.Drawing
 
-<TabContainer Direction="tabDirection" TabType="tabType">
+<TabContainer Orientation="listOrientation" TabType="tabType">
     <Tab Colors="pillColors" IsDefault=true>
         <Content>
             First tab
@@ -27,7 +28,7 @@
 </TabContainer>
 
 @code {
-    private readonly TabDirection tabDirection = TabDirection.Horizontal;
+    private readonly ListOrientation listOrientation = ListOrientation.Horizontal;
     private readonly TabType tabType = TabType.Pill;
     private static readonly TabColors pillColors = new()
     {

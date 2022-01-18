@@ -1,0 +1,39 @@
+﻿@typeparam T
+
+<CascadingValue IsFixed=true Value=this>
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public EventCallback ActiveValueChanged { get; set; }
+
+    public HashSet<T> ActiveValues { get; } = new();
+
+    public Task AddValue(T value)
+    {
+        if (ActiveValues.Add(value))
+            return ActiveValueChanged.InvokeAsync();
+        return Task.CompletedTask;
+    }
+
+    public Task RemoveValue(T value)
+    {
+        if (ActiveValues.Remove(value))
+            return ActiveValueChanged.InvokeAsync();
+        return Task.CompletedTask;
+    }
+
+    public Task RemoveAll()
+    {
+        if (ActiveValues.Count > 0)
+        {
+            ActiveValues.Clear();
+            return ActiveValueChanged.InvokeAsync();
+        }
+        return Task.CompletedTask;
+    }
+}

@@ -1,7 +1,6 @@
 ﻿@using Controls.Buttons
 @using Controls.Selection
 @using Controls.Sidebars.States
-@using Controls.Selection.SelectionBehaviors
 @using System.Text.RegularExpressions
 @inject NavigationState NavState
 
@@ -29,7 +28,7 @@
     {
         get
         {
-            if (Parent?.ActiveNavItem == this)
+            if (SelectionContainer?.ActiveValue == this)
                 return Colors.ClickedColors.Value;
             if (isHovered)
                 return Colors.HoverColors.Value;
@@ -50,7 +49,7 @@
     public NavColors Colors { get; set; }
 
     [CascadingParameter]
-    public Sidebar? Parent { get; set; }
+    public SingleSelectionContainer<NavItem>? SelectionContainer { get; set; }
 
     [CascadingParameter]
     public NavHeader? CurrentHeader { get; set; }
@@ -66,12 +65,12 @@
     {
         if (firstRender && NavState.Path.Equals(Link, StringComparison.CurrentCultureIgnoreCase))
         {
-            Parent?.SetActiveNavItem(this);
+            SelectionContainer?.UpdateValue(this);
             CurrentHeader?.Select(true);
         }
     }
 
-    private void OnClick() => Parent?.SetActiveNavItem(this);
+    private void OnClick() => SelectionContainer?.UpdateValue(this);
 
     private void OnHover(bool isHovered) => this.isHovered = isHovered;
 }

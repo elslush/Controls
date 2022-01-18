@@ -23,7 +23,6 @@
     <Folder Include="DatePickers\" />
     <Folder Include="Lists\SelectionCollections\" />
     <Folder Include="Modals\" />
-    <Folder Include="Breadcrumbs\" />
     <Folder Include="FileDrops\" />
     <Folder Include="Dragging\" />
     <Folder Include="Animations\" />

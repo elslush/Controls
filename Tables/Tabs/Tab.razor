@@ -1,4 +1,5 @@
-﻿@implements ITab
+﻿@using Controls.Selection
+@implements ITab
 
 <li>
     <a
@@ -20,7 +21,7 @@
     {
         get
         {
-            if (ContainerTabSet?.ActiveTab == this)
+            if (SelectionContainer?.ActiveValue == this)
                 return Colors.ClickedColors.Value;
             if (isHovered)
                 return Colors.HoverColors.Value;
@@ -29,7 +30,7 @@
     }
 
     [CascadingParameter]
-    public TabContainer? ContainerTabSet { get; set; }
+    public SingleSelectionContainer<ITab>? SelectionContainer { get; set; }
 
     [Parameter]
     public TabColors Colors { get; set; }
@@ -54,7 +55,7 @@
 
     private Task ActivateTab()
     {
-        ContainerTabSet?.SetActiveTab(this);
+        SelectionContainer?.UpdateValue(this);
         return OnSelect.InvokeAsync();
     }
 

@@ -1,0 +1,22 @@
+﻿@typeparam T
+
+<CascadingValue IsFixed=true Value=this>
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public T? ActiveValue { get; set; }
+
+    [Parameter]
+    public EventCallback<T> ActiveValueChanged { get; set; }
+
+    public Task UpdateValue(T value)
+    {
+        ActiveValue = value;
+        return ActiveValueChanged.InvokeAsync(value);
+    }
+}

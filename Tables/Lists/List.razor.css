@@ -1,0 +1,14 @@
+﻿.list {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    list-style: none;
+}
+
+.list-horizontal {
+    flex-direction: row;
+}
+
+.list-vertical {
+    flex-direction: column;
+}

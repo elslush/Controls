@@ -1,0 +1,18 @@
+﻿<ol class="list @OrientationStyle">
+    @ChildContent
+</ol>
+
+@code {
+    private string OrientationStyle => Orientation switch
+    {
+        ListOrientation.Vertical => "list-vertical",
+        ListOrientation.Horizontal => "list-horizontal",
+        _ => string.Empty,
+    };
+
+    [Parameter]
+    public ListOrientation Orientation { get; set; } = ListOrientation.Vertical;
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+}

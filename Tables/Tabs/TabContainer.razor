@@ -1,31 +1,27 @@
-﻿
-<div class="@TabConatinerDirectionClass">
-    <ul class="tab-header-container @TabDirectionClass @TableTypeClass">
-        <CascadingValue Value=this IsFixed=true>
-            @ChildContent
-        </CascadingValue>
-    </ul>
-    
+﻿@using Controls.Selection
+@using Controls.Lists
 
-    <div class="nav-tabs-body p-4">
-        @ActiveTab?.ChildContent
+<div class="@TabContainerDirectionClass">
+    <div class="@TableTypeClass">
+        <List Orientation="Orientation">
+            <SingleSelectionContainer @bind-ActiveValue="activeTab">
+                @ChildContent
+            </SingleSelectionContainer>
+        </List>
     </div>
+
+    @activeTab?.ChildContent
 </div>
 
 
 
 @code {
-    private string TabConatinerDirectionClass => Direction switch
-    {
-        TabDirection.Vertical => "tab-container-vertical",
-        TabDirection.Horizontal => "tab-container-horizontal",
-        _ => "",
-    };
+    private ITab? activeTab;
 
-    private string TabDirectionClass => Direction switch
+    private string TabContainerDirectionClass => Orientation switch
     {
-        TabDirection.Vertical => "tab-header-container-vertical",
-        TabDirection.Horizontal => "tab-header-container-horizontal",
+        ListOrientation.Vertical => "tab-header-container-vertical",
+        ListOrientation.Horizontal => "tab-header-container-horizontal",
         _ => "",
     };
 
@@ -40,19 +36,8 @@
     public TabType TabType { get; set; } = TabType.Line;
 
     [Parameter]
-    public TabDirection Direction { get; set; } = TabDirection.Horizontal;
+    public ListOrientation Orientation { get; set; } = ListOrientation.Horizontal;
 
-    [Parameter]
+    [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
-
-    public ITab? ActiveTab { get; private set; }
-
-    public void SetActiveTab(ITab tab)
-    {
-        if (ActiveTab != tab)
-        {
-            ActiveTab = tab;
-            StateHasChanged();
-        }
-    }
 }

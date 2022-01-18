@@ -1,0 +1,8 @@
+﻿<li class="breadcrumb-item">
+	@ChildContent
+</li>
+
+@code {
+	[Parameter, EditorRequired]
+	public RenderFragment? ChildContent { get; set; }
+}
