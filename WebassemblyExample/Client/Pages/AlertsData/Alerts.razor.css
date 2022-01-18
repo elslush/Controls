@@ -10,13 +10,12 @@
 
 .header {
     border-bottom: 1px solid #e4e6ef;
-    margin-bottom: 1rem;
     padding-bottom: 1rem;
 }
 
 .content {
     overflow-y: auto;
-    padding-bottom: 20px;
+    padding: 20px;
 }
 
 .header-left {
@@ -31,10 +30,22 @@
     color: #505050
 }
 
-.example-button {
-    padding-top: 10px;
+.alert-slider-container, .card-inline, .example-button {
+    padding: 20px;
+    display: flex;
+    white-space: nowrap;
+    text-align: center;
+    align-items: center;
 }
 
-.alert-slider-container {
-    padding: 20px;
+.alert-slider-container > ::deep *, .card-inline > ::deep *, .example-button > ::deep * {
+    margin-left: 10px;
+}
+
+::deep .stepped-slider-container {
+    max-width: 300px;
+}
+
+#alert-container, #alert-location, #alert-publisher, #multiple-alerts, #basic-alerts, #custom-alerts, #publisher-dependency-injection {
+    margin-top: 20px;
 }

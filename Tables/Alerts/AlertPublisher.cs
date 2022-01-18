@@ -8,22 +8,41 @@ namespace Controls.Alerts
     public class AlertPublisher
     {
         private readonly LinkedList<ComponentMetadata> alerts = new();
-        private readonly uint maximumAlerts;
 
         public AlertPublisher(uint maximumAlerts = 1)
         {
-            this.maximumAlerts = maximumAlerts;
+            this.maximumAlerts = (int)maximumAlerts;
+        }
+
+        private int maximumAlerts;
+        public int MaximumAlerts 
+        { 
+            get => maximumAlerts;
+            set
+            {
+                maximumAlerts = value;
+                CheckAlertCount();
+            }
         }
 
         public event EventHandler? OnAlertsChanged;
 
         public IEnumerable<ComponentMetadata> Alerts => alerts;
 
+        private void CheckAlertCount()
+        {
+            if (alerts.Count > maximumAlerts)
+            {
+                int count = alerts.Count - maximumAlerts;
+                for (int i = 0; i < count; i++)
+                    alerts.RemoveFirst();
+            }
+        }
+
         public void AddAlert(ComponentMetadata componentMetadata)
         {
-            if (alerts.Count >= maximumAlerts)
-                alerts.RemoveFirst();
             alerts.AddLast(componentMetadata);
+            CheckAlertCount();
             OnAlertsChanged?.Invoke(this, EventArgs.Empty);
         }
 

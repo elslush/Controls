@@ -2,9 +2,11 @@
 @using System.Drawing
 @using Controls.Buttons
 @using Controls.Code
+@using Controls.DynamicComponents
 @using Controls.Tabs
 @using Controls.CssStates
 @using Controls.Sliders
+@using System.Collections.Immutable
 
 @page "/alerts"
 
@@ -20,128 +22,419 @@
     </div>
 
     <div class="content">
-        <h2 id="alert-container">The Alert Container</h2>
+        <div id="alert-container" class="card">
+            <h2>The Alert Container</h2>
 
-        <p>
-            The <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertContainer</span></CodeBlock> is the location on the screen
-            where the alerts will be published to.
-        </p>
-        It determines:
-        <ol>
-            <li>Location of alerts.</li>
-            <li>Maximum number of alerts to be displayed at once.</li>
-        </ol>
+            <p>
+                The <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertContainer</span></CodeBlock> is the location on the screen
+                where the alerts will be published to.
+            </p>
+            <div class="divider"></div>
+            It determines:
+            <ol>
+                <li>Location of alerts.</li>
+                <li>Maximum number of alerts to be displayed at once.</li>
+            </ol>
 
-        <CodeBlock Mode="CodeBlock.ColorMode.Dark">
-<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> 
-    <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"alertPublisher"</span>
-    <span class="hljs-attr">Location</span>=<span class="hljs-string">"alertLocation"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
-        </CodeBlock>
-
-        <h2 id="alert-location">Alert Location</h2>
-
-        <p>The <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertLocation</span></CodeBlock> enum specifies what part of the screen the alerts are posted to</p>
-
-        <TabContainer>
-            <Tab OnSelect="() => alertLocation = AlertLocation.LowerRight" IsDefault=true Colors="lineColors">
-                <Content>
-                    Lower Right
-                </Content>
-                <ChildContent>
-                    <CodeBlock Mode="CodeBlock.ColorMode.Dark">
-<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.LowerRight"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
-                    </CodeBlock>
-                </ChildContent>
-            </Tab>
-            <Tab OnSelect="() => alertLocation = AlertLocation.LowerLeft" Colors="lineColors">
-                <Content>
-                    Lower Left
-                </Content>
-                <ChildContent>
-                    <CodeBlock Mode="CodeBlock.ColorMode.Dark">
-<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.LowerLeft"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
-                    </CodeBlock>
-                </ChildContent>
-            </Tab>
-            <Tab OnSelect="() => alertLocation = AlertLocation.UpperLeft" Colors="lineColors">
-                <Content>
-                    Upper Left
-                </Content>
-                <ChildContent>
-                    <CodeBlock Mode="CodeBlock.ColorMode.Dark">
-<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.UpperLeft"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
-                    </CodeBlock>
-                </ChildContent>
-            </Tab>
-            <Tab OnSelect="() => alertLocation = AlertLocation.UpperRight" Colors="lineColors">
-                <Content>
-                    Upper Right
-                </Content>
-                <ChildContent>
-                    <CodeBlock Mode="CodeBlock.ColorMode.Dark">
-<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.UpperRight"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
-                    </CodeBlock>
-                </ChildContent>
-            </Tab>
-        </TabContainer>
-
-        <div class="example-button">
-            <BasicButton Colors=buttonColors OnClick="PublishRandom">
-                Display Example
-            </BasicButton>
+            <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"alertPublisher"</span><span class="hljs-attr">Location</span>=<span class="hljs-string">"alertLocation"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+            </CodeBlock>
         </div>
+        
+        <div id="alert-location" class="card">
+            <h2>Alert Location</h2>
 
-        <h2 id="alert-publisher">The Alert Publisher</h2>
+            <p>The <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertLocation</span></CodeBlock> enum specifies what part of the screen the alerts are posted to</p>
 
-        <p>
-            The <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertPublisher</span></CodeBlock> 
-            is where you publish your alert to.
-        </p>
+            <div class="divider"></div>
 
-        <p>
-            The <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">maximumAlerts</span></CodeBlock> parameter
-            determines how many alerts can be displayed at once.
-        </p>
+            <TabContainer>
+                <Tab OnSelect="() => alertLocation = AlertLocation.LowerRight" IsDefault=true Colors="lineColors">
+                    <Content>
+                        Lower Right
+                    </Content>
+                    <ChildContent>
+                        <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.LowerRight"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+                        </CodeBlock>
+                    </ChildContent>
+                </Tab>
+                <Tab OnSelect="() => alertLocation = AlertLocation.LowerLeft" Colors="lineColors">
+                    <Content>
+                        Lower Left
+                    </Content>
+                    <ChildContent>
+                        <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.LowerLeft"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+                        </CodeBlock>
+                    </ChildContent>
+                </Tab>
+                <Tab OnSelect="() => alertLocation = AlertLocation.UpperLeft" Colors="lineColors">
+                    <Content>
+                        Upper Left
+                    </Content>
+                    <ChildContent>
+                        <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.UpperLeft"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+                        </CodeBlock>
+                    </ChildContent>
+                </Tab>
+                <Tab OnSelect="() => alertLocation = AlertLocation.UpperRight" Colors="lineColors">
+                    <Content>
+                        Upper Right
+                    </Content>
+                    <ChildContent>
+                        <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.UpperRight"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+                        </CodeBlock>
+                    </ChildContent>
+                </Tab>
+            </TabContainer>
 
-        <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+            <div class="divider"></div>
+
+            <div class="example-button">
+                <BasicButton Colors=buttonColors OnClick="() => PublishRandom(alertPublisher)">
+                    Display in @AlertLocationName
+                </BasicButton>
+            </div>
+        </div>
+        
+        <div id="alert-publisher" class="card">
+            <h2>The Alert Publisher</h2>
+
+            <p>
+                The <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertPublisher</span></CodeBlock> 
+                is where you publish your alert to.
+            </p>
+
+            <div class="divider"></div>
+
+            <p>
+                The <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">maximumAlerts</span></CodeBlock> parameter
+                determines how many alerts can be displayed at once.
+            </p>
+
+            <CodeBlock Mode="CodeBlock.ColorMode.Dark">
 AlertPublisher alertPublisher = new(maximumAlerts: 2);
-        </CodeBlock>
+            </CodeBlock>
 
-        <p>
-            An <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertContainer</span></CodeBlock>
-            requires an <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertPublisher</span></CodeBlock>.
-        </p>
+            <div class="divider"></div>
 
-        <CodeBlock Mode="CodeBlock.ColorMode.Dark">
-<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> 
-    <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"alertPublisher"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+            <p>
+                An <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertContainer</span></CodeBlock>
+                requires an <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertPublisher</span></CodeBlock>.
+            </p>
+
+            <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"alertPublisher"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
 
 <span class="hljs-tag">&#64;<span class="hljs-name">code</span> {
-AlertPublisher alertPublisher = new(maximumAlerts: 2);
+    AlertPublisher alertPublisher = new(maximumAlerts: 2);
 }</span>
-        </CodeBlock>
+            </CodeBlock>
 
-        <div class="alert-slider-container">
-            <SteppedSlider>
-            </SteppedSlider>
+            <div class="divider"></div>
+
+            <div class="alert-slider-container">
+                <BasicButton Colors=buttonColors OnClick="() => PublishRandom(alertPublisher)">
+                    Display Example
+                </BasicButton>
+            
+                <div class="card card-inline">
+                    <h5>Maximum Alerts: </h5>
+                    <SteppedSlider MinValue=1 MaxValue=8 @bind-Value="alertPublisher.MaximumAlerts"></SteppedSlider>
+                </div>
+            
+            </div>
+        </div>
+        
+        <div id="multiple-alerts" class="card">
+            <h2>Multiple Alerts</h2>
+
+            <p>
+                Creating multiple <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertContainer</span></CodeBlock>s
+                means you can publish alerts in multiple locations.
+            </p>
+
+            <div class="divider"></div>
+
+            <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"lowerRightPublisher"</span> <span class="hljs-attr">Location</span>=<span class="hljs-string">"AlertLocation.LowerRight"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"lowerLeftPublisher"</span> <span class="hljs-attr">Location</span>=<span class="hljs-string">"AlertLocation.LowerLeft"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
+
+<span class="hljs-tag">&#64;<span class="hljs-name">code</span> {
+    AlertPublisher lowerRightPublisher = new(3), lowerLeftPublisher = new(3);
+}</span>
+            </CodeBlock>
+
+            <div class="divider"></div>
+
+            <div class="example-button">
+                <BasicButton Colors=buttonColors OnClick="() => PublishRandom(lowerLeftPublisher)">
+                    Display in Lower Left
+                </BasicButton>
+
+                <BasicButton Colors=buttonColors OnClick="() => PublishRandom(lowerRightPublisher)">
+                    Display in Lower Right
+                </BasicButton>
+            </div>
+        </div>
+
+        <div id="basic-alerts" class="card">
+            <h2>Basic Alerts</h2>
+
+            <p>
+                A basic alert can be quickly published directly through the <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertPublisher</span></CodeBlock>
+            </p>
+
+            <div class="divider"></div>
+
+            <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+AlertPublisher alertPublisher = new();
+publisher.CreateBasicAlert($"Example Alert", Color.Blue);
+            </CodeBlock>
+
+            <div class="divider"></div>
+
+            <p>
+                You may also specify a <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">TimeSpan</span></CodeBlock> in order to automatically
+                close the alert after a certain amount of time.
+            </p>
+
+            <div class="divider"></div>
+
+            <div class="alert-slider-container">
+                <BasicButton Colors=buttonColors OnClick="PublishBasic">
+                    Display Basic Alert
+                </BasicButton>
+            
+                <div class="card card-inline">
+                    <h5>Timespan (seconds): </h5>
+                    <SteppedSlider MinValue=0 MaxValue=8 @bind-Value="alertTimeout"></SteppedSlider>
+                </div>
+            </div>
+        </div>
+
+        <div id="custom-alerts" class="card">
+            <h2>Custom Alerts</h2>
+
+            <p>
+                Alerts are published to the <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertContainer</span></CodeBlock>
+                by rendering a dynamic component.
+            </p>
+
+            <div class="divider"></div>
+
+            <p>
+                A custom alert must be a razor component.
+            </p>
+
+            <div class="divider"></div>
+
+            <TabContainer>
+                <Tab IsDefault=true Colors="lineColors">
+                    <Content>
+                        CustomAlert.razor
+                    </Content>
+                    <ChildContent>
+                        <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+&#64;<span class="hljs-keyword">using</span> Controls.Alerts
+&#64;<span class="hljs-keyword">using</span> Controls.Buttons
+&#64;<span class="hljs-keyword">using</span> System.Timers
+&#64;implements IDisposable
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/2000/svg"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"24"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"24"</span> <span class="hljs-attr">viewBox</span>=<span class="hljs-string">"0 0 24 24"</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">"none"</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">opacity</span>=<span class="hljs-string">"0.3"</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z"</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">"black"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"M20 8L14 2V6C14 7.10457 14.8954 8 16 8H20Z"</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">"black"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">rect</span> <span class="hljs-attr">x</span>=<span class="hljs-string">"13.6993"</span> <span class="hljs-attr">y</span>=<span class="hljs-string">"13.6656"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"4.42828"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"1.73089"</span> <span class="hljs-attr">rx</span>=<span class="hljs-string">"0.865447"</span> <span class="hljs-attr">transform</span>=<span class="hljs-string">"rotate(45 13.6993 13.6656)"</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">"black"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">rect</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">path</span> <span class="hljs-attr">d</span>=<span class="hljs-string">"M15 12C15 14.2 13.2 16 11 16C8.8 16 7 14.2 7 12C7 9.8 8.8 8 11 8C13.2 8 15 9.8 15 12ZM11 9.6C9.68 9.6 8.6 10.68 8.6 12C8.6 13.32 9.68 14.4 11 14.4C12.32 14.4 13.4 13.32 13.4 12C13.4 10.68 12.32 9.6 11 9.6Z"</span> <span class="hljs-attr">fill</span>=<span class="hljs-string">"black"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">path</span>&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"custom-alert-text"</span>&gt;</span>
+	    <span class="hljs-tag">&lt;<span class="hljs-name">h5</span>&gt;</span>This is a custom alert.<span class="hljs-tag">&lt;/<span class="hljs-name">h5</span>&gt;</span>
+	    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>All alerts are fully customizable due to the new DynamicComponent component in Blazor.<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"alert-button-container"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Button</span> <span class="hljs-attr">OnClick</span>=<span class="hljs-string">"OnClose"</span>&gt;</span>
+            ×
+        <span class="hljs-tag">&lt;/<span class="hljs-name">Button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+&#64;<span class="hljs-name">code</span> {
+    <span class="hljs-keyword">private</span> Timer? timer;
+
+    [<span class="hljs-meta">Parameter</span>]
+    <span class="hljs-keyword">public</span> EventCallback OnClose { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    [<span class="hljs-meta">Parameter</span>]
+    <span class="hljs-keyword">public</span> TimeSpan? AutoHideTime { <span class="hljs-keyword">get</span>; <span class="hljs-keyword">set</span>; }
+
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnParametersSet</span>()</span>
+    {
+        <span class="hljs-keyword">if</span> (AutoHideTime <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span> &amp;&amp; AutoHideTime.Value.TotalMilliseconds &gt; <span class="hljs-number">0</span>)
+        {
+            timer = <span class="hljs-keyword">new</span>(AutoHideTime.Value.TotalMilliseconds)
+            {
+                AutoReset = <span class="hljs-literal">false</span>,
+                Enabled = <span class="hljs-literal">true</span>,
+            };
+            timer.Elapsed += (_, __) =&gt; OnClose.InvokeAsync();
+        }
+    }
+
+    <span class="hljs-keyword">void</span> IDisposable.Dispose()
+    {
+        timer?.Dispose();
+    }
+}
+                        </CodeBlock>
+                    </ChildContent>
+                </Tab>
+                <Tab Colors="lineColors">
+                    <Content>CustomAlert.razor.css</Content>
+                    <ChildContent>
+                        <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+<span class="hljs-selector-class">.alert</span> {
+    <span class="hljs-attribute">background-color</span>: <span class="hljs-number">#f1faff</span>;
+    <span class="hljs-attribute">flex-direction</span>: row;
+    <span class="hljs-attribute">padding</span>: <span class="hljs-number">1.25rem</span>;
+    <span class="hljs-attribute">border</span>: <span class="hljs-number">1px</span> solid <span class="hljs-number">#009ef7</span>;
+    <span class="hljs-attribute">display</span>: flex;
+    <span class="hljs-attribute">border-radius</span>: <span class="hljs-number">0.475rem</span>;
+    <span class="hljs-attribute">position</span>: relative;
+    <span class="hljs-attribute">margin-top</span>: <span class="hljs-number">15px</span>;
+}
+
+<span class="hljs-selector-class">.custom-alert-text</span> {
+    <span class="hljs-attribute">display</span>: flex;
+    <span class="hljs-attribute">flex-direction</span>: column;
+}
+
+<span class="hljs-selector-class">.custom-alert-text</span> &gt; <span class="hljs-selector-tag">h5</span> {
+    <span class="hljs-attribute">margin-bottom</span>: <span class="hljs-number">0.25rem</span>;
+}
+
+<span class="hljs-selector-class">.custom-alert-text</span> &gt; <span class="hljs-selector-tag">span</span> {
+    <span class="hljs-attribute">color</span>: <span class="hljs-number">#5e6278</span>;
+}
+
+svg {
+    <span class="hljs-attribute">height</span>: <span class="hljs-number">2.5rem</span>;
+    <span class="hljs-attribute">width</span>: <span class="hljs-number">2.5rem</span>;
+    <span class="hljs-attribute">margin-right</span>: <span class="hljs-number">10px</span>;
+}
+
+<span class="hljs-selector-class">.svg-container</span> {
+    <span class="hljs-attribute">line-height</span>: <span class="hljs-number">1</span>;
+}
+
+::deep svg * {
+    <span class="hljs-attribute">transition</span>: fill .<span class="hljs-number">3s</span> ease;
+    fill: <span class="hljs-number">#009ef7</span>;
+}
+
+::deep .btn {
+    <span class="hljs-attribute">color</span>: <span class="hljs-number">#009ef7</span>;
+    <span class="hljs-attribute">font-weight</span>: bold;
+    <span class="hljs-attribute">font-size</span>: <span class="hljs-number">22px</span>;
+    <span class="hljs-attribute">line-height</span>: <span class="hljs-number">20px</span>;
+    <span class="hljs-attribute">cursor</span>: pointer;
+    <span class="hljs-attribute">transition</span>: <span class="hljs-number">0.3s</span>;
+    <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>;
+}
+
+::deep .btn:hover {
+    <span class="hljs-attribute">color</span>: black;
+}
+
+<span class="hljs-selector-class">.alert-button-container</span> {
+    <span class="hljs-attribute">vertical-align</span>: middle;
+    <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">15px</span>;
+    <span class="hljs-attribute">display</span>: flex;
+    <span class="hljs-attribute">align-items</span>: center;
+}
+                        </CodeBlock>
+                    </ChildContent>
+                </Tab>
+            </TabContainer>
+
+            <div class="divider"></div>
+
+            <p>
+                In order to publish to an <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertContainer</span></CodeBlock>, 
+                you must construct and pass a <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">ComponentMetadata</span></CodeBlock> object.
+            </p>
+
+            <div class="divider"></div>
+
+            <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+ComponentMetadata alert = <span class="hljs-keyword">new</span>(<span class="hljs-keyword">typeof</span>(CustomAlert));
+<span class="hljs-keyword">var</span> parameters = <span class="hljs-keyword">new</span> Dictionary()
+{
+    { <span class="hljs-string">"OnClose"</span>, EventCallback.Factory.Create(alertPublisher, () =&gt; alertPublisher.RemoveAlert(alert)) },
+};
+<span class="hljs-keyword">if</span> (autoHideTime <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">null</span>)
+    parameters.Add(<span class="hljs-string">"AutoHideTime"</span>, autoHideTime);
+alert.Parameters = parameters.ToImmutableDictionary();
+alertPublisher.AddAlert(alert);
+            </CodeBlock>
+
+            <div class="divider"></div>
+
+            <div class="alert-slider-container">
+                <BasicButton Colors=buttonColors OnClick="PublishCustom">
+                    Display Custom Alert
+                </BasicButton>
+
+                <BasicButton Colors=buttonColors OnClick="PublishBasic">
+                    Display Basic Alert
+                </BasicButton>
+            
+                <div class="card card-inline">
+                    <h5>Timespan (seconds): </h5>
+                    <SteppedSlider MinValue=0 MaxValue=8 @bind-Value="alertTimeout"></SteppedSlider>
+                </div>
+            </div>
+        </div>
+
+        <div id="publisher-dependency-injection" class="card">
+            <h2>Dependency Injection</h2>
+
+            <p>
+                Because the <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertPublisher</span></CodeBlock> is decoupled from the
+                <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">AlertContainer</span></CodeBlock>, you can inject it at runtime in order
+                to display an alert from anywhere.
+            </p>
+
+            <div class="divider"></div>
+
+            <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+builder.Services.AddSingleton&lt;AlertPublisher, AlertPublisher&gt;();
+            </CodeBlock>
         </div>
 
     </div>
 </div>
 
-<AlertContainer Publisher="alertPublisher" Location="alertLocation">
-
-</AlertContainer>
+<AlertContainer Publisher="alertPublisher" Location="alertLocation"></AlertContainer>
+<AlertContainer Publisher="lowerRightPublisher" Location="AlertLocation.LowerRight"></AlertContainer>
+<AlertContainer Publisher="lowerLeftPublisher" Location="AlertLocation.LowerLeft"></AlertContainer>
 
 @code {
-    private readonly AlertPublisher alertPublisher = new(maximumAlerts: 2);
+    private readonly AlertPublisher alertPublisher = new(maximumAlerts: 2),
+        lowerRightPublisher = new(3),
+        lowerLeftPublisher = new(3);
     private AlertLocation alertLocation = AlertLocation.LowerRight;
+    private string AlertLocationName => alertLocation switch
+    {
+        AlertLocation.LowerRight => "Lower Right",
+        AlertLocation.LowerLeft => "Lower Left",
+        AlertLocation.UpperLeft => "Upper Left",
+        AlertLocation.UpperRight => "Upper Right",
+        _ => string.Empty,
+    };
     private static readonly ButtonColors buttonColors = new()
     {
         DefaultColors = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)), new CssColor("color", Color.White)),
@@ -156,21 +449,30 @@ AlertPublisher alertPublisher = new(maximumAlerts: 2);
 
     private readonly Random random = new();
     private int testAlertCount = 1;
+    private int alertTimeout = 0;
 
-    //protected override void OnAfterRender(bool firstRender)
-    //{
-    //    if (alertPublisher is not null && firstRender)
-    //    {
-    //        alertPublisher.CreateBasicAlert("Test Alert 1", Color.Green);
-    //        alertPublisher.CreateBasicAlert("Test Alert 2", Color.BlueViolet, TimeSpan.FromSeconds(10));
-    //    }
-
-    //}
-
-    private void PublishRandom()
+    private void PublishRandom(AlertPublisher publisher)
     {
-        alertPublisher.CreateBasicAlert($"Example Alert {testAlertCount}", GetRandomColor());
+        publisher.CreateBasicAlert($"Example Alert {testAlertCount}", GetRandomColor());
         testAlertCount++;
+    }
+
+    private void PublishBasic()
+    {
+        alertPublisher.CreateBasicAlert($"Example Alert", Color.Blue, alertTimeout > 0 ? TimeSpan.FromSeconds(alertTimeout) : null);
+    }
+
+    private void PublishCustom()
+    {
+        ComponentMetadata alert = new(typeof(CustomAlert));
+        var parameters = new Dictionary<string, object>()
+        {
+            { "OnClose", EventCallback.Factory.Create(alertPublisher, () => alertPublisher.RemoveAlert(alert)) },
+        };
+        if (alertTimeout > 0)
+            parameters.Add("AutoHideTime",  TimeSpan.FromSeconds(alertTimeout));
+        alert.Parameters = parameters.ToImmutableDictionary();
+        alertPublisher.AddAlert(alert);
     }
 
     private Color GetRandomColor() => Color.FromArgb(random.Next(0, 255), random.Next(0, 255), random.Next(0, 255));

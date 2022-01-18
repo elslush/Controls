@@ -56,3 +56,21 @@
 .header-badge {
     margin-left: 5px;
 }
+
+.card {
+    padding: 1.25rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 2px 0 rgb(0 0 0 / 8%), 0 0 2px 0 rgb(0 0 0 / 8%), 0 4px 12px 0 rgb(0 0 0 / 4%);
+    background-color: #ffffff;
+}
+
+.divider {
+    padding: 10px 0px 10px 0px;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+}

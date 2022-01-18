@@ -1,4 +1,7 @@
 ﻿.alert-container {
-    position:fixed;
+    position: fixed;
     margin: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
 }

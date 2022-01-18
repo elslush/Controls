@@ -6,7 +6,4 @@
     border-radius: 0.475rem;
     text-decoration: none;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    background-color: inherit;
-    color: inherit;
-    border-color: inherit;
 }

@@ -3,9 +3,10 @@
     color: white;
     margin-top: 15px;
     border-radius: 10px;
+    width: fit-content;
+    float: right;
 }
 
-/* The close button */
 ::deep .btn {
     margin-left: 15px;
     color: white;

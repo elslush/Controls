@@ -1,0 +1,59 @@
+﻿.alert {
+    background-color: #f1faff;
+    flex-direction: row;
+    padding: 1.25rem;
+    border: 1px solid #009ef7;
+    display: flex;
+    border-radius: 0.475rem;
+    position: relative;
+    margin-top: 15px;
+}
+
+.custom-alert-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-alert-text > h5 {
+    margin-bottom: 0.25rem;
+}
+
+.custom-alert-text > span {
+    color: #5e6278;
+}
+
+svg {
+    height: 2.5rem;
+    width: 2.5rem;
+    margin-right: 10px;
+}
+
+.svg-container {
+    line-height: 1;
+}
+
+::deep svg * {
+    transition: fill .3s ease;
+    fill: #009ef7;
+}
+
+::deep .btn {
+    color: #009ef7;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 0;
+}
+
+::deep .btn:hover {
+    color: black;
+}
+
+.alert-button-container {
+    vertical-align: middle;
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
