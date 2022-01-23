@@ -1,0 +1,33 @@
+﻿@using Controls.CssStates
+@using Controls.Tabs
+@using System.Drawing
+
+<Tab
+    Content=Content
+    ChildContent=ChildContent
+    IsDefault=IsDefault
+    OnSelect=OnSelect
+    DefaultColors=defaultColors
+    HoverColors=hoverColors
+    SelectionColors=selectionColors
+>
+
+</Tab>
+
+@code {
+    private static readonly CssStyle defaultColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.Transparent)),
+            selectionColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247))),
+            hoverColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247)));
+
+    [Parameter, EditorRequired]
+    public RenderFragment? Content { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool IsDefault { get; set; }
+
+    [Parameter]
+    public EventCallback OnSelect { get; set; }
+}

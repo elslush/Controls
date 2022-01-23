@@ -1,0 +1,47 @@
+﻿@using System.Text
+
+<CascadingValue IsFixed=true Value=this>
+    @ChildContent
+</CascadingValue>
+
+@code {
+    private readonly HashSet<IAnimation> animations = new();
+    bool isCachedClass, isCachedStyle;
+    private string cachedClass = string.Empty, cachedStyles = string.Empty;
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    public void AddAnimation(IAnimation animation)
+    {
+        animations.Add(animation);
+        isCachedClass = false;
+        isCachedStyle = false;
+    }
+
+    public string AnmiationClasses
+    {
+        get
+        {
+            if (!isCachedClass)
+            {
+                cachedClass = string.Join(' ', animations.Select(animation => animation.Class));
+                isCachedClass = true;
+            }
+            return cachedClass;
+        }
+    }
+
+    public string AnimationStyles
+    {
+        get
+        {
+            if (!isCachedStyle)
+            {
+                cachedStyles = string.Join(' ', animations.SelectMany(animation => animation.Variables));
+                isCachedStyle = true;
+            }
+            return cachedStyles;
+        }
+    }
+}

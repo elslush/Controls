@@ -1,4 +1,6 @@
-﻿<Button 
+﻿@using Controls.CssStates
+
+<Button 
     Href="@Href"
     Style="@Style"
     OnClick="OnClick"
@@ -10,13 +12,16 @@
 @code {
     private bool isHovered;
 
-    private string Style => isHovered ? Colors.HoverColors.Value : Colors.DefaultColors.Value;
+    private string Style => isHovered ? HoverColors.Value : DefaultColors.Value;
 
     [Parameter]
     public string? Href { get; set; }
 
     [Parameter, EditorRequired]
-    public ButtonColors Colors { get; set; }
+    public CssStyle DefaultColors { get; init; }
+
+    [Parameter, EditorRequired]
+    public CssStyle HoverColors { get; init; }
 
     [Parameter]
     public EventCallback OnClick { get; set; }

@@ -1,0 +1,27 @@
+﻿@using Controls.CssStates
+@using System.Drawing
+@using Controls.Buttons
+
+<SelectionButton 
+    Href=@Href 
+    DefaultColors=buttonDefault 
+    HoverColors=buttonHover 
+    SelectionColors=buttonClicked 
+    ChildContent=ChildContent 
+    OnClick=OnClick>
+</SelectionButton>
+
+@code {
+    private static readonly CssStyle buttonDefault = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)), new CssColor("color", Color.White)),
+        buttonHover = new(new CssColor("background-color", Color.FromArgb(79, 132, 185)), new CssColor("color", Color.White)),
+        buttonClicked = new(new CssColor("background-color", Color.FromArgb(79, 132, 185)), new CssColor("color", Color.White));
+
+    [Parameter]
+    public string? Href { get; set; }
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+}

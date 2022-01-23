@@ -1,0 +1,10 @@
+﻿@implements IAnimation
+
+@ChildContent(classString)
+
+@code {
+    private const string classString = "grow";
+
+    [Parameter, EditorRequired]
+    public RenderFragment<string> ChildContent { get; set; }
+}

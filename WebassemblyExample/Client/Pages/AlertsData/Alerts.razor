@@ -11,31 +11,26 @@
 @using Controls.Breadcrumbs
 @using Controls.Selection
 @using Microsoft.AspNetCore.Components.Rendering
+@using WebassemblyExample.Client.Pages.ButtonsData
+@using WebassemblyExample.Client.Pages.TabsData
 
 @page "/alerts"
 
-<div class="container">
-    <div class="header">
-        <div class="header-left">
+<div class="inner-container container">
+    <div class="inner-header header">
+        <div class="inner-header-left header-left">
             <h1>Alerts</h1>
             <small>An easy way to display notifications to a user.</small>
             <List Orientation="ListOrientation.Horizontal">
-                <SelectionButton Href="#alert-container" DefaultColors=breadcrumbDefault HoverColors=breadcrumbHover SelectionColors=breadcrumbClicked>@name</SelectionButton>
-                <SelectionButton Href="@href" DefaultColors=breadcrumbDefault HoverColors=breadcrumbHover SelectionColors=breadcrumbClicked>@name</SelectionButton>
-                <SelectionButton Href="@href" DefaultColors=breadcrumbDefault HoverColors=breadcrumbHover SelectionColors=breadcrumbClicked>@name</SelectionButton>
-                <SelectionButton Href="@href" DefaultColors=breadcrumbDefault HoverColors=breadcrumbHover SelectionColors=breadcrumbClicked>@name</SelectionButton>
-                <SelectionButton Href="@href" DefaultColors=breadcrumbDefault HoverColors=breadcrumbHover SelectionColors=breadcrumbClicked>@name</SelectionButton>
                 <SingleSelectionContainer T="SelectionButton">
-                    @(item => builder => RenderBreadcrumb(builder, "", ""))
+                    <DefaultSelectionButton>Alert Container</DefaultSelectionButton>
+                    <DefaultSelectionButton>Alert Location</DefaultSelectionButton>
+                    <DefaultSelectionButton>Alert Publisher</DefaultSelectionButton>
+                    <DefaultSelectionButton>Multiple Alerts</DefaultSelectionButton>
+                    <DefaultSelectionButton>Basic Alerts</DefaultSelectionButton>
+                    <DefaultSelectionButton>Custom Alerts</DefaultSelectionButton>
+                    <DefaultSelectionButton>Dependency Injection</DefaultSelectionButton>
                 </SingleSelectionContainer>
-                <SelectionButton Href="">Alert Container</SelectionButton>
-                <BreadcrumbItem><a href="">Alert Container</a></BreadcrumbItem>
-                <BreadcrumbItem><a href="#alert-location">Alert Location</a></BreadcrumbItem>
-                <BreadcrumbItem><a href="#alert-publisher">Alert Publisher</a></BreadcrumbItem>
-                <BreadcrumbItem><a href="#multiple-alerts">Multiple Alerts</a></BreadcrumbItem>
-                <BreadcrumbItem><a href="#basic-alerts">Basic Alerts</a></BreadcrumbItem>
-                <BreadcrumbItem><a href="#custom-alerts">Custom Alerts</a></BreadcrumbItem>
-                <BreadcrumbItem><a href="#publisher-dependency-injection">Dependency Injection</a></BreadcrumbItem>
             </List>
         </div>
         <div class="header-right">
@@ -43,7 +38,7 @@
         </div>
     </div>
 
-    <div class="content">
+    <div class="inner-content content">
         <div id="alert-container" class="card">
             <h2>The Alert Container</h2>
 
@@ -70,8 +65,8 @@
 
             <div class="divider"></div>
 
-            <TabContainer>
-                <Tab OnSelect="() => alertLocation = AlertLocation.LowerRight" IsDefault=true Colors="lineColors">
+            <TabContainer TabType="TabType.Line">
+                <DefaultLineTab OnSelect="() => alertLocation = AlertLocation.LowerRight" IsDefault=true>
                     <Content>
                         Lower Right
                     </Content>
@@ -80,8 +75,8 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.LowerRight"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
                         </CodeBlock>
                     </ChildContent>
-                </Tab>
-                <Tab OnSelect="() => alertLocation = AlertLocation.LowerLeft" Colors="lineColors">
+                </DefaultLineTab>
+                <DefaultLineTab OnSelect="() => alertLocation = AlertLocation.LowerLeft">
                     <Content>
                         Lower Left
                     </Content>
@@ -90,8 +85,8 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.LowerLeft"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
                         </CodeBlock>
                     </ChildContent>
-                </Tab>
-                <Tab OnSelect="() => alertLocation = AlertLocation.UpperLeft" Colors="lineColors">
+                </DefaultLineTab>
+                <DefaultLineTab OnSelect="() => alertLocation = AlertLocation.UpperLeft">
                     <Content>
                         Upper Left
                     </Content>
@@ -100,8 +95,8 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.UpperLeft"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
                         </CodeBlock>
                     </ChildContent>
-                </Tab>
-                <Tab OnSelect="() => alertLocation = AlertLocation.UpperRight" Colors="lineColors">
+                </DefaultLineTab>
+                <DefaultLineTab OnSelect="() => alertLocation = AlertLocation.UpperRight">
                     <Content>
                         Upper Right
                     </Content>
@@ -110,15 +105,15 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">AlertContainer</span> <span class="hljs-attr">Publisher</span>=<span class="hljs-string">"AlertLocation.UpperRight"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">AlertContainer</span>&gt;</span>
                         </CodeBlock>
                     </ChildContent>
-                </Tab>
+                </DefaultLineTab>
             </TabContainer>
 
             <div class="divider"></div>
 
             <div class="example-button">
-                <BasicButton Colors=buttonColors OnClick="() => PublishRandom(alertPublisher)">
+                <DefaultBasicButton OnClick="() => PublishRandom(alertPublisher)">
                     Display in @AlertLocationName
-                </BasicButton>
+                </DefaultBasicButton>
             </div>
         </div>
         
@@ -159,9 +154,9 @@ AlertPublisher alertPublisher = new(maximumAlerts: 2);
             <div class="divider"></div>
 
             <div class="alert-slider-container">
-                <BasicButton Colors=buttonColors OnClick="() => PublishRandom(alertPublisher)">
+                <DefaultBasicButton OnClick="() => PublishRandom(alertPublisher)">
                     Display Example
-                </BasicButton>
+                </DefaultBasicButton>
             
                 <div class="card card-inline">
                     <h5>Maximum Alerts: </h5>
@@ -193,13 +188,13 @@ AlertPublisher alertPublisher = new(maximumAlerts: 2);
             <div class="divider"></div>
 
             <div class="example-button">
-                <BasicButton Colors=buttonColors OnClick="() => PublishRandom(lowerLeftPublisher)">
+                <DefaultBasicButton OnClick="() => PublishRandom(lowerLeftPublisher)">
                     Display in Lower Left
-                </BasicButton>
+                </DefaultBasicButton>
 
-                <BasicButton Colors=buttonColors OnClick="() => PublishRandom(lowerRightPublisher)">
+                <DefaultBasicButton OnClick="() => PublishRandom(lowerRightPublisher)">
                     Display in Lower Right
-                </BasicButton>
+                </DefaultBasicButton>
             </div>
         </div>
 
@@ -227,9 +222,9 @@ publisher.CreateBasicAlert($"Example Alert", Color.Blue);
             <div class="divider"></div>
 
             <div class="alert-slider-container">
-                <BasicButton Colors=buttonColors OnClick="PublishBasic">
+                <DefaultBasicButton OnClick="PublishBasic">
                     Display Basic Alert
-                </BasicButton>
+                </DefaultBasicButton>
             
                 <div class="card card-inline">
                     <h5>Timespan (seconds): </h5>
@@ -254,8 +249,8 @@ publisher.CreateBasicAlert($"Example Alert", Color.Blue);
 
             <div class="divider"></div>
 
-            <TabContainer>
-                <Tab IsDefault=true Colors="lineColors">
+            <TabContainer TabType="TabType.Line">
+                <DefaultLineTab IsDefault=true>
                     <Content>
                         CustomAlert.razor
                     </Content>
@@ -313,8 +308,8 @@ publisher.CreateBasicAlert($"Example Alert", Color.Blue);
 }
                         </CodeBlock>
                     </ChildContent>
-                </Tab>
-                <Tab Colors="lineColors">
+                </DefaultLineTab>
+                <DefaultLineTab>
                     <Content>CustomAlert.razor.css</Content>
                     <ChildContent>
                         <CodeBlock Mode="CodeBlock.ColorMode.Dark">
@@ -379,7 +374,7 @@ svg {
 }
                         </CodeBlock>
                     </ChildContent>
-                </Tab>
+                </DefaultLineTab>
             </TabContainer>
 
             <div class="divider"></div>
@@ -406,13 +401,9 @@ alertPublisher.AddAlert(alert);
             <div class="divider"></div>
 
             <div class="alert-slider-container">
-                <BasicButton Colors=buttonColors OnClick="PublishCustom">
-                    Display Custom Alert
-                </BasicButton>
-
-                <BasicButton Colors=buttonColors OnClick="PublishBasic">
+                <DefaultBasicButton OnClick="PublishCustom">
                     Display Basic Alert
-                </BasicButton>
+                </DefaultBasicButton>
             
                 <div class="card card-inline">
                     <h5>Timespan (seconds): </h5>
@@ -457,20 +448,6 @@ builder.Services.AddSingleton&lt;AlertPublisher, AlertPublisher&gt;();
         AlertLocation.UpperRight => "Upper Right",
         _ => string.Empty,
     };
-    private static readonly ButtonColors buttonColors = new()
-    {
-        DefaultColors = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)), new CssColor("color", Color.White)),
-        HoverColors = new(new CssColor("background-color", Color.FromArgb(79, 132, 185)), new CssColor("color", Color.White)),
-    };
-    private static readonly TabColors lineColors = new()
-    {
-        DefaultColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.Transparent)),
-        ClickedColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247))),
-        HoverColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247))),
-    };
-    private static readonly CssState breadcrumbDefault = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)), new CssColor("color", Color.White)),
-        breadcrumbHover = new(new CssColor("background-color", Color.FromArgb(79, 132, 185)), new CssColor("color", Color.White)),
-        breadcrumbClicked = new(new CssColor("background-color", Color.FromArgb(79, 132, 185)), new CssColor("color", Color.White));
 
     private readonly Random random = new();
     private int testAlertCount = 1;

@@ -25,13 +25,13 @@
     public string? Href { get; set; }
 
     [Parameter, EditorRequired]
-    public CssState DefaultColors { get; init; }
+    public CssStyle DefaultColors { get; set; }
 
     [Parameter, EditorRequired]
-    public CssState HoverColors { get; init; }
+    public CssStyle HoverColors { get; set; }
 
     [Parameter, EditorRequired]
-    public CssState SelectionColors { get; init; }
+    public CssStyle SelectionColors { get; set; }
 
     [Parameter]
     public EventCallback OnClick { get; set; }

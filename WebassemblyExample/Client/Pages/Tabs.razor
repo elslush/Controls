@@ -5,7 +5,7 @@
 @using Controls.CssStates
 @using System.Drawing
 
-<TabContainer Orientation="listOrientation" TabType="tabType">
+@*<TabContainer Orientation="listOrientation" TabType="tabType">
     <Tab Colors="pillColors" IsDefault=true>
         <Content>
             First tab
@@ -25,21 +25,12 @@
             <h4>Hello from the second tab!</h4>
         </ChildContent>
     </Tab>
-</TabContainer>
+</TabContainer>*@
 
 @code {
     private readonly ListOrientation listOrientation = ListOrientation.Horizontal;
     private readonly TabType tabType = TabType.Pill;
-    private static readonly TabColors pillColors = new()
-    {
-        DefaultColors = new(new CssColor("background-color", Color.White), new CssColor("color", Color.FromArgb(0, 158, 247))),
-        ClickedColors = new(new CssColor("background-color", Color.FromArgb(0, 158, 247)), new CssColor("color", Color.White)),
-        HoverColors = new(new CssColor("background-color", Color.White), new CssColor("color", Color.FromArgb(0, 109, 171))),
-        };
-    private static readonly TabColors lineColors = new()
-    {
-        DefaultColors = new(new CssColor("color", Color.Gray), new CssColor("border-bottom-color", Color.Transparent)),
-        ClickedColors = new(new CssColor("color", Color.Gray), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247))),
-        HoverColors = new(new CssColor("color", Color.Gray), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247))),
-    };
+    private static readonly CssStyle defaultPillColors = new(new CssColor("background-color", Color.White), new CssColor("color", Color.FromArgb(0, 158, 247))),
+        selectionPillColors = new(new CssColor("background-color", Color.FromArgb(0, 158, 247)), new CssColor("color", Color.White)),
+        hoverPillColors = new(new CssColor("background-color", Color.White), new CssColor("color", Color.FromArgb(0, 109, 171)));
 }

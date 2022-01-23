@@ -1,6 +1,8 @@
-﻿<a 
+﻿@using Controls.Animations
+
+<a 
     href="@Href" 
-    class="btn"
+    class="btn @AnimationContainer?.AnmiationClasses"
     style="@Style"
     @onclick="OnClick"
     @onmouseover="OnMouseOver"
@@ -10,6 +12,9 @@
 </a>
 
 @code {
+    [CascadingParameter]
+    public AnimationContainer? AnimationContainer { get; set; }
+
     [Parameter]
     public string? Style { get; set; }
 

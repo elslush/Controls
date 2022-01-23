@@ -2,13 +2,14 @@
 @using Controls.Buttons
 @using System.Drawing
 @using Controls.Badges
+@using Controls.CssStates
 
 <div class="container">
     <div class="header">
         <div class="header-left">
             <h3 class="header-title">Blazor Controls Documentation</h3>
             <span class="header-badge">
-                <Badge BackgroundColor="Color.FromArgb(94, 164, 228)">v0.1</Badge>
+                <Badge Style=badgeStyle>v0.1</Badge>
             </span>
         </div>
         <div class="header-right">
@@ -29,6 +30,5 @@
 </div>
 
 @code {
-    
-    
+    private static readonly CssStyle badgeStyle = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)));
 }

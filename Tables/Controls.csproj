@@ -25,7 +25,6 @@
     <Folder Include="Modals\" />
     <Folder Include="FileDrops\" />
     <Folder Include="Dragging\" />
-    <Folder Include="Animations\" />
     <Folder Include="Cookies\" />
     <Folder Include="Editing\" />
     <Folder Include="Catpchas\" />

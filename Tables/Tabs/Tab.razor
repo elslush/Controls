@@ -1,4 +1,6 @@
-﻿@using Controls.Selection
+﻿@using Controls.CssStates
+@using Controls.Selection
+@using Controls.Buttons
 @implements ITab
 
 <li>
@@ -22,23 +24,29 @@
         get
         {
             if (SelectionContainer?.ActiveValue == this)
-                return Colors.ClickedColors.Value;
+                return SelectionColors.Value;
             if (isHovered)
-                return Colors.HoverColors.Value;
-            return Colors.DefaultColors.Value;
+                return HoverColors.Value;
+            return DefaultColors.Value;
         }
     }
 
     [CascadingParameter]
     public SingleSelectionContainer<ITab>? SelectionContainer { get; set; }
 
-    [Parameter]
-    public TabColors Colors { get; set; }
+    [Parameter, EditorRequired]
+    public CssStyle DefaultColors { get; set; }
 
-    [Parameter]
+    [Parameter, EditorRequired]
+    public CssStyle HoverColors { get; set; }
+
+    [Parameter, EditorRequired]
+    public CssStyle SelectionColors { get; set; }
+
+    [Parameter, EditorRequired]
     public RenderFragment? Content { get; set; }
 
-    [Parameter]
+    [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]

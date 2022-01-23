@@ -2,11 +2,11 @@
 
 namespace Controls.CssStates
 {
-    public readonly struct CssState
+    public readonly struct CssStyle
     {
-        public CssState(params ICssValue[] colors) : this((IEnumerable<ICssValue>)colors) { }
+        public CssStyle(params ICssValue[] colors) : this((IEnumerable<ICssValue>)colors) { }
 
-        public CssState(IEnumerable<ICssValue> colors)
+        public CssStyle(IEnumerable<ICssValue> colors)
         {
             StringBuilder css = new();
             foreach (var color in colors)

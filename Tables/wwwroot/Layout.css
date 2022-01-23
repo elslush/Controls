@@ -64,6 +64,10 @@
     background-color: #ffffff;
 }
 
+.card:not(.card-inline) {
+    margin-top: 20px;
+}
+
 .divider {
     padding: 10px 0px 10px 0px;
 }

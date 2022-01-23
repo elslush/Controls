@@ -4,10 +4,10 @@ namespace Controls.Sidebars
 {
     public readonly struct NavColors
     {
-        public CssState DefaultColors { get; init; }
+        public CssStyle DefaultColors { get; init; }
 
-        public CssState HoverColors { get; init; }
+        public CssStyle HoverColors { get; init; }
 
-        public CssState ClickedColors { get; init; }
+        public CssStyle ClickedColors { get; init; }
     }
 }
