@@ -30,6 +30,7 @@
     <Folder Include="Catpchas\" />
     <Folder Include="Clipboards\" />
     <Folder Include="Chatting\" />
+    <Folder Include="Undo\" />
     <Folder Include="QRCodes\" />
     <Folder Include="Ratings\" />
     <Folder Include="Scrolling\" />
