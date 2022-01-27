@@ -12,7 +12,7 @@
     </div>
     
     <div class="sidebar-list">
-        <SingleSelectionContainer T=string ActiveValueChanged=StateHasChanged>
+        <SingleSelectionContainer T=string ActiveValueChanged=OnClick>
             @ChildContent
         </SingleSelectionContainer>
     </div>
@@ -29,4 +29,6 @@
 
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
+
+    private Task OnClick() => InvokeAsync(StateHasChanged);
 }

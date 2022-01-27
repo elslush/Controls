@@ -10,7 +10,7 @@
     Href=@Link
     CssClasses=CssClasses
     CssStyles=CssStyles
-    OnClick="EventUtil.AsNonRenderingEventHandler(OnClick)"
+    OnClick="OnClick"
     OnHover=OnHover
 >
     @if (!string.IsNullOrWhiteSpace(SvgTag))
@@ -21,7 +21,7 @@
 </Button>
 
 @code {
-    private bool isHovered;
+    private bool isHovered, shouldRender;
 
     private Styles CssStyles => 
         SelectionContainer?.IsSelected(Link) ?? false
@@ -55,15 +55,26 @@
     [Parameter]
     public Classes? CssClasses { get; set; }
 
-    private void OnHover(bool isHovered) => this.isHovered = isHovered;
+    protected override bool ShouldRender() => shouldRender;
 
-    private Task OnClick() => SelectionContainer?.AddValue(Link) ?? Task.CompletedTask;
+    private void OnHover(bool isHovered)
+    {
+        this.isHovered = isHovered;
+        shouldRender = true;
+    }
+
+    private Task OnClick()
+    {
+        shouldRender = true;
+        return SelectionContainer?.AddValue(Link) ?? Task.CompletedTask;
+    }
 
     private static readonly Regex sWhitespace = new Regex(@"\s+");
     protected override void OnParametersSet()
     {
         if (string.IsNullOrEmpty(Link) && Text is not null)
             Link = sWhitespace.Replace(Text.ToLower(), "");
+        shouldRender = true;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -71,8 +82,16 @@
         if (firstRender && NavState.Path.Equals(Link, StringComparison.CurrentCultureIgnoreCase))
         {
             if (SelectionContainer is not null)
+            {
                 await SelectionContainer.AddValue(Link);
+                SelectionContainer.ActiveValueChanged = () =>
+                {
+
+                };
+            }
+            
             CurrentHeader?.Select(true);
         }
+        shouldRender = false;
     }
 }
