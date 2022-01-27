@@ -1,8 +1,7 @@
-﻿@using Controls.Animations
-@using Controls.Animations._2D
+﻿@using Controls.Animations._2D
 @using Controls.Buttons
 @using Controls.Code
-@using Controls.CssStates
+@using Controls.Css
 @using Controls.Lists
 @using Controls.Selection
 @using Controls.Tabs
@@ -11,7 +10,7 @@
 @using WebassemblyExample.Client.Pages.ButtonsData
 @using WebassemblyExample.Client.Pages.TabsData
 
-@page "/buttons"
+@page "/animations"
 
 <div class="inner-container container">
     <div class="inner-header header">
@@ -64,11 +63,12 @@
 </div>
 
 @code {
-    private RenderFragment<(bool, string, string)> AnimationTab = content => __builder =>
+    private RenderFragment<(bool, Class, string)> AnimationTab = content => __builder =>
     {
+        Classes classes = new(content.Item2);
         <DefaultLineTab IsDefault=content.Item1>
             <Content>
-                <DefaultBasicButton class="@content.Item2">@content.Item3</DefaultBasicButton>
+                <DefaultBasicButton CssClasses=classes>@content.Item3</DefaultBasicButton>
             </Content>
             <ChildContent>
                 

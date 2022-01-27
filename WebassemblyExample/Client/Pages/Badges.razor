@@ -1,13 +1,14 @@
 ﻿@using Controls.Badges
 @using Controls.Buttons
 @using Controls.Code
-@using Controls.CssStates
+@using Controls.Css
 @using Controls.Lists
 @using Controls.Selection
 @using Controls.Tabs
 @using System.Drawing
 @using WebassemblyExample.Client.Pages.ButtonsData
 @using WebassemblyExample.Client.Pages.TabsData
+@using static Controls.Colors.ColorExtensions
 
 @page "/badges"
 
@@ -38,7 +39,7 @@
         <div class="card">
             <h2>Badge Color</h2>
 
-            <p>Badge color can be specified through a <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">CssStyle</span></CodeBlock> Struct.</p>
+            <p>Badge color can be specified through a <CodeBlock Mode="CodeBlock.ColorMode.Dark" Inline=true><span class="hljs-title">Styles</span></CodeBlock> Struct.</p>
 
             <TabContainer TabType="TabType.Line">
                 @ColorTab((true, Color.White, Color.Black))
@@ -72,8 +73,8 @@
 </div>
 
 @code {
-    private static readonly CssStyle defaultBadgeStyle = new(new CssColor("background-color", Color.FromArgb(94, 164, 228))),
-        redBadgeStyle = new(new CssColor("background-color", Color.Red), new CssValue("width", "8px"), new CssValue("height", "8px"));
+    private static readonly Styles defaultBadgeStyle = new(new Style("background-color", Color.FromArgb(94, 164, 228).ToRGBStyle())),
+        redBadgeStyle = new(new Style("background-color", Color.Red.ToRGBStyle()), new Style("width", "8px"), new Style("height", "8px"));
 
 
     private RenderFragment<(bool, BadgePosition)> PositionTab = content => __builder =>
@@ -81,7 +82,7 @@
         string positionName = Enum.GetName(typeof(BadgePosition), content.Item2);
         <DefaultLineTab IsDefault=content.Item1>
             <Content>
-                <DefaultBasicButton>Test<Badge Style=redBadgeStyle BadgeTypeValue=BadgeType.Circle Position=content.Item2>1</Badge></DefaultBasicButton>
+                <DefaultBasicButton>Test<Badge CssStyles=redBadgeStyle BadgeTypeValue=BadgeType.Circle Position=content.Item2>1</Badge></DefaultBasicButton>
                 
             </Content>
             <ChildContent>
@@ -94,17 +95,17 @@
 
     private RenderFragment<(bool, Color, Color)> ColorTab = content => __builder =>
     {
-        CssStyle cssStyle = new(new CssColor("background-color", content.Item2), new CssColor("color", content.Item3));
+        Styles styles = new(new Style("background-color", content.Item2.ToRGBStyle()), new Style("color", content.Item3.ToRGBStyle()));
         string backgroundColorName = content.Item2.IsNamedColor ? Enum.GetName(typeof(KnownColor), content.Item2.ToKnownColor()) : string.Empty;
         string textColorName = content.Item3.IsNamedColor ? Enum.GetName(typeof(KnownColor), content.Item3.ToKnownColor()) : string.Empty;
         <DefaultLineTab IsDefault=content.Item1>
             <Content>
-                <Badge Style=cssStyle>test</Badge>
+                <Badge CssStyles=styles>test</Badge>
             </Content>
             <ChildContent>
                 <CodeBlock Mode="CodeBlock.ColorMode.Dark">
-CssStyle cssStyle = new(new CssColor("background-color", Color.@backgroundColorName), new CssColor("color", Color.@textColorName));
-<span class="hljs-tag">&lt;<span class="hljs-name">Badge</span> <span class="hljs-attr">Style</span>=<span class="hljs-string">cssStyle</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">Badge</span>&gt;</span>
+Styles styles = new(new Style("background-color", Color.@backgroundColorName), new Style("color", Color.@textColorName));
+<span class="hljs-tag">&lt;<span class="hljs-name">Badge</span> <span class="hljs-attr">Style</span>=<span class="hljs-string">styles</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">Badge</span>&gt;</span>
                 </CodeBlock>
             </ChildContent>
         </DefaultLineTab>
@@ -115,7 +116,7 @@ CssStyle cssStyle = new(new CssColor("background-color", Color.@backgroundColorN
         string shapeName = Enum.GetName(typeof(BadgeType), content.Item2);
         <DefaultLineTab IsDefault=content.Item1>
             <Content>
-                <Badge Style=defaultBadgeStyle BadgeTypeValue=content.Item2>test</Badge>
+                <Badge CssStyles=defaultBadgeStyle BadgeTypeValue=content.Item2>test</Badge>
             </Content>
             <ChildContent>
                 <CodeBlock Mode="CodeBlock.ColorMode.Dark">

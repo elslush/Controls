@@ -1,10 +1,11 @@
-﻿@implements IAnimation
+﻿@using Controls.Css
+@implements IAnimation
 
 @ChildContent(classString)
 
 @code {
-    private const string classString = "grow";
+    private static readonly Class classString = new("grow");
 
     [Parameter, EditorRequired]
-    public RenderFragment<string> ChildContent { get; set; }
+    public RenderFragment<Class> ChildContent { get; set; }
 }

@@ -2,7 +2,7 @@
 
 @using Controls.Tabs
 @using Controls.Lists
-@using Controls.CssStates
+@using Controls.Css
 @using System.Drawing
 
 @*<TabContainer Orientation="listOrientation" TabType="tabType">
@@ -28,9 +28,9 @@
 </TabContainer>*@
 
 @code {
-    private readonly ListOrientation listOrientation = ListOrientation.Horizontal;
-    private readonly TabType tabType = TabType.Pill;
-    private static readonly CssStyle defaultPillColors = new(new CssColor("background-color", Color.White), new CssColor("color", Color.FromArgb(0, 158, 247))),
-        selectionPillColors = new(new CssColor("background-color", Color.FromArgb(0, 158, 247)), new CssColor("color", Color.White)),
-        hoverPillColors = new(new CssColor("background-color", Color.White), new CssColor("color", Color.FromArgb(0, 109, 171)));
+    //private readonly ListOrientation listOrientation = ListOrientation.Horizontal;
+    //private readonly TabType tabType = TabType.Pill;
+    //private static readonly Styles defaultPillColors = new(new CssColor("background-color", Color.White), new CssColor("color", Color.FromArgb(0, 158, 247))),
+    //    selectionPillColors = new(new CssColor("background-color", Color.FromArgb(0, 158, 247)), new CssColor("color", Color.White)),
+    //    hoverPillColors = new(new CssColor("background-color", Color.White), new CssColor("color", Color.FromArgb(0, 109, 171)));
 }

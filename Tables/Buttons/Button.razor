@@ -1,9 +1,12 @@
 ﻿@using Controls.Animations
+@using Controls.Css
+
+@implements ICustomizable
 
 <a 
     href="@Href" 
-    class="btn"
-    style="@Style"
+    class="btn @CssClasses"
+    style="@CssStyles"
     @onclick="OnClick"
     @onmouseover="OnMouseOver"
     @onmouseout="OnMouseOut"
@@ -13,7 +16,10 @@
 
 @code {
     [Parameter]
-    public string? Style { get; set; }
+    public Classes? CssClasses { get; set; }
+
+    [Parameter]
+    public Styles? CssStyles { get; set; }
 
     [Parameter]
     public string Href { get; set; } = "javascript: void(0);";

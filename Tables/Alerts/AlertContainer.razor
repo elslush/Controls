@@ -1,9 +1,12 @@
-﻿@using Controls.DynamicComponents
+﻿@using Controls.Css
+@using Controls.DynamicComponents
 @using Controls.Lists
 @using System.Collections.Immutable
 @using System.Drawing
 
-<div class="alert-container" style="@positionStyle">
+@implements ICustomizable
+
+<div class="alert-container @CssClasses" style="@positionStyle @CssStyles">
     <CascadingValue Value=this IsFixed=true>
         @foreach (var metadata in Publisher.Alerts)
         {
@@ -21,6 +24,12 @@
 
     [Parameter]
     public AlertLocation Location { get; set; } = AlertLocation.LowerRight;
+
+    [Parameter]
+    public Classes? CssClasses { get; set; }
+
+    [Parameter]
+    public Styles? CssStyles { get; set; }
 
     protected override void OnParametersSet()
     {

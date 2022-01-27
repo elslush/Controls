@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Controls.Css;
+using Microsoft.AspNetCore.Components;
 
-namespace Controls.Animations
+namespace Controls.Animations;
+
+public interface IAnimation
 {
-    public interface IAnimation
-    {
-        //public string Class { get; }
-
-        //public IEnumerable<string> Variables { get; }
-    }
+    public RenderFragment<Class> ChildContent { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿@using Controls.CssStates
+﻿@using Controls.Css
 @using Controls.Selection
 @using Controls.Buttons
 @implements ITab
@@ -9,7 +9,7 @@
         @onmouseout="OnMouseOut"
         @onclick="ActivateTab" 
         class="tab-item" 
-        style="@Style" 
+        style="@CssStyles" 
         role="button"
     >
         @Content
@@ -19,15 +19,15 @@
 @code {
     private bool isHovered;
 
-    private string Style 
+    private Styles CssStyles 
     {
         get
         {
             if (SelectionContainer?.ActiveValue == this)
-                return SelectionColors.Value;
+                return SelectedColors;
             if (isHovered)
-                return HoverColors.Value;
-            return DefaultColors.Value;
+                return HoverColors;
+            return DefaultColors;
         }
     }
 
@@ -35,13 +35,13 @@
     public SingleSelectionContainer<ITab>? SelectionContainer { get; set; }
 
     [Parameter, EditorRequired]
-    public CssStyle DefaultColors { get; set; }
+    public Styles DefaultColors { get; set; }
 
     [Parameter, EditorRequired]
-    public CssStyle HoverColors { get; set; }
+    public Styles HoverColors { get; set; }
 
     [Parameter, EditorRequired]
-    public CssStyle SelectionColors { get; set; }
+    public Styles SelectedColors { get; set; }
 
     [Parameter, EditorRequired]
     public RenderFragment? Content { get; set; }
@@ -63,7 +63,7 @@
 
     private Task ActivateTab()
     {
-        SelectionContainer?.UpdateValue(this);
+        SelectionContainer?.AddValue(this);
         return OnSelect.InvokeAsync();
     }
 

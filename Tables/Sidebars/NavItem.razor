@@ -1,16 +1,17 @@
 ﻿@using Controls.Buttons
+@using Controls.Collapsibles
+@using Controls.Css
 @using Controls.Selection
 @using Controls.Sidebars.States
 @using System.Text.RegularExpressions
 @inject NavigationState NavState
 
-@implements ISidebarItem
-
-<Button 
-    Href="@Link"
-    Style="@Style"
+<Button
+    Href=@Link
+    CssClasses=CssClasses
+    CssStyles=CssStyles
     OnClick="EventUtil.AsNonRenderingEventHandler(OnClick)"
-    OnHover="OnHover"
+    OnHover=OnHover
 >
     @if (!string.IsNullOrWhiteSpace(SvgTag))
     {
@@ -19,58 +20,59 @@
     @Text
 </Button>
 
-
-
 @code {
     private bool isHovered;
 
-    private string Style 
-    {
-        get
-        {
-            if (SelectionContainer?.ActiveValue == this)
-                return Colors.ClickedColors.Value;
-            if (isHovered)
-                return Colors.HoverColors.Value;
-            return Colors.DefaultColors.Value;
-        }
-    }
+    private Styles CssStyles => 
+        SelectionContainer?.IsSelected(Link) ?? false
+        ? SelectedStyle 
+        : isHovered ? HoverStyle : DefaultStyle;
+
+    [CascadingParameter]
+    public SingleSelectionContainer<string>? SelectionContainer { get; set; }
+
+    [CascadingParameter]
+    public NavHeader? CurrentHeader { get; set; }
 
     [Parameter, EditorRequired]
     public string? Text { get; set; }
 
     [Parameter]
-    public string? Link { get; set; }
+    public string Link { get; set; } = string.Empty;
 
     [Parameter]
     public string? SvgTag { get; set; }
 
     [Parameter, EditorRequired]
-    public NavColors Colors { get; set; }
+    public Styles DefaultStyle { get; set; }
 
-    [CascadingParameter]
-    public SingleSelectionContainer<NavItem>? SelectionContainer { get; set; }
+    [Parameter, EditorRequired]
+    public Styles HoverStyle { get; set; }
 
-    [CascadingParameter]
-    public NavHeader? CurrentHeader { get; set; }
+    [Parameter, EditorRequired]
+    public Styles SelectedStyle { get; set; }
+
+    [Parameter]
+    public Classes? CssClasses { get; set; }
+
+    private void OnHover(bool isHovered) => this.isHovered = isHovered;
+
+    private Task OnClick() => SelectionContainer?.AddValue(Link) ?? Task.CompletedTask;
 
     private static readonly Regex sWhitespace = new Regex(@"\s+");
     protected override void OnParametersSet()
     {
-        if (Link is null && Text is not null)
+        if (string.IsNullOrEmpty(Link) && Text is not null)
             Link = sWhitespace.Replace(Text.ToLower(), "");
     }
-    
-    protected override void OnAfterRender(bool firstRender)
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender && NavState.Path.Equals(Link, StringComparison.CurrentCultureIgnoreCase))
         {
-            SelectionContainer?.UpdateValue(this);
+            if (SelectionContainer is not null)
+                await SelectionContainer.AddValue(Link);
             CurrentHeader?.Select(true);
         }
     }
-
-    private void OnClick() => SelectionContainer?.UpdateValue(this);
-
-    private void OnHover(bool isHovered) => this.isHovered = isHovered;
 }

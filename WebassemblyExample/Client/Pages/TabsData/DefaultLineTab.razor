@@ -1,6 +1,7 @@
-﻿@using Controls.CssStates
+﻿@using Controls.Css
 @using Controls.Tabs
 @using System.Drawing
+@using static Controls.Colors.ColorExtensions
 
 <Tab
     Content=Content
@@ -9,15 +10,15 @@
     OnSelect=OnSelect
     DefaultColors=defaultColors
     HoverColors=hoverColors
-    SelectionColors=selectionColors
+    SelectedColors=selectionColors
 >
 
 </Tab>
 
 @code {
-    private static readonly CssStyle defaultColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.Transparent)),
-            selectionColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247))),
-            hoverColors = new(new CssColor("color", Color.Black), new CssColor("border-bottom-color", Color.FromArgb(0, 158, 247)));
+    private static readonly Styles defaultColors = new(new Style("color", Color.Black.ToRGBStyle()), new Style("border-bottom-color", Color.Transparent.ToRGBStyle())),
+            selectionColors = new(new Style("color", Color.Black.ToRGBStyle()), new Style("border-bottom-color", Color.FromArgb(0, 158, 247).ToRGBStyle())),
+            hoverColors = new(new Style("color", Color.Black.ToRGBStyle()), new Style("border-bottom-color", Color.FromArgb(0, 158, 247).ToRGBStyle()));
 
     [Parameter, EditorRequired]
     public RenderFragment? Content { get; set; }

@@ -1,27 +1,31 @@
-﻿@using Controls.CssStates
+﻿@using Controls.Css
 
 <Button 
-    Href="@Href"
-    Style="@Style"
-    OnClick="OnClick"
-    OnHover="OnHover"
-    ChildContent="ChildContent"
+    Href=Href
+    CssClasses=CssClasses
+    CssStyles=CssStyles
+    OnClick=OnClick
+    OnHover=OnHover
+    ChildContent=ChildContent
 >
 </Button>
 
 @code {
     private bool isHovered;
 
-    private string Style => isHovered ? HoverColors.Value : DefaultColors.Value;
+    private Styles CssStyles => isHovered ? DefaultStyle : HoverStyle;
 
     [Parameter]
     public string? Href { get; set; }
 
     [Parameter, EditorRequired]
-    public CssStyle DefaultColors { get; init; }
+    public Styles DefaultStyle { get; init; }
 
     [Parameter, EditorRequired]
-    public CssStyle HoverColors { get; init; }
+    public Styles HoverStyle { get; init; }
+
+    [Parameter]
+    public Classes? CssClasses { get; set; }
 
     [Parameter]
     public EventCallback OnClick { get; set; }

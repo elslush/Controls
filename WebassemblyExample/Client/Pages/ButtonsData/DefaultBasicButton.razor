@@ -1,18 +1,20 @@
 ﻿@using Controls.Buttons
-@using Controls.CssStates
+@using Controls.Css
 @using System.Drawing
+@using static Controls.Colors.ColorExtensions
 
 <BasicButton 
     Href=@Href 
-    DefaultColors=buttonDefault 
-    HoverColors=buttonHover 
+    CssClasses=CssClasses
+    DefaultStyle=buttonDefault 
+    HoverStyle=buttonHover 
     OnClick=OnClick 
     ChildContent=ChildContent>
 </BasicButton>
 
 @code {
-    private static readonly CssStyle buttonDefault = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)), new CssColor("color", Color.White)),
-        buttonHover = new(new CssColor("background-color", Color.FromArgb(79, 132, 185)), new CssColor("color", Color.White));
+    private static readonly Styles buttonDefault = new(new Style("background-color", Color.FromArgb(94, 164, 228).ToRGBStyle()), new Style("color", Color.White.ToRGBStyle())),
+        buttonHover = new(new Style("background-color", Color.FromArgb(79, 132, 185).ToRGBStyle()), new Style("color", Color.White.ToRGBStyle()));
 
     [Parameter]
     public string? Href { get; set; }
@@ -22,4 +24,7 @@
 
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public Classes? CssClasses { get; set; }
 }

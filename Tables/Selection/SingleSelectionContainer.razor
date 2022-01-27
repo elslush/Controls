@@ -1,10 +1,14 @@
 ﻿@typeparam T
+@implements ISelectionContainer<T>
 
 <CascadingValue IsFixed=true Value=this>
     @ChildContent
 </CascadingValue>
 
 @code {
+    [Parameter]
+    public bool AllowDeselect { get; set; }
+
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
@@ -12,11 +16,38 @@
     public T? ActiveValue { get; set; }
 
     [Parameter]
-    public EventCallback<T> ActiveValueChanged { get; set; }
+    public EventCallback<T?> ActiveValueChanged { get; set; }
 
-    public Task UpdateValue(T value)
+    public Task AddValue(T value)
     {
-        ActiveValue = value;
-        return ActiveValueChanged.InvokeAsync(value);
+        if (!value.Equals(ActiveValue))
+        {
+            ActiveValue = value;
+            return ActiveValueChanged.InvokeAsync(value);
+        }
+        else
+            return Task.CompletedTask;
+    }
+
+    public Task RemoveValue(T value)
+    {
+        if (!AllowDeselect || !value.Equals(ActiveValue))
+            return Task.CompletedTask;
+
+        ActiveValue = default(T);
+        return ActiveValueChanged.InvokeAsync(ActiveValue);
+    }
+
+    public bool IsSelected(T value) => value.Equals(ActiveValue);
+
+    public Task Clear()
+    {
+        if (ActiveValue is not null && !ActiveValue.Equals(default(T)))
+        {
+            ActiveValue = default(T);
+            return ActiveValueChanged.InvokeAsync(ActiveValue);
+        }
+        else
+            return Task.CompletedTask;
     }
 }

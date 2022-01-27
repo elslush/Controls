@@ -1,8 +1,10 @@
-﻿@using System.Drawing;
-@using Controls.CssStates
-@using static Controls.Colors.ColorExtensions;
+﻿@using System.Drawing
+@using Controls.Css
+@using static Controls.Colors.ColorExtensions
 
-<span class="@TypeClass @PositionClass" style="@Style?.Value">
+@implements ICustomizable
+
+<span class="@TypeClass @PositionClass @CssClasses" style="@CssStyles">
     @ChildContent
 </span>
 
@@ -26,7 +28,10 @@
     };
 
     [Parameter]
-    public CssStyle? Style { get; set; }
+    public Classes? CssClasses { get; set; }
+
+    [Parameter]
+    public Styles? CssStyles { get; set; }
 
     [Parameter]
     public RenderFragment? ChildContent {  get;  set; }

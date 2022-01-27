@@ -2,20 +2,22 @@
 @using Controls.Buttons
 @using System.Drawing
 @using Controls.Badges
-@using Controls.CssStates
+@using Controls.Css
+@using WebassemblyExample.Client.Pages.ButtonsData
+@using static Controls.Colors.ColorExtensions
 
 <div class="container">
     <div class="header">
         <div class="header-left">
             <h3 class="header-title">Blazor Controls Documentation</h3>
             <span class="header-badge">
-                <Badge Style=badgeStyle>v0.1</Badge>
+                <Badge CssStyles="badgeStyle">v0.1</Badge>
             </span>
         </div>
         <div class="header-right">
-            <Button>
+            <DefaultBasicButton>
                 Purchase
-            </Button>
+            </DefaultBasicButton>
         </div>
     </div>
     <div class="sidebar">
@@ -30,5 +32,5 @@
 </div>
 
 @code {
-    private static readonly CssStyle badgeStyle = new(new CssColor("background-color", Color.FromArgb(94, 164, 228)));
+    private static readonly Styles badgeStyle = new(new Style("background-color", Color.FromArgb(94, 164, 228).ToRGBStyle()));
 }

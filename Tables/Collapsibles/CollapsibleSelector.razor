@@ -1,14 +1,7 @@
-﻿@using Controls.Buttons;
-
-<Button>
-    <span class="collapsible-btn-container">
-	    <span class="collapsible-btn-content">@ChildContent</span>
-	    <span class="collapsible-btn-arrow @CollapsedArrowClass"></span>
-    </span>
-</Button>
-
-
-
+﻿<span class="collapsible-btn-container">
+	<span class="collapsible-btn-content">@ChildContent</span>
+	<span class="collapsible-btn-arrow @CollapsedArrowClass"></span>
+</span
 
 @code {
     private string? CollapsedArrowClass => IsCollapsed ? "collapsible-btn-arrow-active" : null;

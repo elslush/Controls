@@ -1,20 +1,16 @@
-﻿@using Controls.Collapsibles;
-@using Controls.Buttons;
-@using Controls.Selection;
-@using Controls.Sidebars.States
-@inject NavigationState NavState
+﻿@using Controls.Collapsibles
+@using Controls.Buttons
+@using Controls.Selection
+@using Controls.Css
 
-@implements ISidebarItem
-
-<span
-    @onclick="OnClick"
-    @onmouseover="OnMouseOver"
-    @onmouseout="OnMouseOut"
-    style="@Style"
+<Button
+    CssClasses=CssClasses
+    CssStyles=CssStyles
+    OnClick=OnClick
+    OnHover=OnHover
 >
-    <CollapsibleButton IsCollapsed="isSelected">@Text</CollapsibleButton>
-</span>
-
+    <CollapsibleSelector IsCollapsed="isSelected">@Text</CollapsibleSelector>
+</Button>
 
 <div class="nav-header-children">
     <Collapsible IsCollapsed="isSelected">
@@ -25,22 +21,27 @@
 </div>
 
 @code {
-    private bool isSelected, isHovered;
+    private bool isHovered, isSelected;
 
-    private string Style 
-    {
-        get
-        {
-            if (isSelected)
-                return Colors.ClickedColors.Value;
-            if (isHovered)
-                return Colors.HoverColors.Value;
-            return Colors.DefaultColors.Value;
-        }
-    }
+    private Styles CssStyles => 
+        isSelected
+        ? SelectedStyle 
+        : isHovered ? HoverStyle : DefaultStyle;
 
     [CascadingParameter]
     public NavHeader? CurrentHeader { get; set; }
+
+    [Parameter, EditorRequired]
+    public Styles DefaultStyle { get; set; }
+
+    [Parameter, EditorRequired]
+    public Styles HoverStyle { get; set; }
+
+    [Parameter, EditorRequired]
+    public Styles SelectedStyle { get; set; }
+
+    [Parameter]
+    public Classes? CssClasses { get; set; }
 
     [Parameter, EditorRequired]
     public string? Text { get; set; }
@@ -48,19 +49,13 @@
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter, EditorRequired]
-    public NavColors Colors { get; set; }
-
     public void Select(bool isSelected)
     {
         this.isSelected = isSelected;
-        if (CurrentHeader is not null)
-            CurrentHeader.Select(isSelected);
+        CurrentHeader?.Select(isSelected);
     }
 
+    private void OnHover(bool isHovered) => this.isHovered = isHovered;
+
     private void OnClick() => isSelected = !isSelected;
-
-    private void OnMouseOver() => isHovered = true;
-
-    private void OnMouseOut() => isHovered = false;
 }

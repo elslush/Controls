@@ -5,8 +5,8 @@ using WebassemblyExample.Client;
 using System.Net;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
-//builder.RootComponents.Add<App>("#app");
-//builder.RootComponents.Add<HeadOutlet>("head::after");
+builder.RootComponents.RegisterAsCustomElement<App>("blazor-app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddSingleton<NavigationState, NavigationState>();
 

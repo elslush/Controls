@@ -1,0 +1,18 @@
+﻿@using Controls.Sidebars
+@using Controls.Css
+@using System.Drawing
+@using static Controls.Colors.ColorExtensions
+
+<NavHeader Text=@Text DefaultStyle=defaultColors HoverStyle=hoverColors SelectedStyle=selectedColors ChildContent=ChildContent/>
+
+@code {
+    private static readonly Styles defaultColors = new(new Style("background-color", Color.Transparent.ToRGBStyle()), new Style("color", Color.Black.ToRGBStyle())),
+            hoverColors = new(new Style("background-color", Color.FromArgb(94, 164, 228).ToRGBStyle()), new Style("color", Color.White.ToRGBStyle())),
+            selectedColors = new(new Style("background-color", Color.FromArgb(94, 164, 228).ToRGBStyle()), new Style("color", Color.White.ToRGBStyle()));
+
+    [Parameter, EditorRequired]
+    public string Text { get; set; } = string.Empty;
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; }
+}

@@ -4,5 +4,4 @@ namespace Controls.Lists;
 
 public interface IListItem
 {
-    public SelectionStyle SelectionStyle { get; set; }
 }
