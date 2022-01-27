@@ -19,14 +19,14 @@
     public int Step { get; set; } = 1;
 
     [Parameter]
-    public int Value { get; set; } = 0;
+    public int SteppedValue { get; set; } = 0;
 
     [Parameter]
-    public EventCallback<int> ValueChanged { get; set; }
+    public EventCallback<int> SteppedValueChanged { get; set; }
 
     private int BoundValue
     {
-        get => Value;
-        set => ValueChanged.InvokeAsync(value);
+        get => SteppedValue;
+        set => SteppedValueChanged.InvokeAsync(value);
     }
 }

@@ -160,7 +160,7 @@ AlertPublisher alertPublisher = new(maximumAlerts: 2);
             
                 <div class="card card-inline">
                     <h5>Maximum Alerts: </h5>
-                    <SteppedSlider MinValue=1 MaxValue=8 @bind-Value="alertPublisher.MaximumAlerts"></SteppedSlider>
+                    <SteppedSlider MinValue=1 MaxValue=8 @bind-SteppedValue="alertPublisher.MaximumAlerts"></SteppedSlider>
                 </div>
             
             </div>
@@ -228,7 +228,7 @@ publisher.CreateBasicAlert($"Example Alert", Color.Blue);
             
                 <div class="card card-inline">
                     <h5>Timespan (seconds): </h5>
-                    <SteppedSlider MinValue=0 MaxValue=8 @bind-Value="alertTimeout"></SteppedSlider>
+                    <SteppedSlider MinValue=0 MaxValue=8 @bind-SteppedValue="alertTimeout"></SteppedSlider>
                 </div>
             </div>
         </div>
@@ -407,7 +407,7 @@ alertPublisher.AddAlert(alert);
             
                 <div class="card card-inline">
                     <h5>Timespan (seconds): </h5>
-                    <SteppedSlider MinValue=0 MaxValue=8 @bind-Value="alertTimeout"></SteppedSlider>
+                    <SteppedSlider MinValue=0 MaxValue=8 @bind-SteppedValue="alertTimeout"></SteppedSlider>
                 </div>
             </div>
         </div>

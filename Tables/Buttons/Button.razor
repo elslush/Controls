@@ -2,7 +2,7 @@
 
 <a 
     href="@Href" 
-    class="btn @AnimationContainer?.AnmiationClasses"
+    class="btn"
     style="@Style"
     @onclick="OnClick"
     @onmouseover="OnMouseOver"
@@ -12,9 +12,6 @@
 </a>
 
 @code {
-    [CascadingParameter]
-    public AnimationContainer? AnimationContainer { get; set; }
-
     [Parameter]
     public string? Style { get; set; }
 

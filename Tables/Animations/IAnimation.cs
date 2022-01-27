@@ -8,8 +8,8 @@ namespace Controls.Animations
 {
     public interface IAnimation
     {
-        public string Class { get; }
+        //public string Class { get; }
 
-        public IEnumerable<string> Variables { get; }
+        //public IEnumerable<string> Variables { get; }
     }
 }

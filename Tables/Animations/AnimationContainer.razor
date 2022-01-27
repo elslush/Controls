@@ -19,29 +19,29 @@
         isCachedStyle = false;
     }
 
-    public string AnmiationClasses
-    {
-        get
-        {
-            if (!isCachedClass)
-            {
-                cachedClass = string.Join(' ', animations.Select(animation => animation.Class));
-                isCachedClass = true;
-            }
-            return cachedClass;
-        }
-    }
+    //public string AnmiationClasses
+    //{
+    //    get
+    //    {
+    //        if (!isCachedClass)
+    //        {
+    //            cachedClass = string.Join(' ', animations.Select(animation => animation.Class));
+    //            isCachedClass = true;
+    //        }
+    //        return cachedClass;
+    //    }
+    //}
 
-    public string AnimationStyles
-    {
-        get
-        {
-            if (!isCachedStyle)
-            {
-                cachedStyles = string.Join(' ', animations.SelectMany(animation => animation.Variables));
-                isCachedStyle = true;
-            }
-            return cachedStyles;
-        }
-    }
+    //public string AnimationStyles
+    //{
+    //    get
+    //    {
+    //        if (!isCachedStyle)
+    //        {
+    //            cachedStyles = string.Join(' ', animations.SelectMany(animation => animation.Variables));
+    //            isCachedStyle = true;
+    //        }
+    //        return cachedStyles;
+    //    }
+    //}
 }
