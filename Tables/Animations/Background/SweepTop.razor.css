@@ -35,6 +35,7 @@
     transition-duration: var(--duration);
     -webkit-transition-timing-function: ease-out;
     transition-timing-function: ease-out;
+    border-radius: inherit;
 }
 
 ::deep .sweeptop:hover:before, ::deep .sweeptop:focus:before, ::deep .sweeptop:active:before {

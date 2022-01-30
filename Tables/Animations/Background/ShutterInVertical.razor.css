@@ -1,15 +1,43 @@
-﻿::deep .grow {
+﻿::deep .shutter-in-vertical {
     --duration: 0.3s;
-    --scale: 1.1;
+    --scale: 1;
+    --background-color: #2098D1;
+    --color: white;
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
+    background: var(--background-color);
+    -webkit-transition-property: color;
+    transition-property: color;
     -webkit-transition-duration: var(--duration);
     transition-duration: var(--duration);
-    -webkit-transition-property: transform;
-    transition-property: transform;
 }
 
-::deep .grow:hover, ::deep  .grow:focus, ::deep  .grow:active {
-    -webkit-transform: scale(var(--scale));
-    transform: scale(var(--scale));
-}
+    ::deep .shutter-in-vertical:hover, ::deep .shutter-in-vertical:focus, ::deep .shutter-in-vertical:active {
+        color: var(--color);
+    }
+
+    ::deep .shutter-in-vertical:before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--background-color);
+        -webkit-transform: scaleY(var(--scale));
+        transform: scaleY(var(--scale));
+        -webkit-transform-origin: 50%;
+        transform-origin: 50%;
+        -webkit-transition-property: transform;
+        transition-property: transform;
+        -webkit-transition-duration: var(--duration);
+        transition-duration: var(--duration);
+        -webkit-transition-timing-function: ease-out;
+        transition-timing-function: ease-out;
+    }
+
+    ::deep .shutter-in-vertical:hover:before, ::deep .shutter-in-vertical:focus:before, ::deep .shutter-in-vertical:active:before {
+        -webkit-transform: scaleY(0);
+        transform: scaleY(0);
+    }

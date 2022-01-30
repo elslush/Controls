@@ -33,6 +33,7 @@
     transition-duration: var(--duration);
     -webkit-transition-timing-function: ease-out;
     transition-timing-function: ease-out;
+    border-radius: inherit;
 }
 
 ::deep .sweepright:hover:before, ::deep .sweepright:focus:before, ::deep .sweepright:active:before {

@@ -2,6 +2,7 @@
     padding-left: 1rem;
 }
 
-::deep a {
-    display: block;
+::deep .btn.selected {
+    background-color: var(--nav-header-selected-background-color);
+    color: var(--nav-header-selected-color);
 }

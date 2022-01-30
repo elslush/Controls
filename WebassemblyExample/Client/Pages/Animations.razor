@@ -1,4 +1,5 @@
-﻿@using Controls.Animations._2D
+﻿@using Controls.Animations
+@using Controls.Animations._2D
 @using Controls.Animations.Background
 @using Controls.Buttons
 @using Controls.Code
@@ -31,36 +32,41 @@
             <p></p>
 
             <TabContainer TabType="TabType.Line">
-                <Bounce Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "BounceIn"))</Bounce>
-                <Bounce Context="css_class">@AnimationTab((true, css_class, new Style[] { bounceOutStyle }, "BounceOut"))</Bounce>
-                <Buzz Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "Buzz"))</Buzz>
-                <Grow Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "Grow"))</Grow>
-                <Hang Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "Hang"))</Hang>
-                <Pop Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "Pop"))</Pop>
-                <Pulse Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "Pulse"))</Pulse>
-                <Push Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "Push"))</Push>
-                <Rotate Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "Rotate"))</Rotate>
-                <Shrink Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "Shrink"))</Shrink>
-                <Skew Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "Skew"))</Skew>
-                <Wobble Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "Wobble"))</Wobble>
+                @AnimationTab((true, "bounce", "Bounce"))
+                @AnimationTab((false, "buzz", "Buzz"))
+                @AnimationTab((false, "grow", "Grow"))
+                @AnimationTab((false, "hang", "Hang"))
+                @AnimationTab((false, "pop", "Pop"))
+                @AnimationTab((false, "pulse", "Pulse"))
+                @AnimationTab((false, "push", "Push"))
+                @AnimationTab((false, "rotate", "Rotate"))
+                @AnimationTab((false, "shrink", "Shrink"))
+                @AnimationTab((false, "skew", "Skew"))
+                @AnimationTab((false, "wobble", "Wobble"))
             </TabContainer>
         </div>
 
-        <div class="card">
+        @*<div class="card">
             <h2>Background Animations</h2>
 
             <p></p>
 
             <TabContainer TabType="TabType.Line">
-                <Fade Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "Fade"))</Fade>
-                <BackPulse Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "BackPulse"))</BackPulse>
-                <SweepRight Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "SweepRight"))</SweepRight>
-                <SweepBottom Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "SweepBottom"))</SweepBottom>
-                <SweepTop Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "SweepTop"))</SweepTop>
-                <RadialOut Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "RadialOut"))</RadialOut>
-                <RadialIn Context="css_class">@AnimationTab((true, css_class, Array.Empty<Style>(), "RadialIn"))</RadialIn>
+                <Fade Context="css_class">@ColorTab((true, "", "Fade"))</Fade>
+                <BackPulse Context="css_class">@ColorTab((true, "", "BackPulse"))</BackPulse>
+                <SweepRight Context="css_class">@ColorTab((true, "", "SweepRight"))</SweepRight>
+                <SweepBottom Context="css_class">@ColorTab((true, "", "SweepBottom"))</SweepBottom>
+                <SweepTop Context="css_class">@ColorTab((true, "", "SweepTop"))</SweepTop>
+                <RadialOut Context="css_class">@ColorTab((true, "", "RadialOut"))</RadialOut>
+                <RadialIn Context="css_class">@ColorTab((true, "", "RadialIn"))</RadialIn>
+                <RectangleIn Context="css_class">@ColorTab((true, "", "RectangleIn"))</RectangleIn>
+                <RectangleOut Context="css_class">@ColorTab((true, "", "RectangleOut"))</RectangleOut>
+                <ShutterInHorizontal Context="css_class">@ColorTab((true, "", "ShutterInHorizontal"))</ShutterInHorizontal>
+                <ShutterOutHorizontal Context="css_class">@ColorTab((true, "", "ShutterOutHorizontal"))</ShutterOutHorizontal>
+                <ShutterInVertical Context="css_class">@ColorTab((true, "", "ShutterInVertical"))</ShutterInVertical>
+                <ShutterOutVertical Context="css_class">@ColorTab((true, ", "ShutterOutVertical"))</ShutterOutVertical>
             </TabContainer>
-        </div>
+        </div>*@
 
         <div class="card">
             <h2>Selection Buttons</h2>
@@ -82,14 +88,13 @@
 
 @code {
     private static readonly Style bounceOutStyle = new("--scale", "0.8");
+    private static readonly Classes activeClasses = new(IAnimation.ActiveClass);
 
-    private RenderFragment<(bool, Class, Style[], string)> AnimationTab = content => __builder =>
+    private RenderFragment<(bool, string, string)> AnimationTab = content => __builder =>
     {
-        Classes classes = new(content.Item2);
-        Styles[] styles = new Styles[] { new(content.Item3) };
         <DefaultLineTab IsDefault=content.Item1>
             <Content>
-                <DefaultBasicButton CssClasses=classes CssStyles=content.Item3>@content.Item4</DefaultBasicButton>
+                <Button Class=@content.Item2>@content.Item3</Button>
             </Content>
             <ChildContent>
                 
@@ -99,4 +104,21 @@
             </ChildContent>
         </DefaultLineTab>
     };
+
+//    private RenderFragment<(bool, Class, Style[], string)> ColorTab = content => __builder =>
+//    {
+//        Classes classes = new(content.Item2);
+//        Styles styles = new(content.Item3);
+//        <DefaultLineTab IsDefault=content.Item1>
+//            <Content>
+//                <BasicButton CssClasses=classes DefaultStyle=styles HoverStyle=styles>@content.Item4</BasicButton>
+//            </Content>
+//            <ChildContent>
+                
+//                <CodeBlock Mode="CodeBlock.ColorMode.Dark">
+//<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">@content.Item2</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+//                </CodeBlock>
+//            </ChildContent>
+//        </DefaultLineTab>
+//    };
 }

@@ -1,12 +1,10 @@
-﻿::deep .radialin {
+﻿::deep .radial-in {
     --duration: 0.3s;
     --scale: 2;
     --background-color: #2098D1;
     --color: white;
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
-    box-shadow: 0 0 1px rgb(0 0 0 / 0%);
-    position: relative;
     overflow: hidden;
     background: var(--background-color);
     -webkit-transition-property: color;
@@ -15,11 +13,11 @@
     transition-duration: var(--duration);
 }
 
-::deep .radialin:hover, ::deep .radialin:focus, ::deep .radialin:active {
+::deep .radial-in:hover, ::deep .radial-in:focus, ::deep .radial-in:active {
     color: var(--color);
 }
 
-::deep .radialin:before {
+::deep .radial-in:before {
     content: "";
     position: absolute;
     z-index: -1;
@@ -27,7 +25,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--background-color);
+    background-color: white;
     border-radius: 100%;
     -webkit-transform: scale(var(--scale));
     transform: scale(var(--scale));
@@ -39,7 +37,7 @@
     transition-timing-function: ease-out;
 }
 
-::deep .radialin:hover:before, ::deep .radialin:focus:before, ::deep .radialin:active:before {
+::deep .radial-in:hover:before, ::deep .radial-in:focus:before, ::deep .radial-in:active:before {
     -webkit-transform: scale(0);
     transform: scale(0);
 }

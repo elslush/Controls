@@ -1,28 +1,26 @@
 ﻿@using Controls.Animations
-@using Controls.Css
-
-@implements ICustomizable
 
 <a 
-    href="@Href" 
-    class="btn @CssClasses"
-    style="@CssStyles"
-    @onclick="OnClick"
-    @onmouseover="OnMouseOver"
-    @onmouseout="OnMouseOut"
+    href=@Href
+    class="btn @Class @ActiveClass"
+    @onclick=OnClick
+    @onmouseover=OnMouseOver
+    @onmouseout=OnMouseOut
+    @onfocusin=OnFocusIn
+    @onfocusout=OnFocusOut
 >
     @ChildContent
 </a>
 
 @code {
-    [Parameter]
-    public Classes? CssClasses { get; set; }
-
-    [Parameter]
-    public Styles? CssStyles { get; set; }
+    private bool isMouseOver, isFocused;
+    private string? ActiveClass => isMouseOver ? "active" : null;
 
     [Parameter]
     public string Href { get; set; } = "javascript: void(0);";
+
+    [Parameter]
+    public string Class { get; set; } = "fade";
 
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
@@ -30,10 +28,11 @@
     [Parameter]
     public EventCallback OnClick { get; set; }
 
-    [Parameter]
-    public EventCallback<bool> OnHover { get; set; }
+    private void OnMouseOver() => isMouseOver = true;
 
-    private Task OnMouseOver() => OnHover.InvokeAsync(true);
+    private void OnMouseOut() => isMouseOver = false;
 
-    private Task OnMouseOut() => OnHover.InvokeAsync(false);
+    private void OnFocusIn() => isFocused = true;
+
+    private void OnFocusOut() => isFocused = false;
 }

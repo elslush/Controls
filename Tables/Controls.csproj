@@ -48,6 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\Animations.css" />
     <None Include="wwwroot\Layout.css" />
   </ItemGroup>
 

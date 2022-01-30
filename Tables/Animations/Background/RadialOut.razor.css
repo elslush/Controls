@@ -1,25 +1,22 @@
-﻿::deep .radialout {
+﻿::deep .radial-out {
     --duration: 0.3s;
     --scale: 2;
     --background-color: #2098D1;
     --color: white;
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
-    box-shadow: 0 0 1px rgb(0 0 0 / 0%);
-    position: relative;
     overflow: hidden;
-    background: var(--background-color);
     -webkit-transition-property: color;
     transition-property: color;
     -webkit-transition-duration: var(--duration);
     transition-duration: var(--duration);
 }
 
-::deep .radialout:hover, ::deep .radialout:focus, ::deep .radialout:active {
+::deep .radial-out:hover, ::deep .radial-out:focus, ::deep .radial-out:active {
     color: var(--color);
 }
 
-::deep .radialout:before {
+::deep .radial-out:before {
     content: "";
     position: absolute;
     z-index: -1;
@@ -39,7 +36,7 @@
     transition-timing-function: ease-out;
 }
 
-::deep .radialout:hover:before, ::deep .radialout:focus:before, ::deep .radialout:active:before {
+::deep .radial-out:hover:before, ::deep .radial-out:focus:before, ::deep .radial-out:active:before {
     -webkit-transform: scale(var(--scale));
     transform: scale(var(--scale));
 }

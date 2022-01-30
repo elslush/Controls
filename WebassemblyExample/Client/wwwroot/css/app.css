@@ -1,4 +1,29 @@
-﻿html, body {
+﻿:root {
+    --default-back-color: rgb(94, 164, 228);
+    --default-color: rgb(255, 255, 255);
+    --default-active-color: rgb(79, 132, 185);
+    /* Button Defaults */
+    --button-background-color: var(--default-back-color);
+    --button-color: var(--default-color);
+    --button-active-background-color: var(--default-active-color);
+    --button-active-color: var(--default-color);
+    /* Nav Item Defaults */
+    --nav-item-background-color: var(--default-back-color);
+    --nav-item-color: var(--default--color);
+    --nav-item-active-background-color: var(--default-active-color);
+    --nav-item-active-color: var(--default-color);
+    --nav-item-selected-background-color: var(--default-active-color);
+    --nav-item-selected-color: var(--default-color);
+    /* Nav Header Defaults */
+    --nav-header-background-color: var(--default-back-color);
+    --nav-header-color: var(--default--color);
+    --nav-header-active-background-color: var(--default-active-color);
+    --nav-header-active-color: var(--default-color);
+    --nav-header-selected-background-color: var(--default-active-color);
+    --nav-header-selected-color: var(--default-color);
+}
+
+html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
 }

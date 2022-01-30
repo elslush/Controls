@@ -3,45 +3,31 @@
 @using Controls.Selection
 @using Controls.Css
 
-<Button
-    CssClasses=CssClasses
-    CssStyles=CssStyles
-    OnClick=OnClick
-    OnHover=OnHover
->
-    <CollapsibleSelector IsCollapsed="isSelected">@Text</CollapsibleSelector>
-</Button>
+<span>
+    <Button
+        OnClick=OnClick
+        Class=@SelectedClass
+    >
+        <CollapsibleSelector IsCollapsed="isSelected">@Text</CollapsibleSelector>
+    </Button>
 
-<div class="nav-header-children">
-    <Collapsible IsCollapsed="isSelected">
-        <CascadingValue Value=this IsFixed=true>
-            @ChildContent
-        </CascadingValue>
-    </Collapsible>
-</div>
+    <div class="nav-header-children">
+        <Collapsible IsCollapsed="isSelected">
+            <CascadingValue Value=this IsFixed=true>
+                @ChildContent
+            </CascadingValue>
+        </Collapsible>
+    </div>
+</span>
+
 
 @code {
-    private bool isHovered, isSelected;
+    private bool isSelected;
 
-    private Styles CssStyles => 
-        isSelected
-        ? SelectedStyle 
-        : isHovered ? HoverStyle : DefaultStyle;
+    private string? SelectedClass => isSelected ? "selected fade" : null;
 
     [CascadingParameter]
     public NavHeader? CurrentHeader { get; set; }
-
-    [Parameter, EditorRequired]
-    public Styles DefaultStyle { get; set; }
-
-    [Parameter, EditorRequired]
-    public Styles HoverStyle { get; set; }
-
-    [Parameter, EditorRequired]
-    public Styles SelectedStyle { get; set; }
-
-    [Parameter]
-    public Classes? CssClasses { get; set; }
 
     [Parameter, EditorRequired]
     public string? Text { get; set; }
@@ -55,8 +41,6 @@
         StateHasChanged();
         CurrentHeader?.Select(isSelected);
     }
-
-    private void OnHover(bool isHovered) => this.isHovered = isHovered;
 
     private void OnClick() => isSelected = !isSelected;
 }
