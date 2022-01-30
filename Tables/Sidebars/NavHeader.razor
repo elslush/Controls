@@ -52,6 +52,7 @@
     public void Select(bool isSelected)
     {
         this.isSelected = isSelected;
+        StateHasChanged();
         CurrentHeader?.Select(isSelected);
     }
 

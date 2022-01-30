@@ -1,6 +1,6 @@
-﻿::deep .grow {
+﻿::deep .skew {
     --duration: 0.3s;
-    --scale: 1.1;
+    --degree: -10deg;
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
     -webkit-transition-duration: var(--duration);
@@ -9,7 +9,7 @@
     transition-property: transform;
 }
 
-::deep .grow:hover, ::deep  .grow:focus, ::deep  .grow:active {
-    -webkit-transform: scale(var(--scale));
-    transform: scale(var(--scale));
+::deep .skew:hover, ::deep .skew:focus, ::deep .skew:active {
+    -webkit-transform: skew(var(--degree));
+    transform: skew(var(--degree));
 }

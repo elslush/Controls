@@ -1,6 +1,6 @@
-﻿::deep .grow {
+﻿::deep .shrink {
     --duration: 0.3s;
-    --scale: 1.1;
+    --scale: 0.9;
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
     -webkit-transition-duration: var(--duration);
@@ -9,7 +9,7 @@
     transition-property: transform;
 }
 
-::deep .grow:hover, ::deep  .grow:focus, ::deep  .grow:active {
+::deep .shrink:hover, ::deep .shrink:focus, ::deep .shrink:active {
     -webkit-transform: scale(var(--scale));
     transform: scale(var(--scale));
 }

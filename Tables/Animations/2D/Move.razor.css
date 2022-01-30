@@ -1,0 +1,18 @@
+﻿::deep .move {
+    --duration: 0.3s;
+    --translateX: 10px;
+    --translateY: 10px;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    -webkit-transition-duration: var(--duration);
+    transition-duration: var(--duration);
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+::deep .move:hover, ::deep .move:focus, ::deep .move:active {
+    -webkit-transform: translate(var(--translateX), var(--translateY));
+    transform: translate(var(--translateX), var(--translateY));
+}

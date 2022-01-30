@@ -4,7 +4,6 @@
 @using Controls.Selection
 @using Controls.Sidebars.States
 @using System.Text.RegularExpressions
-@inject NavigationState NavState
 
 <Button
     Href=@Link
@@ -55,43 +54,24 @@
     [Parameter]
     public Classes? CssClasses { get; set; }
 
-    protected override bool ShouldRender() => shouldRender;
+    private void OnHover(bool isHovered) => this.isHovered = isHovered;
 
-    private void OnHover(bool isHovered)
-    {
-        this.isHovered = isHovered;
-        shouldRender = true;
-    }
-
-    private Task OnClick()
-    {
-        shouldRender = true;
-        return SelectionContainer?.AddValue(Link) ?? Task.CompletedTask;
-    }
+    private Task OnClick() => SelectionContainer?.AddValue(Link) ?? Task.CompletedTask;
 
     private static readonly Regex sWhitespace = new Regex(@"\s+");
     protected override void OnParametersSet()
     {
         if (string.IsNullOrEmpty(Link) && Text is not null)
             Link = sWhitespace.Replace(Text.ToLower(), "");
-        shouldRender = true;
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override void OnAfterRender(bool firstRender)
     {
-        if (firstRender && NavState.Path.Equals(Link, StringComparison.CurrentCultureIgnoreCase))
+        if (firstRender && SelectionContainer is not null)
         {
-            if (SelectionContainer is not null)
-            {
-                await SelectionContainer.AddValue(Link);
-                SelectionContainer.ActiveValueChanged = () =>
-                {
-
-                };
-            }
-            
-            CurrentHeader?.Select(true);
+            if (SelectionContainer.IsSelected(Link))
+                CurrentHeader?.Select(true);
+            SelectionContainer.OnActiveValueChanged += (sender, e) => StateHasChanged();
         }
-        shouldRender = false;
     }
 }

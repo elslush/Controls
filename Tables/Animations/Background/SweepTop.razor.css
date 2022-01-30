@@ -1,0 +1,43 @@
+﻿::deep .sweeptop {
+    --duration: 0.3s;
+    --background-color: #2098D1;
+    --color: white;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgb(0 0 0 / 0%);
+    position: relative;
+    -webkit-transition-property: color;
+    transition-property: color;
+    -webkit-transition-duration: var(--duration);
+    transition-duration: var(--duration);
+}
+
+::deep .sweeptop:hover, ::deep .sweeptop:focus, ::deep .sweeptop:active {
+    color: var(--color);
+}
+
+::deep .sweeptop:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #2098D1;
+    -webkit-transform: scaleY(0);
+    transform: scaleY(0);
+    -webkit-transform-origin: 50% 100%;
+    transform-origin: 50% 100%;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-duration: var(--duration);
+    transition-duration: var(--duration);
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+}
+
+::deep .sweeptop:hover:before, ::deep .sweeptop:focus:before, ::deep .sweeptop:active:before {
+    -webkit-transform: scaleY(1);
+    transform: scaleY(1);
+}

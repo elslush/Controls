@@ -17,6 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Animations\Background\" />
+    <Folder Include="Animations\Icon\" />
+    <Folder Include="Animations\Border\" />
+    <Folder Include="Animations\Curl\" />
+    <Folder Include="Animations\SpeechBubble\" />
+    <Folder Include="Animations\Shadow\" />
     <Folder Include="Groups\" />
     <Folder Include="Calendars\" />
     <Folder Include="Chips\" />

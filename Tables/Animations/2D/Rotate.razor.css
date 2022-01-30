@@ -1,6 +1,6 @@
-﻿::deep .grow {
+﻿::deep .rotate {
     --duration: 0.3s;
-    --scale: 1.1;
+    --degree: 4deg;
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
     -webkit-transition-duration: var(--duration);
@@ -9,7 +9,7 @@
     transition-property: transform;
 }
 
-::deep .grow:hover, ::deep  .grow:focus, ::deep  .grow:active {
-    -webkit-transform: scale(var(--scale));
-    transform: scale(var(--scale));
+::deep .rotate:hover, ::deep .rotate:focus, ::deep .rotate:active {
+    -webkit-transform: rotate(var(--degree));
+    transform: rotate(var(--degree));
 }

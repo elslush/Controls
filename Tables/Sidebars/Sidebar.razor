@@ -1,4 +1,6 @@
 ﻿@using Controls.Selection
+@using Controls.Sidebars.States
+@inject NavigationState NavState
 
 <div class="sidebar-container">
     <div class="sidebar-header">
@@ -12,7 +14,7 @@
     </div>
     
     <div class="sidebar-list">
-        <SingleSelectionContainer T=string ActiveValueChanged=OnClick>
+        <SingleSelectionContainer T=string ActiveValue=NavState.Path.ToLower()>
             @ChildContent
         </SingleSelectionContainer>
     </div>
@@ -29,6 +31,4 @@
 
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
-
-    private Task OnClick() => InvokeAsync(StateHasChanged);
 }

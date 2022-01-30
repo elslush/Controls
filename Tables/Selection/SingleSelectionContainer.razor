@@ -18,11 +18,14 @@
     [Parameter]
     public EventCallback<T?> ActiveValueChanged { get; set; }
 
+    public event EventHandler<T?>? OnActiveValueChanged;
+
     public Task AddValue(T value)
     {
         if (!value.Equals(ActiveValue))
         {
             ActiveValue = value;
+            OnActiveValueChanged?.Invoke(this, ActiveValue);
             return ActiveValueChanged.InvokeAsync(value);
         }
         else
@@ -35,6 +38,7 @@
             return Task.CompletedTask;
 
         ActiveValue = default(T);
+        OnActiveValueChanged?.Invoke(this, ActiveValue);
         return ActiveValueChanged.InvokeAsync(ActiveValue);
     }
 
@@ -45,6 +49,7 @@
         if (ActiveValue is not null && !ActiveValue.Equals(default(T)))
         {
             ActiveValue = default(T);
+            OnActiveValueChanged?.Invoke(this, ActiveValue);
             return ActiveValueChanged.InvokeAsync(ActiveValue);
         }
         else

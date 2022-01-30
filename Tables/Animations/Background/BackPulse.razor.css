@@ -1,0 +1,35 @@
+﻿::deep .back-pulse {
+    --duration: 0.5s;
+    --background-color: #2098D1;
+    --background-pulse-color: rgba(32, 152, 209, 0.75);
+    --color: white;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    box-shadow: 0 0 1px rgb(0 0 0 / 0%);
+    overflow: hidden;
+    -webkit-transition-duration: var(--duration);
+    transition-duration: var(--duration);
+    -webkit-transition-property: color, background-color;
+    transition-property: color, background-color;
+}
+
+@keyframes back-pulse {
+    50% {
+        background-color: var(--background-pulse-color);
+    }
+}
+
+::deep .back-pulse:hover, ::deep .back-pulse:focus, ::deep .back-pulse:active {
+    -webkit-animation-name: back-pulse;
+    animation-name: back-pulse;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    background-color: var(--background-color);
+    color: var(--color);
+}

@@ -1,0 +1,23 @@
+﻿::deep .pop {
+    --duration: 0.3s;
+    --count: 1;
+    transform: perspective(1px) translateZ(0);
+}
+
+@keyframes pop {
+    50% {
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+}
+
+::deep .pop:hover, ::deep  .pop:focus, ::deep  .pop:active {
+    -webkit-animation-name: pop;
+    animation-name: pop;
+    -webkit-animation-duration: var(--duration);
+    animation-duration: var(--duration);
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-iteration-count: var(--count);
+    animation-iteration-count: var(--count);
+}

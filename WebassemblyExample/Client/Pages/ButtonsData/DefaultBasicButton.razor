@@ -13,8 +13,11 @@
 </BasicButton>
 
 @code {
-    private static readonly Styles buttonDefault = new(new Style("background-color", Color.FromArgb(94, 164, 228).ToRGBStyle()), new Style("color", Color.White.ToRGBStyle())),
-        buttonHover = new(new Style("background-color", Color.FromArgb(79, 132, 185).ToRGBStyle()), new Style("color", Color.White.ToRGBStyle()));
+    private Styles buttonDefault, buttonHover;
+    private static readonly Style defaultBackground = new Style("background-color", Color.FromArgb(94, 164, 228).ToRGBStyle()),
+        defaultText = new Style("color", Color.White.ToRGBStyle()),
+        hoverBackground = new Style("background-color", Color.FromArgb(79, 132, 185).ToRGBStyle()),
+        hoverText = new Style("color", Color.White.ToRGBStyle());
 
     [Parameter]
     public string? Href { get; set; }
@@ -27,4 +30,13 @@
 
     [Parameter]
     public Classes? CssClasses { get; set; }
+
+    [Parameter]
+    public IEnumerable<Style> CssStyles { get; set; } = Enumerable.Empty<Style>();
+
+    protected override void OnParametersSet()
+    {
+        buttonDefault = new(CssStyles.Append(defaultBackground).Append(defaultText));
+        buttonHover = new(CssStyles.Append(defaultBackground).Append(defaultText));
+    }
 }

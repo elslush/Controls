@@ -1,0 +1,45 @@
+﻿::deep .hang {
+    -webkit-transform: scale(var(--scale));
+    transform: scale(var(--scale));
+}
+
+@keyframes hang-sink {
+    100% {
+        -webkit-transform: translateY(2px);
+        transform: translateY(2px);
+    }
+}
+
+@keyframes hang {
+    0% {
+        -webkit-transform: translateY(2px);
+        transform: translateY(2px);
+    }
+
+    50% {
+        -webkit-transform: translateY(0px);
+        transform: translateY(0px);
+    }
+
+    100% {
+        -webkit-transform: translateY(2px);
+        transform: translateY(2px);
+    }
+}
+
+::deep .hang:hover, ::deep .hang:focus, ::deep .hang:active {
+    -webkit-animation-name: hang-sink, hang;
+    animation-name: hang-sink, hang;
+    -webkit-animation-duration: .3s, 1.5s;
+    animation-duration: .3s, 1.5s;
+    -webkit-animation-delay: 0s, .3s;
+    animation-delay: 0s, .3s;
+    -webkit-animation-timing-function: ease-out, ease-in-out;
+    animation-timing-function: ease-out, ease-in-out;
+    -webkit-animation-iteration-count: 1, infinite;
+    animation-iteration-count: 1, infinite;
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-direction: normal, alternate;
+    animation-direction: normal, alternate;
+}
