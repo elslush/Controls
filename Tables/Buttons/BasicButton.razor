@@ -1,0 +1,37 @@
+﻿@using System.Drawing
+@using Controls.Animations.Background
+@using static Controls.Colors.ColorExtensions
+
+<Fade BackgroundColor=fadeBackgroundColor TextColor=fadeTextColor>
+    <Button style=@style @attributes=InputAttributes ChildContent=ChildContent/>
+</Fade>
+
+
+@code {
+    private string? style;
+    private Color backgroundColor, textColor, fadeBackgroundColor, fadeTextColor;
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? InputAttributes { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter, EditorRequired]
+    public Color BackgroundColor { get; set; }
+
+    [Parameter]
+    public bool IsSelected { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (backgroundColor != BackgroundColor)
+        {
+            backgroundColor = BackgroundColor;
+            textColor = BackgroundColor.GetContrastingTextColor();
+            fadeBackgroundColor = Color.FromArgb(200, BackgroundColor);
+            fadeTextColor = fadeBackgroundColor.GetContrastingTextColor();
+            style = $"--button-background-color:{backgroundColor.ToRGBStyle()};--button-color:{textColor.ToRGBStyle()};";
+        }
+    }
+}

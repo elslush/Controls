@@ -1,30 +1,17 @@
 ﻿@using Controls.Selection
 @using Controls.Lists
 
-<div class="@TabContainerDirectionClass">
-    <div class="@TableTypeClass">
-        <List Orientation="Orientation">
-            <SingleSelectionContainer @bind-ActiveValue="activeTab">
-                @ChildContent
-            </SingleSelectionContainer>
-        </List>
-    </div>
-
-    @activeTab?.ChildContent
+<div class="@TableTypeClass">
+    <List Orientation="Orientation">
+        <SingleSelectionContainer @bind-ActiveValue="BoundValue">
+            @ChildContent
+        </SingleSelectionContainer>
+    </List>
 </div>
 
 
 
 @code {
-    private ITab? activeTab;
-
-    private string TabContainerDirectionClass => Orientation switch
-    {
-        ListOrientation.Vertical => "tab-header-container-vertical",
-        ListOrientation.Horizontal => "tab-header-container-horizontal",
-        _ => "",
-    };
-
     private string TableTypeClass => TabType switch
     {
         TabType.Line => "tab-container-line",
@@ -40,4 +27,16 @@
 
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public ITab? ActiveTab { get; set; }
+
+    [Parameter]
+    public EventCallback<ITab?> ActiveTabChanged { get; set; }
+
+    private ITab? BoundValue
+    {
+        get => ActiveTab;
+        set => ActiveTabChanged.InvokeAsync(value);
+    }
 }

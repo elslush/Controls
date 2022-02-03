@@ -11,7 +11,12 @@ namespace Controls.Colors
     {
         public static string ToHslStyle(this Color color) => $"hsl({color.GetHue()}, {color.GetSaturation() * 100}%, {color.GetBrightness() * 100}%)";
 
-        public static string ToDarkerHslStyle(this Color color, double multiplier = 1.5) => $"hsl({color.GetHue()}, {color.GetSaturation() * 100}%, {color.GetBrightness() * 100 / multiplier}%)";
-        public static string ToRGBStyle(this Color color) => $"rgb({color.R}, {color.G}, {color.B})";
+        public static string ToRGBStyle(this Color color) => $"rgba({color.R}, {color.G}, {color.B}, {color.A})";
+
+        public static Color GetContrastingTextColor(this Color color) => color.ApproximateLuminance() > 0.1791 ? Color.Black : Color.White;
+
+        public static double CalcluateContrastRatio(this Color color, Color other) => (color.ApproximateLuminance() + 0.05) / (other.ApproximateLuminance() + 0.05);
+
+        public static double ApproximateLuminance(this Color color) => (color.R + color.R + color.R + color.B + color.G + color.G + color.G + color.G) >> 3;
     }
 }

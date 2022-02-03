@@ -8,6 +8,8 @@
     vertical-align: baseline;
     border-radius: 0.475rem;
     height: fit-content;
+    background-color: var(--badge-background-color);
+    color: var(--badge-color);
 }
 
 .badge-rectangle {

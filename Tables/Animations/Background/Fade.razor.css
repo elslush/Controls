@@ -1,10 +1,12 @@
-﻿::deep .fade {
+﻿.fade {
     --duration: 0.3s;
     --background-color: #2098D1;
     --color: white;
+}
+
+.fade > ::deep * {
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
-    box-shadow: 0 0 1px rgb(0 0 0 / 0%);
     overflow: hidden;
     -webkit-transition-duration: var(--duration);
     transition-duration: var(--duration);
@@ -12,7 +14,7 @@
     transition-property: color, background-color;
 }
 
-::deep .fade:hover, ::deep .fade:focus, ::deep .fade:active {
+.fade > ::deep *:hover {
     background-color: var(--background-color);
     color: var(--color);
 }

@@ -1,11 +1,9 @@
 ﻿@using Controls.Collapsibles
 @using Controls.Buttons
 @using Controls.Selection
-@using Controls.Css
 
 <span>
-    <Button
-        OnClick=OnClick
+    <Button @onclick=OnClick
         Class=@SelectedClass
     >
         <CollapsibleSelector IsCollapsed="isSelected">@Text</CollapsibleSelector>

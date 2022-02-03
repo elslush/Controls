@@ -1,14 +1,6 @@
-﻿@using Controls.Css
-@implements IAnimation
-
-<span>
-    @ChildContent(classString)
-</span>
+﻿@implements IAnimation
 
 
 @code {
-    private static readonly Class classString = new("sweepright");
-
-    [Parameter, EditorRequired]
-    public RenderFragment<Class> ChildContent { get; set; }
+    
 }

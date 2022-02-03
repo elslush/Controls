@@ -1,15 +1,14 @@
 ﻿@using Controls.Buttons
 @using Controls.Collapsibles
-@using Controls.Css
 @using Controls.Selection
 @using Controls.Sidebars.States
 @using System.Text.RegularExpressions
 
 <Button
-    Href=@Link
-    OnClick=OnClick
+    href=@Link
+    class=@SelectedClass
+    @onclick=OnClick
     ChildContent=ChildContent
-    Class=@SelectedClass
 />
 
 @code {

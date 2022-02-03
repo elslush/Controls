@@ -1,14 +1,14 @@
 ﻿@using System.Drawing
-@using Controls.Css
 @using static Controls.Colors.ColorExtensions
 
-@implements ICustomizable
-
-<span class="@TypeClass @PositionClass @CssClasses" style="@CssStyles">
+<span class="@TypeClass @PositionClass" style=@style>
     @ChildContent
 </span>
 
 @code {
+    private string? style;
+    private Color backgroundColor, textColor;
+
     private string TypeClass => BadgeTypeValue switch
     {
         BadgeType.Rectangle => "badge-rectangle",
@@ -27,18 +27,25 @@
         _ => string.Empty,
     };
 
-    [Parameter]
-    public Classes? CssClasses { get; set; }
-
-    [Parameter]
-    public Styles? CssStyles { get; set; }
-
-    [Parameter]
+    [Parameter, EditorRequired]
     public RenderFragment? ChildContent {  get;  set; }
+
+    [Parameter, EditorRequired]
+    public Color BackgroundColor { get; set; }
 
     [Parameter]
     public BadgeType BadgeTypeValue { get; set; } = BadgeType.Rectangle;
 
     [Parameter]
     public BadgePosition Position { get; set; } = BadgePosition.Inline;
+
+    protected override void OnParametersSet()
+    {
+        if (backgroundColor != BackgroundColor)
+        {
+            backgroundColor = BackgroundColor;
+            textColor = BackgroundColor.GetContrastingTextColor();
+            style = $"--badge-background-color:{backgroundColor.ToRGBStyle()};--badge-color:{textColor.ToRGBStyle()};";
+        }
+    }
 }

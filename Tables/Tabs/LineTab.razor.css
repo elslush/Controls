@@ -1,0 +1,9 @@
+﻿.line-tab {
+    --border-botom: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--line-tab-color);
+    transition: color .2s ease,background-color .2s ease;
+    padding: 0.5rem 0;
+    margin: 0 1rem;
+    display: block;
+}

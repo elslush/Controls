@@ -1,38 +1,13 @@
 ﻿@using Controls.Animations
 
-<a 
-    href=@Href
-    class="btn @Class @ActiveClass"
-    @onclick=OnClick
-    @onmouseover=OnMouseOver
-    @onmouseout=OnMouseOut
-    @onfocusin=OnFocusIn
-    @onfocusout=OnFocusOut
->
+<a @attributes=InputAttributes>
     @ChildContent
 </a>
 
 @code {
-    private bool isMouseOver, isFocused;
-    private string? ActiveClass => isMouseOver ? "active" : null;
-
-    [Parameter]
-    public string Href { get; set; } = "javascript: void(0);";
-
-    [Parameter]
-    public string Class { get; set; } = "fade";
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? InputAttributes { get; set; }
 
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
-
-    [Parameter]
-    public EventCallback OnClick { get; set; }
-
-    private void OnMouseOver() => isMouseOver = true;
-
-    private void OnMouseOut() => isMouseOver = false;
-
-    private void OnFocusIn() => isFocused = true;
-
-    private void OnFocusOut() => isFocused = false;
 }

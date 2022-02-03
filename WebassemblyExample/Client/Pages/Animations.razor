@@ -3,7 +3,6 @@
 @using Controls.Animations.Background
 @using Controls.Buttons
 @using Controls.Code
-@using Controls.Css
 @using Controls.Lists
 @using Controls.Selection
 @using Controls.Tabs
@@ -87,9 +86,6 @@
 </div>
 
 @code {
-    private static readonly Style bounceOutStyle = new("--scale", "0.8");
-    private static readonly Classes activeClasses = new(IAnimation.ActiveClass);
-
     private RenderFragment<(bool, string, string)> AnimationTab = content => __builder =>
     {
         <DefaultLineTab IsDefault=content.Item1>
