@@ -15,20 +15,6 @@
     flex-flow: column;
 }
 
-.sidebar-title {
-    font-weight: bold;
-    font-size: 1.25rem;
-}
-
-.sidebar-list {
-    margin-bottom: auto;
-    list-style: none;
-    padding-left: 0;
-    margin-top: 1rem;
-    overflow: auto;
-    display: block;
-}
-
 @media (max-width: 768px) {
     .sidebar {
         margin-left: -250px;
@@ -37,20 +23,4 @@
         .sidebar.active {
             margin-left: 0;
         }
-}
-
-.sidebar-header {
-    text-decoration: none;
-    padding-bottom: 1rem;
-    margin-top: 1rem;
-    align-items: center;
-    border-bottom: 1px solid #dee2e6;
-    display: flex;
-}
-
-.sidebar-icon {
-    vertical-align: -0.125em;
-    pointer-events: none;
-    fill: currentColor;
-    margin-right: 0.5rem;
 }

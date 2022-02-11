@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
-
-namespace Controls.Animations;
+﻿namespace Controls.Animations;
 
 public interface IAnimation
 {
-    //public RenderFragment<string> ChildContent { get; set; }
+    public static string ActiveClass => "active";
+
+    //public string? AnimationClass { get; }
 }

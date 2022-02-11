@@ -3,32 +3,26 @@
 @using static Controls.Colors.ColorExtensions
 @implements IAnimation
 
-<span class="fade" style=@style>
+<span>
     @ChildContent
 </span>
 
 
 @code {
-    private string? style;
-
-    [Parameter]
-    public float? Duration { get; set; }
-
-    [Parameter, EditorRequired]
-    public Color BackgroundColor { get; set; }
-
-    [Parameter, EditorRequired]
-    public Color TextColor { get; set; }
-
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
-    protected override void OnParametersSet()
+    public string? AnimationClass => "fade";
+
+    public static StringBuilder GetAnimationStyle(Color? backgroundColor = null, Color? textColor = null, float? duration = null)
     {
         StringBuilder styleBuilder = new();
-        styleBuilder.AppendFormat("--fade-background-color: {0};--fade-color:{1}", BackgroundColor.ToRGBStyle(), TextColor.ToRGBStyle());
-        if (Duration is not null)
-            styleBuilder.AppendFormat("--duration: {0};", Duration);
-        style = styleBuilder.ToString();
+        if (backgroundColor is not null)
+            styleBuilder.AppendFormat("--fade-background-color: {0};", backgroundColor.Value.ToRGBStyle());
+        if (textColor is not null)
+            styleBuilder.AppendFormat("--fade-color: {0};", textColor.Value.ToRGBStyle());
+        if (duration is not null)
+            styleBuilder.AppendFormat("--duration: {0};", duration);
+        return styleBuilder;
     }
 }

@@ -1,0 +1,8 @@
+﻿.sidebar-header {
+    text-decoration: none;
+    padding-bottom: 1rem;
+    margin-top: 1rem;
+    align-items: center;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+}

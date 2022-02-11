@@ -1,4 +1,19 @@
-﻿::deep .btn.selected {
-    background-color: var(--nav-item-selected-background-color);
-    color: var(--nav-item-selected-color);
+﻿::deep a {
+    border: 0;
+    padding: 0.5rem 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    border-radius: 0.475rem;
+    text-decoration: none;
+    position: relative;
+    display: block;
+    white-space: nowrap;
+    text-align: center;
+    background-color: var(--nav-background-color);
+    color: var(--nav-color);
+}
+
+::deep a:not(.active).hovered {
+    background-color: var(--nav-hovered-background-color);
+    color: var(--nav-hovered-color);
 }

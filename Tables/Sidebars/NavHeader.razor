@@ -2,10 +2,8 @@
 @using Controls.Buttons
 @using Controls.Selection
 
-<span>
-    <Button @onclick=OnClick
-        Class=@SelectedClass
-    >
+<div>
+    <Button @onclick=OnClick>
         <CollapsibleSelector IsCollapsed="isSelected">@Text</CollapsibleSelector>
     </Button>
 
@@ -16,13 +14,11 @@
             </CascadingValue>
         </Collapsible>
     </div>
-</span>
+</div>
 
 
 @code {
     private bool isSelected;
-
-    private string? SelectedClass => isSelected ? "selected fade" : null;
 
     [CascadingParameter]
     public NavHeader? CurrentHeader { get; set; }

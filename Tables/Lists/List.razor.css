@@ -5,10 +5,10 @@
     list-style: none;
 }
 
-.list-horizontal {
+.horizontal {
     flex-direction: row;
 }
 
-.list-vertical {
+.vertical {
     flex-direction: column;
 }

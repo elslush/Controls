@@ -1,4 +1,7 @@
 ﻿@using Controls.Animations
+@using System.Drawing
+@using System.Text
+@using static Controls.Colors.ColorExtensions
 
 <a @attributes=InputAttributes>
     @ChildContent
@@ -10,4 +13,14 @@
 
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
+
+    public static StringBuilder GetAnimationStyle(Color? backgroundColor = null, Color? textColor = null)
+    {
+        StringBuilder styleBuilder = new();
+        if (backgroundColor is not null)
+            styleBuilder.AppendFormat("--button-background-color: {0};", backgroundColor.Value.ToRGBStyle());
+        if (textColor is not null)
+            styleBuilder.AppendFormat("--button-color: {0};", textColor.Value.ToRGBStyle());
+        return styleBuilder;
+    }
 }

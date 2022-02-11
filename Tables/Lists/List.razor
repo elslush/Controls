@@ -1,14 +1,17 @@
-﻿<ol class="list @OrientationStyle">
+﻿<div class="list @OrientationStyle" @attributes=InputAttributes>
     @ChildContent
-</ol>
+</div>
 
 @code {
     private string OrientationStyle => Orientation switch
     {
-        ListOrientation.Vertical => "list-vertical",
-        ListOrientation.Horizontal => "list-horizontal",
+        ListOrientation.Vertical => "vertical",
+        ListOrientation.Horizontal => "horizontal",
         _ => string.Empty,
     };
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? InputAttributes { get; set; }
 
     [Parameter]
     public ListOrientation Orientation { get; set; } = ListOrientation.Vertical;

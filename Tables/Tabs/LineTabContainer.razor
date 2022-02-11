@@ -1,16 +1,15 @@
-﻿@using Controls.Selection
-@using Controls.Lists
+﻿@using Controls.Lists
+@using Controls.Selection
 
-<List Orientation=@Orientation>
-    <SingleSelectionContainer @bind-ActiveValue="BoundValue">
-        @ChildContent
-    </SingleSelectionContainer>
-</List>
+<div class="line-tab-container">
+    <List Orientation=ListOrientation.Horizontal>
+        <SingleSelectionContainer @bind-ActiveValue="BoundValue">
+            @ChildContent
+        </SingleSelectionContainer>
+    </List>
+</div>
 
 @code {
-    [Parameter]
-    public ListOrientation Orientation { get; set; } = ListOrientation.Horizontal;
-
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 

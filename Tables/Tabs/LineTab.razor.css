@@ -1,9 +1,12 @@
 ﻿.line-tab {
-    --border-botom: transparent;
     border: 0;
-    border-bottom: 1px solid var(--line-tab-color);
+    border-bottom: 1px solid transparent;
     transition: color .2s ease,background-color .2s ease;
     padding: 0.5rem 0;
     margin: 0 1rem;
     display: block;
+}
+
+.line-tab:hover .line-tab.active {
+    border-bottom: 1px solid rgb(0, 158, 247);
 }

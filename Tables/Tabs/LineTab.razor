@@ -1,14 +1,9 @@
 ﻿@using Controls.Selection
-@using System.Drawing
-@using static Controls.Colors.ColorExtensions
 @implements ITab
 
 <a
-    @onmouseover=OnMouseOver
-    @onmouseout=OnMouseOut
     @onclick=ActivateTab
-    class="line-tab" 
-    style=@CssStyles
+    class="line-tab @IsActive"
     role="button"
     @attributes=InputAttributes
 >
@@ -16,20 +11,7 @@
 </a>
 
 @code {
-    private string? defaultCss, selectedCss, hoveredCss;
-    private bool isHovered;
-
-    private string? CssStyles 
-    {
-        get
-        {
-            if (SelectionContainer?.ActiveValue == this)
-                return selectedCss;
-            if (isHovered)
-                return hoveredCss;
-            return defaultCss;
-        }
-    }
+    private string? IsActive => SelectionContainer?.ActiveValue == this ? "active" : null;
 
     [CascadingParameter]
     public SingleSelectionContainer<ITab>? SelectionContainer { get; set; }
@@ -41,12 +23,6 @@
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter, EditorRequired]
-    public Color SelectedBorderColor { get; set; }
-
-    [Parameter]
-    public Color? HoverBorderColor { get; set; }
-
     [Parameter]
     public bool IsDefault { get; set; }
 
@@ -55,16 +31,6 @@
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? InputAttributes { get; set; }
-
-    protected override void OnParametersSet()
-    {
-        defaultCss = "--line-tab-color: transparent";
-        selectedCss = $"--line-tab-color: {SelectedBorderColor.ToRGBStyle()}";
-        if (HoverBorderColor is null)
-            hoveredCss = $"--line-tab-color: {SelectedBorderColor.ToRGBStyle()}";
-         else
-            hoveredCss = $"--line-tab-color: {HoverBorderColor.Value.ToRGBStyle()}";
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -77,8 +43,4 @@
         SelectionContainer?.AddValue(this);
         return OnSelect.InvokeAsync();
     }
-
-    private void OnMouseOver() => isHovered = true;
-
-    private void OnMouseOut() => isHovered = false;
 }

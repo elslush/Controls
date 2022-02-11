@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Lists\SelectionCollections\**" />
+    <Content Remove="Lists\SelectionCollections\**" />
+    <EmbeddedResource Remove="Lists\SelectionCollections\**" />
+    <None Remove="Lists\SelectionCollections\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="NpmJS\node_modules\%40discoveryjs\json-ext\package.json" />
     <Content Include="NpmJS\node_modules\%40types\eslint-scope\package.json" />
     <Content Include="NpmJS\node_modules\%40types\eslint\package.json" />
@@ -223,7 +230,6 @@
     <Folder Include="Calendars\" />
     <Folder Include="Chips\" />
     <Folder Include="DatePickers\" />
-    <Folder Include="Lists\SelectionCollections\" />
     <Folder Include="Modals\" />
     <Folder Include="FileDrops\" />
     <Folder Include="Dragging\" />

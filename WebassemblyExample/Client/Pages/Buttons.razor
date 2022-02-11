@@ -1,13 +1,11 @@
 ﻿@using Controls.Badges
 @using Controls.Buttons
 @using Controls.Code
-@using Controls.Css
 @using Controls.Lists
 @using Controls.Selection
 @using Controls.Tabs
 @using System.Drawing
 @using WebassemblyExample.Client.Pages.ButtonsData
-@using WebassemblyExample.Client.Pages.TabsData
 @using static Controls.Colors.ColorExtensions
 
 @page "/buttons"
@@ -72,16 +70,13 @@
 </div>
 
 @code {
-    private static readonly Styles defaultBadgeStyle = new(new Style("background-color", Color.FromArgb(94, 164, 228).ToRGBStyle())),
-        redBadgeStyle = new(new Style("background-color", Color.Red.ToRGBStyle()), new Style("width", "8px"), new Style("height", "8px"));
-
-
+    
     private RenderFragment<(bool, BadgePosition)> PositionTab = content => __builder =>
     {
         string positionName = Enum.GetName(typeof(BadgePosition), content.Item2);
-        <DefaultLineTab IsDefault=content.Item1>
+        <LineTab IsDefault=content.Item1>
             <Content>
-                <DefaultBasicButton>Test<Badge BadgeTypeValue=BadgeType.Circle Position=content.Item2>1</Badge></DefaultBasicButton>
+                <BasicButton BackgroundColor=Color.White>Test<Badge BackgroundColor=Color.Red BadgeTypeValue=BadgeType.Circle Position=content.Item2>1</Badge></BasicButton>
                 
             </Content>
             <ChildContent>
@@ -89,6 +84,6 @@
 <span class="hljs-tag">&lt;<span class="hljs-name">Badge</span> <span class="hljs-attr">Position</span>=<span class="hljs-string">BadgePosition.@positionName</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">Badge</span>&gt;</span>
                 </CodeBlock>
             </ChildContent>
-        </DefaultLineTab>
+        </LineTab>
     };
 }

@@ -4,7 +4,7 @@
     --color: white;
 }
 
-.fade > ::deep * {
+.fade {
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
     overflow: hidden;
@@ -14,7 +14,7 @@
     transition-property: color, background-color;
 }
 
-.fade > ::deep *:hover {
+.fade.active {
     background-color: var(--background-color);
     color: var(--color);
 }

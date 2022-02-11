@@ -1,11 +1,12 @@
 ﻿@using Controls.Sidebars
 @using Controls.Images
 
-<Sidebar Title="Component Library">
-    <Logo>
-        <MMCube></MMCube>
-    </Logo>
-    <ChildContent>
+<Sidebar>
+    <SidebarHeader>
+        <SidebarIcon><MMCube></MMCube></SidebarIcon>
+        <h1><b>Component Library</b></h1>
+    </SidebarHeader>
+    <SidebarList>
         <NavItem Link="cookies">Cookies</NavItem>
         <NavHeader Text="Data">
             <NavItem Link="tables">Tables</NavItem>
@@ -61,5 +62,5 @@
             <NavItem Link="animations">Animations</NavItem>
             <NavItem Link="spinners">Spinners</NavItem>
         </NavHeader>
-    </ChildContent>
+    </SidebarList>
 </Sidebar>
