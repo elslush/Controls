@@ -1,0 +1,44 @@
+﻿@using Controls.Badges
+@using Microsoft.AspNetCore.Components.Forms
+@using Controls.Images
+
+<ChipContainer Values=values Context="value">
+    <Template>
+        <Badge @key=value>
+            @value
+            <InlineSvg @onclick="() => RemoveValue(value)"><XCircle/></InlineSvg>click
+        </Badge>
+    </Template>
+    <Input>
+        <InputText>
+            <input type="text" @bind-value=@currentValue @onkeyup="OnKeyUp" />
+        </InputText>
+    </Input>
+</ChipContainer>
+
+@code {
+    private string currentValue = string.Empty;
+    private readonly HashSet<string> values = new();
+
+    [Parameter]
+    public IEnumerable<string> InitialValues { get; set; } = Enumerable.Empty<string>();
+
+    protected override void OnInitialized()
+    {
+        values.UnionWith(InitialValues);
+    }
+
+    private void OnKeyUp(KeyboardEventArgs args)
+    {
+        if (args.Key.Equals("Enter", StringComparison.OrdinalIgnoreCase))
+        {
+            values.Add(currentValue);
+            currentValue = string.Empty;
+        }
+    }
+
+    private void RemoveValue(string value)
+    {
+        values.Remove(value);
+    }
+}

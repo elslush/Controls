@@ -1,14 +1,8 @@
-﻿@using Controls.Css
+﻿
 @implements IAnimation
 
-<span>
-    @ChildContent(classString)
-</span>
 
 
 @code {
-    private static readonly Class classString = new("buzz");
-
-    [Parameter, EditorRequired]
-    public RenderFragment<Class> ChildContent { get; set; }
+    
 }

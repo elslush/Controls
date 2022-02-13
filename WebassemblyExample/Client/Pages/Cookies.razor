@@ -1,7 +1,41 @@
-﻿@page "/cookies"
+﻿@implements IAsyncDisposable
+@inject IJSRuntime JS
 
-<h3>Cookies</h3>
+@page "/cookies"
+
+<div>
+    <button @ref=buttonReference id="button" aria-describedby="tooltip">
+        My button
+    </button>
+    <div @ref=tooltipReference id="tooltip" role="tooltip" style="position: absolute;">My tooltip</div>
+</div>
 
 @code {
+    private IJSObjectReference? module;
+    private ElementReference buttonReference;
+    private ElementReference tooltipReference;
+    private string? result;
 
+    class Result
+    {
+        public float x { get; set; }
+        public float y { get; set; }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/@floating-ui/dom/dist/floating-ui.dom.esm.js");
+            var position = await module.InvokeAsync<Result>("computePosition", buttonReference, tooltipReference);
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
 }

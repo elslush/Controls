@@ -1,17 +1,19 @@
 ﻿@using System.Drawing
 @using static Controls.Colors.ColorExtensions;
 
-<svg class="inline-svg" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style="fill: @FillStyle;">
-    @Inner
+<svg class="inline-svg" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" style="fill: @FillStyle;" @attributes=InputAttributes>
+    @ChildContent
 </svg>
 
 @code {
     private string FillStyle => FillColor.ToRGBStyle();
 
-    [EditorRequired]
-    [Parameter]
-    public RenderFragment Inner { get; set; }
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; }
 
     [Parameter]
     public Color FillColor { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? InputAttributes { get; set; }
 }

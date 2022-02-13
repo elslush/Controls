@@ -1,0 +1,27 @@
+﻿@using Controls.Lists
+@typeparam T
+
+<List Orientation=ListOrientation.Horizontal>
+    @foreach(var value in Values)
+    {
+        @Template(value)
+    }
+    @if (Input is not null)
+    {
+        <div class="chip-input">
+            @Input
+        </div>
+    }
+</List>
+
+
+@code {
+    [Parameter]
+    public IEnumerable<T> Values { get; set; } = Enumerable.Empty<T>();
+
+    [Parameter, EditorRequired]
+    public RenderFragment<T> Template { get; set; }
+
+    [Parameter]
+    public RenderFragment? Input { get; set; }
+}
