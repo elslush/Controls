@@ -2,9 +2,9 @@
 @using Controls.Buttons
 @using Controls.Selection
 
-<div>
+<div class="nav-header-container">
     <Button @onclick=OnClick>
-        <CollapsibleSelector IsCollapsed="isSelected">@Text</CollapsibleSelector>
+        <CollapsibleSelector IsCollapsed="isSelected"><span class="nav-header-text">@Text</span></CollapsibleSelector>
     </Button>
 
     <div class="nav-header-children">

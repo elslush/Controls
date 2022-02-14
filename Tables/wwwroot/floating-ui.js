@@ -236,7 +236,7 @@ function rectToClientRect(rect) {
  * - 0 = lies flush with the boundary
  */
 function detectOverflow(middlewareArguments, options) {
-    if (options === void 0) {
+    if (options === void 0 || options === null) {
         options = {};
     }
 
@@ -408,7 +408,7 @@ function getPlacementList(alignment, autoAlignment, allowedPlacements) {
  * Automatically chooses the `placement` which has the most space available.
  */
 const autoPlacement = function (options) {
-    if (options === void 0) {
+    if (options === void 0 || options === null) {
         options = {};
     }
 
@@ -505,7 +505,7 @@ function getExpandedPlacements(placement) {
  * initially specified `placement` does not.
  */
 const flip = function (options) {
-    if (options === void 0) {
+    if (options === void 0 || options === null) {
         options = {};
     }
 
@@ -735,7 +735,7 @@ function getCrossAxis(axis) {
  * a clipping boundary.
  */
 const shift = function (options) {
-    if (options === void 0) {
+    if (options === void 0 || options === null) {
         options = {};
     }
 
@@ -813,7 +813,7 @@ const shift = function (options) {
  * Built-in `limiter` that will stop `shift()` at a certain point.
  */
 const limitShift = function (options) {
-    if (options === void 0) {
+    if (options === void 0 || options === null) {
         options = {};
     }
 
@@ -896,7 +896,7 @@ const limitShift = function (options) {
  * reference element.
  */
 const size = function (options) {
-    if (options === void 0) {
+    if (options === void 0 || options === null) {
         options = {};
     }
 
@@ -965,7 +965,7 @@ const size = function (options) {
  * over multiple lines, such as hyperlinks or range selections.
  */
 const inline = function (options) {
-    if (options === void 0) {
+    if (options === void 0 || options === null) {
         options = {};
     }
 
@@ -1571,11 +1571,71 @@ const platform = {
  * strategy.
  */
 
-function computePosition(reference, floating, options) {
-    return computePosition$1(reference, floating, {
-        platform,
-        ...options
+export function addEventListeners(fn, referenceEl, floatingEl) {
+    const update = () => fn.invokeMethodAsync("Update");
+    const parents = [
+        ...getScrollParents(referenceEl),
+        ...getScrollParents(floatingEl),
+    ];
+    parents.forEach((el) => {
+        el.addEventListener('scroll', update);
+        el.addEventListener('resize', update);
     });
+    return {
+        stop: () => {
+            parents.forEach((el) => {
+                el.removeEventListener('scroll', update);
+                el.removeEventListener('resize', update);
+            });
+        }
+    };
 }
 
-export { arrow, autoPlacement, computePosition, getScrollParents, detectOverflow, flip, hide, inline, limitShift, offset, shift, size };
+export function buildComputePosition(options) {
+    let {
+        placement,
+        strategy,
+        middlewarespec,
+    } = options;
+
+    let middleware = [];
+    for (let i = 0; i < middlewarespec.length; i++) {
+        switch (middlewarespec[i].name) {
+            case "offset":
+                middleware.push(offset(middlewarespec[i].options));
+                break;
+            case "shift":
+                middleware.push(shift(middlewarespec[i].options));
+                break;
+            case "flip":
+                middleware.push(flip(middlewarespec[i].options));
+                break;
+            case "arrow":
+                middleware.push(arrow(middlewarespec[i].options));
+                break;
+            case "autoPlacement":
+                middleware.push(autoPlacement(middlewarespec[i].options));
+                break;
+            case "inline":
+                middleware.push(inline(middlewarespec[i].options));
+                break;
+            default:
+                break;
+        }
+        
+    }
+
+    return {
+        computePosition: (reference, floating) => {
+            return computePosition$1(reference, floating, {
+                platform,
+                //...options
+                placement,
+                strategy,
+                middleware,
+            });
+        },
+    };
+}
+
+//export { arrow, autoPlacement, computePosition, getScrollParents, detectOverflow, flip, hide, inline, limitShift, offset, shift, size };

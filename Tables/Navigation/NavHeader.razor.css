@@ -1,8 +1,14 @@
 ﻿.nav-header-children {
-    padding-left: 1rem;
+    padding-left: 2rem;
 }
 
-::deep .btn.selected {
-    background-color: var(--nav-header-selected-background-color);
-    color: var(--nav-header-selected-color);
+.nav-header-container {
+    border-bottom: 1px solid #dadce0;
+    padding: 5px 0 5px 0;
+}
+
+.nav-header-text {
+    color: black;
+    font-weight: 700;
+    padding-left: 1rem;
 }

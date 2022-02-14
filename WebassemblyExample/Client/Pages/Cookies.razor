@@ -2,40 +2,52 @@
 @inject IJSRuntime JS
 
 @page "/cookies"
+@using Controls.FloatingUI
+@using Controls.FloatingUI.Middleware
+@using static Controls.FloatingUI.FloatingUIHandler
 
 <div>
     <button @ref=buttonReference id="button" aria-describedby="tooltip">
         My button
     </button>
-    <div @ref=tooltipReference id="tooltip" role="tooltip" style="position: absolute;">My tooltip</div>
+    <div @ref=tooltipReference id="tooltip" role="tooltip" style="position: absolute;left:@result.LeftStyle;top:@result.TopStyle;">My tooltip</div>
 </div>
 
 @code {
-    private IJSObjectReference? module;
+    private FloatingUIHandler? floatingUIHandler;
+    private static FloatingUIOptions options = new()
+                {
+                    Placement = Placement.Bottom,
+                    Middleware = new IMiddleware[] { new Shift(), new Flip(), },
+                };
+
     private ElementReference buttonReference;
     private ElementReference tooltipReference;
-    private string? result;
 
-    class Result
-    {
-        public float x { get; set; }
-        public float y { get; set; }
-    }
+    private Result result = new() { X = 0, Y = 0, };
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/@floating-ui/dom/dist/floating-ui.dom.esm.js");
-            var position = await module.InvokeAsync<Result>("computePosition", buttonReference, tooltipReference);
+            floatingUIHandler = await FloatingUIHandler.New(JS, options);
+            await floatingUIHandler.AddEventListeners(Update, buttonReference, tooltipReference);
+            await Update();
+        }
+    }
+
+    private async Task Update()
+    {
+        if (floatingUIHandler is not null)
+        {
+            result = await floatingUIHandler.GetPosition(buttonReference, tooltipReference);
+            await InvokeAsync(StateHasChanged);
         }
     }
 
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
-        if (module is not null)
-        {
-            await module.DisposeAsync();
-        }
+        if (floatingUIHandler is not null)
+            await floatingUIHandler.DisposeAsync();
     }
 }

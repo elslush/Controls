@@ -1,20 +1,15 @@
-﻿@using System.Drawing
-@using Controls.Animations
+﻿@using Controls.Animations
 @using Controls.Animations.Background
-@using static Controls.Colors.ColorExtensions
 
-<Fade @ref=@fade>
-    <Button @onmouseover=OnMouseOver @onmouseout=OnMouseOut class=@IsActive style=@style @attributes=InputAttributes ChildContent=ChildContent/>
+<Fade>
+    <Button @onmouseover=OnMouseOver @onmouseout=OnMouseOut class=@CssClass @attributes=InputAttributes ChildContent=ChildContent/>
 </Fade>
 
 
 @code {
-    private Fade? fade;
-    private string? style;
-    private Color backgroundColor;
-
     private bool isHovered;
-    private string? IsActive => isHovered ? $"{fade?.AnimationClass} {IAnimation.ActiveClass}" : fade?.AnimationClass;
+    private string? hoveredClass, defaultClass;
+    private string? CssClass => isHovered ? hoveredClass : defaultClass;
 
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? InputAttributes { get; set; }
@@ -22,22 +17,16 @@
     [Parameter, EditorRequired]
     public RenderFragment ChildContent { get; set; }
 
-    [Parameter, EditorRequired]
-    public Color BackgroundColor { get; set; }
-
-    protected override void OnParametersSet()
-    {
-        if (backgroundColor != BackgroundColor)
-        {
-            backgroundColor = BackgroundColor;
-            Color fadeBackgroundColor = Color.FromArgb(200, BackgroundColor);
-            style = Fade.GetAnimationStyle(fadeBackgroundColor, fadeBackgroundColor.GetContrastingTextColor())
-                .Append(Button.GetAnimationStyle(backgroundColor, backgroundColor.GetContrastingTextColor()))
-                .ToString();
-        }
-    }
+    [Parameter]
+    public string? Class { get; set; }
 
     private void OnMouseOver() => isHovered = true;
 
     private void OnMouseOut() => isHovered = false;
+
+    protected override void OnParametersSet()
+    {
+        hoveredClass = $"{Fade.AnimationClass} {IAnimation.ActiveClass} {Class}";
+        defaultClass = $"{Fade.AnimationClass} {Class}";
+    }
 }

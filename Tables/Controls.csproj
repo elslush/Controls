@@ -322,7 +322,6 @@
     <Folder Include="Undo\" />
     <Folder Include="QRCodes\" />
     <Folder Include="Ratings\" />
-    <Folder Include="Scrolling\" />
     <Folder Include="Overlays\" />
     <Folder Include="Snackbars\" />
     <Folder Include="Ripples\" />
@@ -3154,9 +3153,7 @@
     <None Include="wwwroot\@floating-ui\core\src\utils\within.d.ts" />
     <None Include="wwwroot\@floating-ui\core\src\_babel.d.ts" />
     <None Include="wwwroot\@floating-ui\dom\dist\floating-ui.dom.cjs" />
-    <None Include="wwwroot\@floating-ui\dom\dist\floating-ui.dom.esm.development.js" />
-    <None Include="wwwroot\@floating-ui\dom\dist\floating-ui.dom.esm.js" />
-    <None Include="wwwroot\@floating-ui\dom\dist\floating-ui.dom.esm.min.js" />
+    <None Include="wwwroot\floating-ui.js" />
     <None Include="wwwroot\@floating-ui\dom\dist\floating-ui.dom.js" />
     <None Include="wwwroot\@floating-ui\dom\dist\floating-ui.dom.min.js" />
     <None Include="wwwroot\@floating-ui\dom\index.d.ts" />

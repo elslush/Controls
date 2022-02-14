@@ -1,9 +1,6 @@
-using Controls.Sidebars.States;
 using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddSingleton<NavigationState, NavigationState>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

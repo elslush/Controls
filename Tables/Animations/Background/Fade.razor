@@ -1,7 +1,4 @@
-﻿@using System.Drawing
-@using System.Text
-@using static Controls.Colors.ColorExtensions
-@implements IAnimation
+﻿@implements IAnimation
 
 <span>
     @ChildContent
@@ -12,17 +9,5 @@
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
-    public string? AnimationClass => "fade";
-
-    public static StringBuilder GetAnimationStyle(Color? backgroundColor = null, Color? textColor = null, float? duration = null)
-    {
-        StringBuilder styleBuilder = new();
-        if (backgroundColor is not null)
-            styleBuilder.AppendFormat("--fade-background-color: {0};", backgroundColor.Value.ToRGBStyle());
-        if (textColor is not null)
-            styleBuilder.AppendFormat("--fade-color: {0};", textColor.Value.ToRGBStyle());
-        if (duration is not null)
-            styleBuilder.AppendFormat("--duration: {0};", duration);
-        return styleBuilder;
-    }
+    public static string? AnimationClass => "fade";
 }

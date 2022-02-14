@@ -1,31 +1,27 @@
 ﻿@using Controls.Animations
 @using Controls.Animations.Background
 @using Microsoft.AspNetCore.Components.Routing
-@using System.Drawing
-@using static Controls.Colors.ColorExtensions
 
 @inject NavigationManager NavigationManager
 
-<Fade @ref=@fade>
-    <NavLink
-        @onmouseover=OnMouseOver 
-        @onmouseout=OnMouseOut
-        ActiveClass=@IAnimation.ActiveClass
-        href=@Link
-        class=@IsHovered
-        style=@style
-        ChildContent=ChildContent
-    />
-</Fade>
+<span>
+    <Fade>
+        <NavLink
+            @onmouseover=OnMouseOver 
+            @onmouseout=OnMouseOut
+            ActiveClass=@activeClass
+            href=@Link
+            class=@CssClass
+            ChildContent=ChildContent
+            />
+    </Fade>
+</span>
 
 
 @code {
-    private Fade? fade;
-    private string? style;
-    private Color backgroundColor, hoveredBackgroundColor;
-
     private bool isHovered;
-    private string? IsHovered => isHovered ? $"{fade?.AnimationClass} hovered" : fade?.AnimationClass;
+    private string? hoveredClass, defaultClass, activeClass;
+    private string? CssClass => isHovered ? hoveredClass : defaultClass;
 
     [CascadingParameter]
     public NavHeader? CurrentHeader { get; set; }
@@ -34,31 +30,24 @@
     public RenderFragment ChildContent { get; set; }
 
     [Parameter, EditorRequired]
-    public Color BackgroundColor { get; set; }
+    public string? ActiveClass { get; set; }
 
-    [Parameter, EditorRequired]
-    public Color HoveredBackgroundColor { get; set; }
+    [Parameter]
+    public string? Class { get; set; }
 
     [Parameter]
     public string Link { get; set; } = string.Empty;
 
-    protected override void OnParametersSet()
-    {
-        if (backgroundColor != BackgroundColor || hoveredBackgroundColor != HoveredBackgroundColor)
-        {
-            backgroundColor = BackgroundColor;
-            hoveredBackgroundColor = HoveredBackgroundColor;
-            Color fadeBackgroundColor = Color.FromArgb(200, BackgroundColor);
-            style = Fade.GetAnimationStyle(fadeBackgroundColor, fadeBackgroundColor.GetContrastingTextColor())
-                .AppendFormat("--nav-background-color: {0};--nav-color: {1};", backgroundColor.ToRGBStyle(), backgroundColor.GetContrastingTextColor())
-                .AppendFormat("--nav-hovered-background-color: {0};--nav-hovered-color: {1};", hoveredBackgroundColor.ToRGBStyle(), hoveredBackgroundColor.GetContrastingTextColor())
-                .ToString();
-        }
-    }
-
     private void OnMouseOver() => isHovered = true;
 
     private void OnMouseOut() => isHovered = false;
+
+    protected override void OnParametersSet()
+    {
+        hoveredClass = $"nav-item {Fade.AnimationClass} {IAnimation.ActiveClass} {Class}";
+        defaultClass = $"nav-item {Fade.AnimationClass} {Class}";
+        activeClass = $"selected {ActiveClass}";
+    }
 
     protected override void OnAfterRender(bool firstRender)
     {

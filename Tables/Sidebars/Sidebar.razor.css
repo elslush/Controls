@@ -7,12 +7,12 @@
 }
 
 .sidebar-container {
-    padding: 1rem;
     width: var(--sidebar-width);
     display: flex;
     color: #212529;
     height: 100%;
     flex-flow: column;
+    box-shadow: 1px 0 2px 0 rgba(60,64,67,0.15);
 }
 
 @media (max-width: 768px) {

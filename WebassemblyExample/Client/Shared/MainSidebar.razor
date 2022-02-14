@@ -1,5 +1,7 @@
-﻿@using Controls.Sidebars
+﻿@using Controls.Navigation
+@using Controls.Sidebars
 @using Controls.Images
+@using System.Text.RegularExpressions
 
 <Sidebar>
     <SidebarHeader>
@@ -7,60 +9,65 @@
         <h1><b>Component Library</b></h1>
     </SidebarHeader>
     <SidebarList>
-        <NavItem Link="cookies">Cookies</NavItem>
         <NavHeader Text="Data">
-            <NavItem Link="tables">Tables</NavItem>
-            <NavItem Link="filters">Filters</NavItem>
-            <NavItem Link="pagination">Pagination</NavItem>
-            <NavItem Link="selection">Selection</NavItem>
-            <NavItem Link="sorting">Sorting</NavItem>
+            @RenderNavItem("Tables")
+            @RenderNavItem("Lists")
+            @RenderNavItem("Filters")
+            @RenderNavItem("Pagination")
+            @RenderNavItem("Selection")
+            @RenderNavItem("Sorting")
         </NavHeader>
         <NavHeader Text="Inputs">
-            <NavItem Link="buttons">Buttons</NavItem>
-            <NavItem Link="captchas">Captchas</NavItem>
-            <NavItem Link="checkboxes">Check Boxes</NavItem>
-            <NavItem Link="clipboard">Clipboard</NavItem>
-            <NavItem Link="colorPickers">Color Pickers</NavItem>
-            <NavItem Link="date Pickers">Date Pickers</NavItem>
-            <NavItem Link="draggables">Draggables</NavItem>
-            <NavItem Link="dropdowns">Dropdowns</NavItem>
-            <NavItem Link="filedrops">File Drops</NavItem>
-            <NavItem Link="text">Text</NavItem>
-            <NavItem Link="sliders">Sliders</NavItem>
-            <NavItem Link="texteditors">Text Editors</NavItem>
+            @RenderNavItem("Buttons")
+            @RenderNavItem("Check Boxes")
+            @RenderNavItem("Clipboard")
+            @RenderNavItem("Color Pickers")
+            @RenderNavItem("Date Pickers")
+            @RenderNavItem("Draggables")
+            @RenderNavItem("Dropdowns")
+            @RenderNavItem("File Drops")
+            @RenderNavItem("Text")
+            @RenderNavItem("Sliders")
+            @RenderNavItem("Text Editors")
         </NavHeader>
         <NavHeader Text="Layout">
-            <NavItem Link="containers">Containers</NavItem>
-            <NavItem Link="footers">Footers</NavItem>
-            <NavItem Link="headers">Headers</NavItem>
-            <NavItem Link="grids">Grids</NavItem>
-            <NavItem Link="overlays">Overlays</NavItem>
-            <NavItem Link="sidebars">Sidebars</NavItem>
-            <NavItem Link="tabs">Tabs</NavItem>
+            @RenderNavItem("Grids")
+            @RenderNavItem("Overlays")
+            @RenderNavItem("Sidebars")
+            @RenderNavItem("Tabs")
         </NavHeader>
         <NavHeader Text="Media">
-            <NavItem Link="audio">Audio</NavItem>
-            <NavItem Link="images">Images</NavItem>
-            <NavItem Link="videos">Videos</NavItem>
+            @RenderNavItem("Audio")
+            @RenderNavItem("Images")
+            @RenderNavItem("Videos")
         </NavHeader>
         <NavHeader Text="UI">
-            <NavItem Link="alerts">Alerts</NavItem>
-            <NavItem Link="badges">Badges</NavItem>
-            <NavItem Link="breadcrumbs">Breadcrumbs</NavItem>
-            <NavItem Link="calendars">Calendars</NavItem>
-            <NavItem Link="chips">Chips</NavItem>
-            <NavItem Link="code">Code</NavItem>
-            <NavItem Link="collapsibles">Collapsibles</NavItem>
-            <NavItem Link="icons">Icons</NavItem>
-            <NavItem Link="modals">Modals</NavItem>
-            <NavItem Link="progressbars">Progress Bars</NavItem>
-            <NavItem Link="ratings">Ratings</NavItem>
-            <NavItem Link="scrollbars">Scroll Bars</NavItem>
-            <NavItem Link="snackbars">Snack Bars</NavItem>
+            @RenderNavItem("Alerts")
+            @RenderNavItem("Badges")
+            @RenderNavItem("Calendars")
+            @RenderNavItem("Chips")
+            @RenderNavItem("Code")
+            @RenderNavItem("Collapsibles")
+            @RenderNavItem("Icons")
+            @RenderNavItem("Modals")
+            @RenderNavItem("Progress Bars")
+            @RenderNavItem("Ratings")
+            @RenderNavItem("Scroll Bars")
+            @RenderNavItem("Snack Bars")
         </NavHeader>
         <NavHeader Text="Visual">
-            <NavItem Link="animations">Animations</NavItem>
-            <NavItem Link="spinners">Spinners</NavItem>
+            @RenderNavItem("Animations")
+            @RenderNavItem("Spinners")
         </NavHeader>
     </SidebarList>
 </Sidebar>
+
+@code{
+    private static readonly Regex sWhitespace = new Regex(@"\s+");
+
+    private RenderFragment<string> RenderNavItem = name => __builder =>
+    {
+        var link = sWhitespace.Replace(name, "");
+        <NavItem Class="navitem-selected" ActiveClass="color-default" Link=@link>@name</NavItem>
+    };
+}

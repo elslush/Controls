@@ -6,7 +6,7 @@
 </span>
 
 @code {
-    private string? CssClass => $"{BadgeTypeValue} {Position} {Class}";
+    private string? CssClass => $"{TypeClass} {PositionClass} {Class}";
 
     private string TypeClass => BadgeTypeValue switch
     {
