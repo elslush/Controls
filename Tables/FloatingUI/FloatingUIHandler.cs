@@ -12,8 +12,8 @@ namespace Controls.FloatingUI
     public class FloatingUIHandler : IAsyncDisposable
     {
         private readonly IJSObjectReference module, computePositionFunction;
-        private IJSObjectReference? eventListenerFunction;
         private readonly List<IDisposable> eventReferences = new();
+        private readonly List<IJSObjectReference> eventAsyncReferences = new();
 
         public static async Task<FloatingUIHandler> New(IJSRuntime js, FloatingUIOptions floatingUIOptions)
         {
@@ -35,14 +35,14 @@ namespace Controls.FloatingUI
         {
             var eventReference = DotNetObjectReference.Create(new ActionReference(function));
             eventReferences.Add(eventReference);
-            eventListenerFunction = await module.InvokeAsync<IJSObjectReference>("addEventListeners", eventReference, buttonReference, tooltipReference);
+            eventAsyncReferences.Add(await module.InvokeAsync<IJSObjectReference>("addEventListeners", eventReference, buttonReference, tooltipReference));
         }
 
         public async Task AddEventListeners(Func<Task> function, ElementReference buttonReference, ElementReference tooltipReference)
         {
             var eventReference = DotNetObjectReference.Create(new TaskReference(function));
             eventReferences.Add(eventReference);
-            eventListenerFunction = await module.InvokeAsync<IJSObjectReference>("addEventListeners", eventReference, buttonReference, tooltipReference);
+            eventAsyncReferences.Add(await module.InvokeAsync<IJSObjectReference>("addEventListeners", eventReference, buttonReference, tooltipReference));
         }
 
         private class ActionReference
@@ -104,12 +104,12 @@ namespace Controls.FloatingUI
                 await module.DisposeAsync();
             if (computePositionFunction is not null)
                 await computePositionFunction.DisposeAsync();
-            if (eventListenerFunction is not null)
-            {
-                await eventListenerFunction.InvokeVoidAsync("stop");
-                await eventListenerFunction.DisposeAsync();
-            }
             eventReferences.ForEach(disposable => disposable.Dispose());
+            foreach (var disposable in eventAsyncReferences)
+            {
+                await disposable.InvokeVoidAsync("stop");
+                await disposable.DisposeAsync();
+            }
             GC.SuppressFinalize(this);
         }
     }

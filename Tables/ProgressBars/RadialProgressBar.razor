@@ -1,0 +1,37 @@
+﻿@using System.Drawing
+@using static Controls.Colors.ColorExtensions
+
+<div class="radial-progress @Class" role="progressbar" style=@CssStyle></div>
+
+@code {
+    private Color completeColor, incompleteColor;
+    private string? colorStyles;
+
+    private float PercentageBounded => MathF.Round(Math.Max(0, Math.Min(100, (Percentage * 100))));
+    private string? CssStyle => $"--progress:{PercentageBounded}%;{colorStyles}{Style}";
+
+    [Parameter, EditorRequired]
+    public float Percentage { get; set; }
+
+    [Parameter]
+    public Color CompleteColor { get; set; } = Color.FromArgb(102, 153, 255);
+
+    [Parameter]
+    public Color IncompleteColor { get; set; } = Color.FromArgb(10, 37, 240);
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if (CompleteColor != completeColor || IncompleteColor != incompleteColor)
+        {
+            colorStyles = $"--complete-color:{CompleteColor.ToRGBStyle()};--incomplete-color:{IncompleteColor.ToRGBStyle()};"
+            completeColor = CompleteColor;
+            incompleteColor = IncompleteColor;
+        }
+    }
+}

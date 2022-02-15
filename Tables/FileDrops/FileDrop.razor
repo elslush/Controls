@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.JSInterop
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<div @ref=@fileDropElement class="file-drop @Class">
+    <p>@Description</p>
+    <InputFile OnChange=@OnFileDrop @ref=@inputFile />
+</div>
+
+@code {
+    private ElementReference fileDropElement;
+    private InputFile? inputFile;
+    private IJSObjectReference? module, eventListenerFunction;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string Description { get; set; } = "Drop a file or paste an image from the clipboard or select a file using the input";
+
+    [Parameter, EditorRequired]
+    public EventCallback<InputFileChangeEventArgs> OnFileDrop { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && inputFile is not null)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/dropZone.js");
+            eventListenerFunction = await module.InvokeAsync<IJSObjectReference>("init", fileDropElement, inputFile.Element);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (module is not null)
+            await module.DisposeAsync();
+
+        if (eventListenerFunction is not null)
+        {
+            await eventListenerFunction.InvokeVoidAsync("stop");
+            await eventListenerFunction.DisposeAsync();
+        }
+    }
+}

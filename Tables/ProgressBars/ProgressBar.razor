@@ -1,0 +1,17 @@
+﻿<div role="progressbar" class="progress @Class" style=@CssStyle>
+    <div class="progress-bar"></div>
+</div>
+
+@code {
+    private float PercentageBounded => MathF.Round(Math.Max(0, Math.Min(100, (Percentage * 100))));
+    private string? CssStyle => $"width:{PercentageBounded}%;{Style}";
+
+    [Parameter, EditorRequired]
+    public float Percentage { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter]
+    public string? Style { get; set; }
+}

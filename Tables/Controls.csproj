@@ -10,18 +10,22 @@
     <Compile Remove="Catpchas\**" />
     <Compile Remove="Cookies\**" />
     <Compile Remove="Lists\SelectionCollections\**" />
+    <Compile Remove="Ripples\**" />
     <Compile Remove="wwwroot\dom\**" />
     <Content Remove="Catpchas\**" />
     <Content Remove="Cookies\**" />
     <Content Remove="Lists\SelectionCollections\**" />
+    <Content Remove="Ripples\**" />
     <Content Remove="wwwroot\dom\**" />
     <EmbeddedResource Remove="Catpchas\**" />
     <EmbeddedResource Remove="Cookies\**" />
     <EmbeddedResource Remove="Lists\SelectionCollections\**" />
+    <EmbeddedResource Remove="Ripples\**" />
     <EmbeddedResource Remove="wwwroot\dom\**" />
     <None Remove="Catpchas\**" />
     <None Remove="Cookies\**" />
     <None Remove="Lists\SelectionCollections\**" />
+    <None Remove="Ripples\**" />
     <None Remove="wwwroot\dom\**" />
   </ItemGroup>
 
@@ -315,7 +319,6 @@
     <Folder Include="Calendars\" />
     <Folder Include="DatePickers\" />
     <Folder Include="Modals\" />
-    <Folder Include="FileDrops\" />
     <Folder Include="Dragging\" />
     <Folder Include="Editing\" />
     <Folder Include="Chatting\" />
@@ -324,8 +327,6 @@
     <Folder Include="Ratings\" />
     <Folder Include="Overlays\" />
     <Folder Include="Snackbars\" />
-    <Folder Include="Ripples\" />
-    <Folder Include="ProgressBars\" />
     <Folder Include="Spinners\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>

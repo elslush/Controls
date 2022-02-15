@@ -1,7 +1,6 @@
 ﻿@using Microsoft.JSInterop;
 
 @inject IJSRuntime JS
-@inject IClickManager ClickManager
 @implements IAsyncDisposable
 
 <div class="btn-group" @onclick:stopPropagation="true">
@@ -14,53 +13,36 @@
 </div>
 
 @code {
-    private IJSObjectReference? module;
-
-    [Parameter]
-    public RenderFragment? ButtonText { get; set; }
+    private ElementReference? 
+    private DropdownHandler? dropdownHandler;
 
     [Parameter]
     public RenderFragment? Content { get; set; }
 
     [Parameter]
-    public EventHandler<bool>? OnDropdown { get; set; }
+    public bool IsDropped { get; set; }
 
-    private bool collapseDropdown = false;
-    private DropdownManager dropdownManager;
-
-    private string? DropdownCssClass => collapseDropdown ? "show" : null;
-
-    protected override void OnInitialized()
-    {
-        dropdownManager = new DropdownManager(Guid.NewGuid().ToString(), ClickManager);
-        dropdownManager.CollapsedChange += CollapseLoginMenu;
-        if (OnDropdown != null)
-            dropdownManager.CollapsedChange += OnDropdown;
-    }
+    [Parameter]
+    public EventCallback<bool> IsDroppedChanged { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            module = await JS.InvokeAsync<IJSObjectReference>("import", "./clickmanager.js");
-            await ClickManager.SetupWindowClickCallback(module);
+            dropdownHandler = await DropdownHandler.New(JS);
+            await dropdownHandler.AddCloseEventListeners(Update, buttonReference, tooltipReference);
         }
     }
 
-    private void CollapseLoginMenu(object? sender, bool collapse)
+    public Task ToggleDropdown()
     {
-        collapseDropdown = collapse;
-        StateHasChanged();
-    }
-
-    public void ToggleDropdown()
-    {
-        dropdownManager.Toggle();
+        IsDropped = !IsDropped;
+        return IsDroppedChanged.InvokeAsync();
     }
 
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
-        if (module is not null)
-            await module.DisposeAsync();
+        if (dropdownHandler is not null)
+            await dropdownHandler.DisposeAsync();
     }
 }
