@@ -2,7 +2,7 @@
 
 public interface ISelectionContainer<T>
 {
-    public Task AddValue(T value);
+    public Task AddValue(T value, bool dispatchOverride = false);
 
     public Task RemoveValue(T value);
 

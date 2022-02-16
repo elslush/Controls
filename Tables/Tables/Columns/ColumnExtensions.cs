@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Controls.Grid.Sizing
+namespace Controls.Tables.Columns;
+
+public static class ColumnExtensions
 {
-    public class MinMax : IRows, IRepeater
-    {
-    }
 }

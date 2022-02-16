@@ -3,21 +3,16 @@
 @inject IJSRuntime JS
 @implements IAsyncDisposable
 
-<div class="btn-group" @onclick:stopPropagation="true">
-    <button class="form-select" @onclick="dropdownManager.Toggle" @onclick:stopPropagation="true">
-        @ButtonText
-    </button>
-    <div class="dropdown-menu @DropdownCssClass">
-        @Content
-    </div>
+<div class="dropdown-menu" @ref=dropdown>
+    @ChildContent
 </div>
 
 @code {
-    private ElementReference? 
+    private ElementReference? dropdown;
     private DropdownHandler? dropdownHandler;
 
     [Parameter]
-    public RenderFragment? Content { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
     public bool IsDropped { get; set; }
@@ -30,7 +25,8 @@
         if (firstRender)
         {
             dropdownHandler = await DropdownHandler.New(JS);
-            await dropdownHandler.AddCloseEventListeners(Update, buttonReference, tooltipReference);
+            if (dropdown is not null)
+                await dropdownHandler.AddCloseEventListeners(dropdown.Value);
         }
     }
 

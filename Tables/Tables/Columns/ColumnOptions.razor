@@ -1,0 +1,32 @@
+﻿@using Controls.Selection
+@typeparam TGridItem
+
+<button class="column-options-button @Class" @onclick=@ToggleOptions/>
+
+@code {
+    private bool isOpened;
+
+    [CascadingParameter]
+    public SingleSelectionContainer<ColumnOptions<TGridItem>> ColumnOptionsContainer { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    private void ToggleOptions()
+    {
+        if (ColumnOptionsContainer.IsSelected(this))
+            ColumnOptionsContainer.RemoveValue(this);
+        else
+            ColumnOptionsContainer.AddValue(this);
+    }
+
+    public RenderFragment GetColumnOptions => builder =>
+    {
+        <div class="column-options">
+            @ChildContent
+        </div>
+    };
+}

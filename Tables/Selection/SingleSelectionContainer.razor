@@ -20,9 +20,9 @@
 
     public event EventHandler<T?>? OnActiveValueChanged;
 
-    public Task AddValue(T value)
+    public Task AddValue(T value, bool dispatchOverride = false)
     {
-        if (!value.Equals(ActiveValue))
+        if (!value.Equals(ActiveValue) || dispatchOverride)
         {
             ActiveValue = value;
             OnActiveValueChanged?.Invoke(this, ActiveValue);

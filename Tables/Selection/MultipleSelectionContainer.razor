@@ -14,9 +14,9 @@
 
     public HashSet<T> ActiveValues { get; } = new();
 
-    public Task AddValue(T value)
+    public Task AddValue(T value, bool dispatchOverride = false)
     {
-        if (ActiveValues.Add(value))
+        if (ActiveValues.Add(value) || dispatchOverride)
             return ActiveValueChanged.InvokeAsync();
         return Task.CompletedTask;
     }
