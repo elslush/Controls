@@ -17,7 +17,7 @@ public readonly struct SortOption<T> : IOption<T>
     
     public uint SortOrder { get; }
 
-    public SortBy<T> Evaluate(IQueryable<T> source) => sortBy(source);
+    public IOrderedQueryable<T> Transform(IQueryable<T> source) => sortBy(source).Apply(source, IsAscending);
 
     public IQueryable<T> Transform(IQueryable<T> source) => sortBy(source).Apply(source, IsAscending);
 }
