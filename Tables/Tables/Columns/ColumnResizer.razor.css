@@ -1,0 +1,26 @@
+﻿.column-width-draghandle {
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    right: -0.5rem;
+    width: 0.7rem;
+    cursor: ew-resize;
+}
+
+.column-width-draghandle:after {
+    content: ' ';
+    border-left: 1px solid rgba(0,0,0,0.1);
+    position: absolute;
+    top: 0.4rem;
+    bottom: 0.4rem;
+    left: 0.35rem;
+}
+
+.column-width-draghandle:hover {
+    background: #aaa;
+}
+
+.column-width-draghandle:hover:after {
+    border-color: white;
+}

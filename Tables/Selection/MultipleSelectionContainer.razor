@@ -12,32 +12,23 @@
     [Parameter]
     public EventCallback ActiveValueChanged { get; set; }
 
-    public HashSet<T> ActiveValues { get; } = new();
+    [Parameter]
+    public Func<ICollection<T>> CollectionInitializer { get; set; } = () => new HashSet<T>();
 
-    public Task AddValue(T value, bool dispatchOverride = false)
+    protected override void OnInitialized()
     {
-        if (ActiveValues.Add(value) || dispatchOverride)
-            return ActiveValueChanged.InvokeAsync();
-        return Task.CompletedTask;
+        ActiveValues = CollectionInitializer.Invoke();
     }
 
-    public Task RemoveValue(T value)
-    {
-        if (ActiveValues.Remove(value))
-            return ActiveValueChanged.InvokeAsync();
-        return Task.CompletedTask;
-    }
+    public ICollection<T> ActiveValues { get; } = default!;
+
+    public void AddValue(T value) => ActiveValues.Add(value);
+
+    public void RemoveValue(T value) => ActiveValues.Remove(value);
+
+    public Task Notify() => ActiveValueChanged.InvokeAsync();
 
     public bool IsSelected(T value) => ActiveValues.Contains(value);
 
-    public Task Clear()
-    {
-        if (ActiveValues.Count > 0)
-        {
-            ActiveValues.Clear();
-            return ActiveValueChanged.InvokeAsync();
-        }
-            
-        return Task.CompletedTask;
-    }
+    public void Clear() => ActiveValues.Clear();
 }

@@ -30,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Tables\Columns\SortableColumn.razor" />
     <Content Remove="wwwroot\@floating-ui\core\dist\floating-ui.core.cjs" />
     <Content Remove="wwwroot\@floating-ui\core\dist\floating-ui.core.esm.development.js" />
     <Content Remove="wwwroot\@floating-ui\core\dist\floating-ui.core.esm.js" />
@@ -99,10 +98,6 @@
     <Content Remove="wwwroot\@floating-ui\dom\src\utils\is.d.ts" />
     <Content Remove="wwwroot\@floating-ui\dom\src\utils\math.d.ts" />
     <Content Remove="wwwroot\@floating-ui\dom\src\utils\window.d.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="Tables\Columns\SortableColumn.razor" />
   </ItemGroup>
 
   <ItemGroup>

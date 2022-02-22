@@ -1,0 +1,72 @@
+﻿@using Controls.Tables.Columns
+@using Controls.Selection
+@using Controls.Tables.Options
+
+@typeparam T
+
+<th class="@Class @SortClass @AlignClass" aria-sort=@AriaSortValue @key="@this" scope="col" @attributes=InputAttributes>
+    <SingleSelectionContainer T="SortOption<T>?" ActiveValueChanged=OnSelection>
+        <div class="column-title-flex">
+            @ChildContent
+        </div>
+    </SingleSelectionContainer>
+    @HiddenContent
+</th>
+
+@code {
+    private SortOption<T>? sortOption;
+    private bool sortByAscending, previousByAscending, isSorting, shouldRender;
+
+    [CascadingParameter]
+    public MultipleSelectionContainer<SortOption<T>> SortbyColumnContainer { get; set; } = default!;
+
+    [CascadingParameter]
+    public SingleSelectionContainer<ColumnOptions<T>> ColumnOptionsContainer { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment<T>? CellContent { get; set; }
+
+    [EditorRequired]
+    public RenderFragment? HiddenContent { get; set; }
+
+    [Parameter]
+    public Alignment Align { get; set; } = Alignment.Left;
+
+    [Parameter]
+    public string? Class { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? InputAttributes { get; set; }
+
+    private void OnSelection(SortOption<T>? currentSortOption)
+    {
+        if (sortOption is not null)
+            SortbyColumnContainer.RemoveValue(sortOption.Value);
+        if (currentSortOption is not null)
+            SortbyColumnContainer.RemoveValue(currentSortOption.Value);
+        sortOption = currentSortOption;
+    }
+
+    private string AriaSortValue
+        => sortOption is not null
+            ? (sortOption.Value.IsAscending ? "ascending" : "descending")
+            : "none";
+
+    private string? SortClass
+        => sortOption is not null
+        ? (sortOption.Value.IsAscending ? "sorted-asc" : "sorted-desc")
+        : null;
+
+    private string? AlignClass => Align switch
+    {
+        Alignment.Center => "grid-col-center",
+        Alignment.Right => "grid-col-right",
+        _ => null,
+    };
+
+    public string? ColumnClass => $"{AlignClass} {Class}";
+}
+

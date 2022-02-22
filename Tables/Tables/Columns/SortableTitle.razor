@@ -1,0 +1,67 @@
+﻿@using Controls.Data
+@using Controls.Selection
+@using Controls.Tables.Options
+
+@typeparam T
+
+<button class="column-title sortable-title" @onclick=@SelectValue @attributes=InputAttributes>
+    <span class="sort-indicator @SortIndicatorClass" aria-hidden="true"></span>
+    <div class="title-text">@ChildContent</div>
+</button>
+
+@code {
+    private SortState sortState = SortState.None;
+    private SortOption<T> sortOptionAscending, sortOptionDescending;
+
+    [CascadingParameter]
+    public SingleSelectionContainer<SortOption<T>> SortbyColumnContainer { get; set; } = default!;
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter, EditorRequired]
+    public Func<IQueryable<T>, SortBy<T>> SortBy { get; set; } = default!;
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? InputAttributes { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        sortOptionAscending = new(SortBy, true);
+        sortOptionDescending = new(SortBy, false);
+    }
+
+    private string? SortIndicatorClass => sortState switch
+    {
+        SortState.Ascending => "ascending",
+        SortState.Descending => "descending",
+        _ => null,
+    };
+
+    private async Task SelectValue()
+    {
+        switch (sortState)
+        {
+            case SortState.Ascending:
+                sortState = SortState.Descending;
+                SortbyColumnContainer.AddValue(sortOptionDescending);
+                break;
+            case SortState.Descending:
+                sortState = SortState.None;
+                SortbyColumnContainer.Clear();
+                break;
+            case SortState.None:
+                sortState = SortState.Ascending;
+                SortbyColumnContainer.AddValue(sortOptionDescending);
+                break;
+        }
+        await SortbyColumnContainer.Notify();
+    }
+
+    private enum SortState
+    {
+        Ascending,
+        Descending,
+        None,
+    }
+}

@@ -41,6 +41,21 @@ public struct SortBy<T>
         return this;
     }
 
+    public SortBy<T> Combine(SortBy<T> other)
+    {
+        if (_count > 9)
+            return this;
+
+        _then[_count++] = other._first;
+        foreach (var func in other._then)
+        {
+            if (_count > 9)
+                return this;
+            _then[_count++] = func;
+        }
+        return this;
+    }
+
     internal IOrderedQueryable<T> Apply(IQueryable<T> queryable, bool ascending)
     {
         var orderedQueryable = _first(queryable, ascending);

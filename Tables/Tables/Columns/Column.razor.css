@@ -1,0 +1,33 @@
+﻿th {
+    padding: 0;
+    font-weight: normal;
+    position: relative;
+}
+
+th:hover .column-title-flex, th:focus-within .column-title-flex {
+    filter: brightness(0.93);
+}
+
+th.sorted-asc:focus-within .column-title-flex, th.sorted-desc:focus-within .column-title-flex {
+    filter: brightness(0.85);
+}
+
+th:last-of-type .column-width-draghandle {
+    display: none;
+}
+
+th.grid-col-center .column-title-flex {
+    justify-content: center;
+}
+
+th.grid-col-center ::deep .column-title {
+    justify-content: center;
+}
+
+th.grid-col-right .column-title-flex {
+    justify-content: flex-end;
+}
+
+th.grid-col-right ::deep .column-title {
+    justify-content: flex-end;
+}

@@ -1,0 +1,11 @@
+﻿<div class="column-title">
+    <div class="title-text">@ChildContent</div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? InputAttributes { get; set; }
+}

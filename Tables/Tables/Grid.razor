@@ -1,0 +1,166 @@
+﻿@using Controls.Data
+@using Controls.Tables.Columns
+@using Controls.Tables.Options
+@using Microsoft.AspNetCore.Components.Rendering
+@using System.Linq.Expressions
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.JSInterop
+@using Controls.Selection
+
+@typeparam TGridItem
+@attribute [CascadingTypeParameter(nameof(TGridItem))]
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+@{
+    columns.Clear();
+}
+<CascadingValue IsFixed="true" Value="@addColumnCallback">
+    
+    <table aria-rowcount=@rowCount @ref="tableReference">
+        <thead>
+            <tr>
+                <MultipleSelectionContainer CollectionInitializer=@SortedCollectionInitializer @ref=@sortContainer T="SortOption<TGridItem>" ActiveValueChanged=OnSort>
+                    @ChildContent
+                </MultipleSelectionContainer>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <Virtualize @ref="@virtualizeComponent"
+                    TItem="(int RowIndex, TGridItem Data)"
+                    ItemSize="@ItemSize"
+                    ItemsProvider="@ProvideVirtualizedItems"
+                    ItemContent="@(item => builder => RenderRow(builder, item.RowIndex, item.Data))" />
+        </tbody>
+    </table>
+</CascadingValue>
+
+@code {
+    internal delegate void AddColumnCallback(Column<TGridItem> column);
+
+    private MultipleSelectionContainer<SortOption<TGridItem>> sortContainer = default!;
+    private AddColumnCallback addColumnCallback;
+    private List<Column<TGridItem>> columns;
+    private IJSObjectReference? jsModule, jsEventDisposable;
+    private ElementReference tableReference;
+    private IQueryable<TGridItem>? previousItems;
+    private int rowCount;
+
+    private Virtualize<(int, TGridItem)>? virtualizeComponent;
+
+    private ICollection<SortOption<TGridItem>> SortedCollectionInitializer() =>
+        new SortedSet<SortOption<TGridItem>>(
+            Comparer<SortOption<TGridItem>>.Create(
+                (a, b) => a.SortOrder.CompareTo(b.SortOrder)
+            )
+        );
+
+    public Grid()
+    {
+        columns = new();
+        addColumnCallback = columns.Add;
+    }
+
+    [Parameter, EditorRequired] 
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter, EditorRequired] 
+    public IQueryable<TGridItem>? Items { get; set; }
+
+    [Parameter] 
+    public Func<TGridItem, object> ItemKey { get; set; } = x => x;
+
+    [Parameter] 
+    public float ItemSize { get; set; } = 50;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            jsModule = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/Grid.razor.js");
+            jsEventDisposable = await jsModule.InvokeAsync<IJSObjectReference>("init", tableReference);
+        }
+
+        //if (_checkColumnOptionsPosition && _displayOptionsForColumn is not null)
+        //{
+        //    _checkColumnOptionsPosition = false;
+        //    _ = _jsModule?.InvokeVoidAsync("checkColumnOptionsPosition", _tableReference);
+        //}
+    }
+
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        previousItems = Items;
+        return base.SetParametersAsync(parameters);
+    }
+
+    private void RenderRow(RenderTreeBuilder __builder, int rowIndex, TGridItem item)
+    {
+        <tr @key="@(ItemKey(item))" aria-rowindex="@rowIndex">
+            @foreach (var col in columns)
+            {
+                <td class=@col.ColumnClass @key="@col">@col.CellContent?(item)</td>
+            }
+        </tr>
+    }
+
+    protected override Task OnParametersSetAsync()
+    {
+        rowCount = (Items?.Count() ?? 0) + 1; // The extra 1 is the header row. This matches the default behavior.
+        return virtualizeComponent is not null && Items != previousItems
+            ? virtualizeComponent.RefreshDataAsync()
+            : Task.CompletedTask;
+    }
+
+    private Task OnSort() => virtualizeComponent is not null ? virtualizeComponent.RefreshDataAsync() : Task.CompletedTask;
+
+    private async ValueTask<ItemsProviderResult<(int, TGridItem)>> ProvideVirtualizedItems(ItemsProviderRequest request)
+    {
+        if (Items is null)
+        {
+            return new ItemsProviderResult<(int, TGridItem)>(Enumerable.Empty<(int, TGridItem)>(), 0);
+        }
+        else
+        {
+            // Debounce the requests. This eliminates a lot of redundant queries at the cost of slight lag after interactions.
+            // If you wanted, you could try to make it only debounce on the 2nd-and-later request within a cluster.
+            await Task.Delay(20);
+            if (request.CancellationToken.IsCancellationRequested)
+                return default;
+
+
+            var records = Items;
+            if (sortContainer.ActiveValues.Any())
+            {
+                SortBy<TGridItem> sorts = sortContainer.ActiveValues.First().Evaluate(Items);
+                foreach (var sort in sortContainer.ActiveValues.Skip(1))
+                    sorts = sorts.Combine(sort.Evaluate(Items));
+                records = sorts.Apply()
+            }
+            
+            
+            var records = SortedItems!.Skip(request.StartIndex).Take(request.Count).AsEnumerable();
+            var result = new ItemsProviderResult<(int, TGridItem)>(
+                items: records.Select((x, i) => ValueTuple.Create(i + request.StartIndex + 2, x)),
+                totalItemCount: Items.Count());
+            return result;
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (jsEventDisposable is not null)
+            {
+                await jsEventDisposable.InvokeVoidAsync("stop");
+                await jsEventDisposable.DisposeAsync();
+            }
+            if (jsModule is not null)
+                await jsModule.DisposeAsync();
+        }
+        catch
+        {
+        }
+    }
+}

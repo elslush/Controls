@@ -6,9 +6,6 @@
 </CascadingValue>
 
 @code {
-    [Parameter]
-    public bool AllowDeselect { get; set; }
-
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
@@ -18,41 +15,15 @@
     [Parameter]
     public EventCallback<T?> ActiveValueChanged { get; set; }
 
-    public event EventHandler<T?>? OnActiveValueChanged;
+    //public event EventHandler<T?>? OnActiveValueChanged;
 
-    public Task AddValue(T value, bool dispatchOverride = false)
-    {
-        if (!value.Equals(ActiveValue) || dispatchOverride)
-        {
-            ActiveValue = value;
-            OnActiveValueChanged?.Invoke(this, ActiveValue);
-            return ActiveValueChanged.InvokeAsync(value);
-        }
-        else
-            return Task.CompletedTask;
-    }
+    public void AddValue(T value) => ActiveValue = value;
 
-    public Task RemoveValue(T value)
-    {
-        if (!AllowDeselect || !value.Equals(ActiveValue))
-            return Task.CompletedTask;
+    public void RemoveValue(T value) => ActiveValue = default(T);
 
-        ActiveValue = default(T);
-        OnActiveValueChanged?.Invoke(this, ActiveValue);
-        return ActiveValueChanged.InvokeAsync(ActiveValue);
-    }
+    public Task Notify() => ActiveValueChanged.InvokeAsync(ActiveValue);
 
     public bool IsSelected(T value) => value.Equals(ActiveValue);
 
-    public Task Clear()
-    {
-        if (ActiveValue is not null && !ActiveValue.Equals(default(T)))
-        {
-            ActiveValue = default(T);
-            OnActiveValueChanged?.Invoke(this, ActiveValue);
-            return ActiveValueChanged.InvokeAsync(ActiveValue);
-        }
-        else
-            return Task.CompletedTask;
-    }
+    public void Clear() => ActiveValue = default(T);
 }
