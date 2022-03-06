@@ -128,23 +128,21 @@
             if (request.CancellationToken.IsCancellationRequested)
                 return default;
 
-
-            var records = Items;
-            foreach (var sortOptions in sortContainer.ActiveValues)
-                foreach (var sortBy in sortOptions.)
-
+            IQueryable<TGridItem> records;
             if (sortContainer.ActiveValues.Any())
             {
-                SortBy<TGridItem> sorts = sortContainer.ActiveValues.First().Evaluate(Items);
-                foreach (var sort in sortContainer.ActiveValues.Skip(1))
-                    sorts = sorts.Combine(sort.Evaluate(Items));
-                records = sorts.Apply()
+                var orderRecords = sortContainer.ActiveValues.First().Sort(Items);
+                foreach (var sortOptions in sortContainer.ActiveValues.Skip(1))
+                    orderRecords = sortOptions.Sort(orderRecords);
+                records = orderRecords;
             }
+            else
+                records = Items;
             
             
-            var records = SortedItems!.Skip(request.StartIndex).Take(request.Count).AsEnumerable();
+            var recordEnumerable = records.Skip(request.StartIndex).Take(request.Count).AsEnumerable();
             var result = new ItemsProviderResult<(int, TGridItem)>(
-                items: records.Select((x, i) => ValueTuple.Create(i + request.StartIndex + 2, x)),
+                items: recordEnumerable.Select((x, i) => ValueTuple.Create(i + request.StartIndex + 2, x)),
                 totalItemCount: Items.Count());
             return result;
         }

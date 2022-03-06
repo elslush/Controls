@@ -20,8 +20,8 @@
     [CascadingParameter]
     public MultipleSelectionContainer<SortOption<T>> SortbyColumnContainer { get; set; } = default!;
 
-    [CascadingParameter]
-    public SingleSelectionContainer<ColumnOptions<T>> ColumnOptionsContainer { get; set; } = default!;
+    //[CascadingParameter]
+    //public SingleSelectionContainer<ColumnOptions<T>> ColumnOptionsContainer { get; set; } = default!;
 
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }

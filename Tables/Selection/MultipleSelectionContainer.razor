@@ -20,7 +20,7 @@
         ActiveValues = CollectionInitializer.Invoke();
     }
 
-    public ICollection<T> ActiveValues { get; } = default!;
+    public ICollection<T> ActiveValues { get; private set; } = default!;
 
     public void AddValue(T value) => ActiveValues.Add(value);
 

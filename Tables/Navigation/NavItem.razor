@@ -13,6 +13,8 @@
             href=@Link
             class=@CssClass
             ChildContent=ChildContent
+            Match=@Match
+            @attributes=InputAttributes
             />
     </Fade>
 </span>
@@ -37,6 +39,12 @@
 
     [Parameter]
     public string Link { get; set; } = string.Empty;
+
+    [Parameter]
+    public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? InputAttributes { get; set; }
 
     private void OnMouseOver() => isHovered = true;
 

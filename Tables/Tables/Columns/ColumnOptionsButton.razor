@@ -7,7 +7,7 @@
     private bool isOpened;
 
     [CascadingParameter]
-    public SingleSelectionContainer<ColumnOptions<TGridItem>> ColumnOptionsContainer { get; set; } = default!;
+    public SingleSelectionContainer<ColumnOptionsButton<TGridItem>> ColumnOptionsContainer { get; set; } = default!;
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
@@ -23,10 +23,10 @@
             ColumnOptionsContainer.AddValue(this);
     }
 
-    public RenderFragment GetColumnOptions => builder =>
-    {
-        <div class="column-options">
-            @ChildContent
-        </div>
-    };
+    //public RenderFragment GetColumnOptions => builder =>
+    //{
+    //    <div class="column-options">
+    //        @ChildContent
+    //    </div>
+    //};
 }

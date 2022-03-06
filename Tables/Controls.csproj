@@ -328,7 +328,6 @@
     <Folder Include="Overlays\" />
     <Folder Include="Snackbars\" />
     <Folder Include="Spinners\" />
-    <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
   <ItemGroup>

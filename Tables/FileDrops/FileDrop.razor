@@ -26,7 +26,7 @@
     {
         if (firstRender && inputFile is not null)
         {
-            module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/dropZone.js");
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/filedrop.js");
             eventListenerFunction = await module.InvokeAsync<IJSObjectReference>("init", fileDropElement, inputFile.Element);
         }
     }
