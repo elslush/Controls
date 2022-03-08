@@ -1,0 +1,45 @@
+﻿@using Microsoft.JSInterop
+
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<code @ref=codeReference>
+    @ChildContent
+</code>
+
+
+@code {
+    private IJSObjectReference? module, languageModule, hljs, language;
+    private ElementReference? codeReference;
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter, EditorRequired]
+    public string Language { get; set; } = "javascript";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/highlight.min.js");
+            languageModule = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/Controls/languages/{Language}.min.js");
+            language = await languageModule.InvokeAsync<IJSObjectReference>("init");
+            hljs = await module.InvokeAsync<IJSObjectReference>("init");
+            await hljs.InvokeVoidAsync("registerLanguage", Language, language);
+            await hljs.InvokeVoidAsync("highlightElement", codeReference);
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+            await module.DisposeAsync();
+        if (languageModule is not null)
+            await languageModule.DisposeAsync();
+        if (hljs is not null)
+            await hljs.DisposeAsync();
+        if (language is not null)
+            await language.DisposeAsync();
+    }
+}

@@ -1,39 +1,47 @@
-﻿@if (Inline)
-{
-    <code class="hljs hljs-inline @ColorModeStyle">
+﻿@using Microsoft.JSInterop
+
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<pre>
+    <code @ref=codeReference>
         @ChildContent
     </code>
-}
-else
-{
-    <pre class="code">
-        <code class="hljs hljs-block @ColorModeStyle">
-            @ChildContent
-        </code>
-    </pre>
-}
+</pre>
 
 
 @code {
-    private string ColorModeStyle => Mode switch
-    {
-        ColorMode.Light => "light",
-        ColorMode.Dark => "dark",
-        _ => string.Empty,
-    };
+    private IJSObjectReference? module, languageModule, hljs, language;
+    private ElementReference? codeReference;
 
-    [Parameter, EditorRequired] 
+    [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
-    [Parameter]
-    public ColorMode Mode { get; set; } = ColorMode.Light;
+    [Parameter, EditorRequired]
+    public string Language { get; set; } = "javascript";
 
-    [Parameter]
-    public bool Inline { get; set; }
-
-    public enum ColorMode
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        Light,
-        Dark,
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import", "./_content/Controls/highlight.min.js");
+            languageModule = await JS.InvokeAsync<IJSObjectReference>("import", $"./_content/Controls/languages/{Language}.min.js");
+            language = await languageModule.InvokeAsync<IJSObjectReference>("init");
+            hljs = await module.InvokeAsync<IJSObjectReference>("init");
+            await hljs.InvokeVoidAsync("registerLanguage", Language, language);
+            await hljs.InvokeVoidAsync("highlightElement", codeReference);
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+            await module.DisposeAsync();
+        if (languageModule is not null)
+            await languageModule.DisposeAsync();
+        if (hljs is not null)
+            await hljs.DisposeAsync();
+        if (language is not null)
+            await language.DisposeAsync();
     }
 }

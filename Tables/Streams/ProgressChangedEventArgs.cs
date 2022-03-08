@@ -4,7 +4,7 @@ public delegate void ProgressChangedEventHandler(object? sender, ProgressChanged
 
 public class ProgressChangedEventArgs : EventArgs
 {
-    public ProgressChangedEventArgs(int progressPercentage) => ProgressPercentage = progressPercentage;
+    public ProgressChangedEventArgs(double progressPercentage) => ProgressPercentage = progressPercentage;
 
-    public int ProgressPercentage { get; }
+    public double ProgressPercentage { get; }
 }
