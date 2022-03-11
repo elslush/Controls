@@ -1,0 +1,82 @@
+﻿@using SkiaSharp
+@using SkiaSharp.Views.Blazor
+@using Controls.Charts.Legends
+
+<SKGLView style="width: 100%;height:100%;" OnPaintSurface=OnPaintSurfaceGl/>
+
+@code {
+    private static readonly SKRect startingBounds = SKRect.Create(5, 5);
+
+    [Parameter, EditorRequired]
+    public Title Title { get; set; }
+
+    [Parameter, EditorRequired]
+    public VerticalLegend Legend { get; set; }
+
+    [Parameter, EditorRequired]
+    public IChart Chart { get; set; }
+
+    private void OnPaintSurfaceGl(SKPaintGLSurfaceEventArgs e)
+    {
+        var info = e.Info;
+        var canvas = e.Surface.Canvas;
+
+        canvas.Clear(SKColors.White);
+
+        using SKPaint framePaint = new SKPaint
+        {
+            Style = SKPaintStyle.Stroke,
+            StrokeWidth = 5,
+            Color = SKColors.Black,
+        };
+
+        var titleBounds = new SKRect(0, 0, info.Width, Math.Max(25, info.Height / 12));
+        canvas.DrawRoundRect(titleBounds, 20, 20, framePaint);
+        Title.Draw(ref canvas, ref info, titleBounds);
+
+        var legendWidth = Math.Max(100, info.Width / 6);
+        var legendBounds = new SKRect(info.Width - legendWidth, titleBounds.Bottom, info.Width, info.Height - titleBounds.Bottom);
+        canvas.DrawRoundRect(legendBounds, 20, 20, framePaint);
+        Legend.Draw(ref canvas, ref info, legendBounds);
+
+        var chartWidth = info.Width - legendWidth;
+        var chartHeight = info.Height - titleBounds.Height;
+        var chartBounds = new SKRect(0, titleBounds.Bottom, chartWidth, info.Height);
+        canvas.DrawRoundRect(chartBounds, 20, 20, framePaint);
+        Chart.Draw(ref canvas, ref info, chartBounds);
+    }
+
+    //https://medium.com/@brianelete/a-brief-experience-with-skiasharp-20478ca05ef2
+    //private void OnPaintSurface(SKPaintSurfaceEventArgs e)
+    //{
+    //    var canvas = e.Surface.Canvas;
+
+    //    canvas.Clear(SKColors.White);
+
+    //    using var paint = new SKPaint
+    //    {
+    //        Color = SKColors.Black,
+    //        IsAntialias = true,
+    //        TextSize = 24
+    //    };
+
+    //    canvas.DrawText("SkiaSharp", 0, 24, paint);
+
+    //    string myString;
+
+    //    using (var stream = new MemoryStream())
+    //    {
+    //        SKCanvas svg = SKSvgCanvas.Create(SKRect.Create(256, 256), stream);
+
+    //        svg.DrawText("SkiaSharp", 0, 24, paint);
+
+    //        stream.Position = 0;
+    //        using (var reader = new StreamReader(stream))
+    //        {
+    //            myString = reader.ReadToEnd();
+    //        }
+    //    }
+
+    //    Console.WriteLine(myString);
+    //}
+}

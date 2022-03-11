@@ -304,7 +304,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.3" />
+    <PackageReference Include="SkiaSharp.Views.Blazor" Version="2.88.0-preview.209" />
     <PackageReference Include="System.Text.Json" Version="6.0.2" />
   </ItemGroup>
 
