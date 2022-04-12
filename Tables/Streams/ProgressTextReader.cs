@@ -3,7 +3,7 @@
 public class ProgressTextReader : TextReader
 {
     private readonly StreamReader streamReader;
-    private double lastProgress = 0;
+    private double lastProgress = double.MinValue;
 
     public ProgressTextReader(StreamReader streamReader) => this.streamReader = streamReader;
     public ProgressTextReader(Stream stream)
@@ -20,7 +20,7 @@ public class ProgressTextReader : TextReader
     {
         if (ProgressChanged is not null)
         {
-            var newProgress = streamReader.BaseStream.Position * 100.0 / streamReader.BaseStream.Length;
+            var newProgress = (double)streamReader.BaseStream.Position / streamReader.BaseStream.Length;
             if (newProgress > lastProgress)
             {
                 lastProgress = newProgress;
