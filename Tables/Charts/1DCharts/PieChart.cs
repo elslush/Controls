@@ -2,113 +2,128 @@
 
 namespace Controls.Charts._1DCharts;
 
-public readonly record struct PieChart : I1DChart, IDisposable
+public class PieChart<T> : I1DChart where T : class
 {
-    private readonly SKPaint outlinePaint, textPaint, textBackgroundPaint;
-    private readonly List<PieChartData> pieChartData;
-    private readonly float explodeOffset;
+    private bool shouldComputeOffset = true;
+    private IEnumerable<T> cachedData;
+    private SKPaint cachedTextPaint;
+    private float explodeOffset;
 
-    public PieChart(IEnumerable<I1DData> data)
+    public PieChart()
     {
-        outlinePaint = new()
-        {
-            Style = SKPaintStyle.Stroke,
-            StrokeWidth = 5,
-            IsAntialias = true,
-            Color = SKColors.Black,
-        };
-        textPaint = new()
-        {
-            TextSize = 20,
-            StrokeWidth = 5,
-            IsAntialias = true,
-            Color = SKColors.Black,
-        };
-        textBackgroundPaint = new()
-        {
-            Style = SKPaintStyle.Fill,
-            Color = SKColors.Black,
-        };
+        //OutlinePaint = new()
+        //{
+        //    Style = SKPaintStyle.Stroke,
+        //    StrokeWidth = 5,
+        //    IsAntialias = true,
+        //    Color = SKColors.Black,
+        //};
+        //TextPaint = new()
+        //{
+        //    TextSize = 20,
+        //    StrokeWidth = 5,
+        //    IsAntialias = true,
+        //    Color = SKColors.Black,
+        //};
+        //TextBackgroundPaint = new()
+        //{
+        //    Style = SKPaintStyle.Fill,
+        //    Color = SKColors.Black,
+        //};
 
-        pieChartData = new();
-
-        float maxExplodeOffset = float.MinValue;
-        foreach (var value in data)
-        {
-            var text = value.Percentage.ToString("P1");
-
-            SKRect frameRect = new();
-            textPaint.MeasureText(text, ref frameRect);
-            pieChartData.Add(new()
-            {
-                Data = value,
-                Label = text,
-                LabelFrame = frameRect,
-            });
-
-            maxExplodeOffset = Math.Max(Math.Max(maxExplodeOffset, frameRect.Width), frameRect.Height);
-        }
-        explodeOffset = maxExplodeOffset;
+        //var text = value.Percentage.ToString("P1");
     }
 
-    private readonly struct PieChartData
+    public SKPaint OutlinePaint { get; set; }
+
+    public SKPaint TextPaint 
     {
-        public I1DData Data { get; init; }
-        public string Label { get; init; }
-        public SKRect LabelFrame { get; init; }
-        public float CrossDistance { get; init; }
+        get => cachedTextPaint;
+        set
+        {
+            if (value != cachedTextPaint)
+                shouldComputeOffset = true;
+            cachedTextPaint = value;
+        }
+    }
+
+    public SKPaint TextBackgroundPaint { get; set; }
+
+    public IEnumerable<T> Data
+    {
+        get => cachedData;
+        set
+        {
+            if (value != cachedData)
+                shouldComputeOffset = true;
+            cachedData = value;
+        }
+    }
+
+    public Func<T, string> LabelSelector { get; set; }
+
+    public Func<T, float> PercentSelector { get; set; }
+
+    public Func<T, SKPaint> PaintSelector { get; set; }
+
+    private static float ComputeExplodeOffet(IEnumerable<string> data, SKPaint textPaint)
+    {
+        float maxExplodeOffset = float.MinValue;
+        SKRect frameRect = new();
+        foreach (var item in data)
+        {
+            textPaint.MeasureText(item, ref frameRect);
+            maxExplodeOffset = Math.Max(Math.Max(maxExplodeOffset, frameRect.Width), frameRect.Height);
+        }
+        return maxExplodeOffset;
     }
 
     public void Draw(ref SKCanvas canvas, ref SKImageInfo info, SKRect bounds)
     {
+        if (shouldComputeOffset)
+        {
+            shouldComputeOffset = false;
+            explodeOffset = ComputeExplodeOffet(Data.Select(LabelSelector), TextPaint);
+        }
+
         SKPoint center = new(bounds.MidX, bounds.MidY);
         float radius = Math.Min(bounds.Width / 2, bounds.Height / 2) - explodeOffset;
         SKRect rect = new(center.X - radius, center.Y - radius, center.X + radius, center.Y + radius);
 
         float startAngle = 0;
 
-        foreach (var item in pieChartData)
+        var labels = Data.Select(LabelSelector);
+
+        foreach (var item in Data)
         {
-            float sweepAngle = 360f * item.Data.Percentage;
+            var sweepAngle = 360f * PercentSelector.Invoke(item);
 
             using SKPath path = new();
-            using SKPaint fillPaint = new()
-            {
-                Style = SKPaintStyle.Fill,
-                Color = item.Data.Color
-            };
-
             path.MoveTo(center);
             path.ArcTo(rect, startAngle, sweepAngle, false);
             path.Close();
 
-            var frameRect = item.LabelFrame;
+            var text = LabelSelector.Invoke(item);
+            SKRect frameRect = new();
+            TextPaint.MeasureText(text, ref frameRect);
 
             float angle = startAngle + 0.5f * sweepAngle;
-            float x = radius * (float)Math.Cos(Math.PI * angle / 180);
-            float y = radius * (float)Math.Sin(Math.PI * angle / 180);
+            float x = radius * MathF.Cos(MathF.PI * angle / 180);
+            float y = radius * MathF.Sin(MathF.PI * angle / 180);
 
             x += x > 0 ? frameRect.Width / 2 : -frameRect.Width / 2;
             y += y > 0 ? frameRect.Height / 2 : -frameRect.Height / 2;
 
-            textPaint.TextAlign = x > 0 ? SKTextAlign.Left : SKTextAlign.Right;
+            TextPaint.TextAlign = x > 0 ? SKTextAlign.Left : SKTextAlign.Right;
 
-            canvas.DrawPath(path, fillPaint);
-            canvas.DrawPath(path, outlinePaint);
+            canvas.DrawPath(path, PaintSelector.Invoke(item));
+            canvas.DrawPath(path, OutlinePaint);
 
             var textX = rect.MidX + x;
             var textY = rect.MidY + y;
-            canvas.DrawText(item.Label, textX, textY, textPaint);
+            canvas.DrawText(text, textX, textY, TextPaint);
 
             startAngle += sweepAngle;
         }
-    }
-
-    public void Dispose()
-    {
-        outlinePaint.Dispose();
-        textPaint.Dispose();
-        textBackgroundPaint.Dispose();
-        GC.SuppressFinalize(this);
     }
 }

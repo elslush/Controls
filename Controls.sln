@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebassemblyExample.Client",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebassemblyExample.Shared", "WebassemblyExample\Shared\WebassemblyExample.Shared.csproj", "{01004250-532B-4440-B630-1FF61CAD7EC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBlockSourceGenerator", "CodeBlockSourceGenerator\CodeBlockSourceGenerator.csproj", "{EA6162E3-92F1-44AA-9C3E-765E4FFB8B52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeBlockSourceGenerator", "CodeBlockSourceGenerator\CodeBlockSourceGenerator.csproj", "{EA6162E3-92F1-44AA-9C3E-765E4FFB8B52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

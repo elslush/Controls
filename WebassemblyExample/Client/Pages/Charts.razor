@@ -1,0 +1,133 @@
+﻿@using Controls.Animations
+@using Controls.Animations._2D
+@using Controls.Animations.Background
+@using Controls.Buttons
+@using Controls.Charts.Legends
+@using Controls.Charts.Legends.LegendElements
+@using Controls.Charts.Markers
+@using Controls.Charts._1DCharts
+@using Controls.Code
+@using Controls.Lists
+@using Controls.Selection
+@using Controls.Tabs
+@using System.Drawing
+@using Microsoft.AspNetCore.Components
+@using SkiaSharp
+@using Controls.Charts.Base
+
+@page "/charts"
+
+<div class="inner-container container">
+    <div class="inner-header header">
+        <div class="inner-header-left header-left">
+            <h1>Charts</h1>
+            <small>Useful for a more engaging UI. Can be applied to any component that allows CSS class modification.</small>
+        </div>
+        <div class="header-right">
+            <small>By Matthew Ormson, 04/30/2022, 3 minutes to read</small>
+        </div>
+    </div>
+
+    <div class="inner-content content">
+        <div class="card">
+            <h2>2D Animations</h2>
+
+            <p></p>
+
+            <CanvasChart Title=title Legend=verticalLegend Chart=pieChart />
+            
+        </div>
+
+        <div class="card">
+            <h2>Selection Buttons</h2>
+        </div>
+
+        <div class="card">
+            <h2>Icons</h2>
+        </div>
+
+        <div class="card">
+            <h2>Animations</h2>
+        </div>
+
+        <div class="card">
+            <h2>Custom Content</h2>
+        </div>
+    </div>
+</div>
+
+@code {
+    private static readonly Title title = new("Test", new()
+        {
+            TextSize = 20,
+            StrokeWidth = 5,
+            IsAntialias = true,
+            Color = SKColors.Black,
+        });
+    private static readonly VerticalLegend verticalLegend = new(new List<ILegendElement>()
+    {
+        new IconElement(new CircleMarker(new SKPaint(){ Color = SKColors.Red }), "Apples"),
+        new IconElement(new CircleMarker(new SKPaint(){ Color = SKColors.Orange }), "Orange"),
+        new IconElement(new CircleMarker(new SKPaint(){ Color = SKColors.Purple }), "Plum"),
+    });
+
+    private static readonly IChart pieChart = new PieChart<Tuple<string, float, SKPaint>>()
+        {
+            TextPaint = new()
+            {
+                TextSize = 20,
+                StrokeWidth = 5,
+                IsAntialias = true,
+                Color = SKColors.Black,
+            },
+            OutlinePaint = new()
+            {
+                Style = SKPaintStyle.Stroke,
+                StrokeWidth = 5,
+                IsAntialias = true,
+                Color = SKColors.Black,
+            },
+            TextBackgroundPaint = new()
+            {
+                Style = SKPaintStyle.Fill,
+                Color = SKColors.Black,
+            },
+            Data = new Tuple<string, float, SKPaint>[]
+            {
+                new("Apples", .20f, new SKPaint()
+                {
+                    Style = SKPaintStyle.Fill,
+                    Color = SKColors.Red
+                }),
+                new("Orange", .05f, new SKPaint()
+                {
+                    Style = SKPaintStyle.Fill,
+                    Color = SKColors.Orange
+                }),
+                new("Plum", .75f, new SKPaint()
+                {
+                    Style = SKPaintStyle.Fill,
+                    Color = SKColors.Purple
+                }),
+            },
+            LabelSelector = v => v.Item1,
+            PercentSelector = v => v.Item2,
+            PaintSelector = v => v.Item3,
+        };
+
+    private RenderFragment<(bool, string, string)> AnimationTab = content => __builder =>
+    {
+        <LineTab IsDefault=content.Item1>
+            <Content>
+                <Button Class=@content.Item2>@content.Item3</Button>
+            </Content>
+            <ChildContent>
+                
+                <CodeBlock Language="html">
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">class</span>=<span class="hljs-string">@content.Item2</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+                </CodeBlock>
+            </ChildContent>
+        </LineTab>
+    };
+}
+

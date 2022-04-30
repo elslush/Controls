@@ -2,7 +2,7 @@
 @using SkiaSharp.Views.Blazor
 @using Controls.Charts.Legends
 
-<SKGLView style="width: 100%;height:100%;" OnPaintSurface=OnPaintSurfaceGl/>
+<SKCanvasView style="width: 100%;height:auto;" OnPaintSurface=OnPaintSurfaceGl/>
 
 @code {
     private static readonly SKRect startingBounds = SKRect.Create(5, 5);
@@ -16,7 +16,7 @@
     [Parameter, EditorRequired]
     public IChart Chart { get; set; }
 
-    private void OnPaintSurfaceGl(SKPaintGLSurfaceEventArgs e)
+    private void OnPaintSurfaceGl(SKPaintSurfaceEventArgs e)
     {
         var info = e.Info;
         var canvas = e.Surface.Canvas;
