@@ -4,5 +4,5 @@ public interface IAnimation
 {
     public static string ActiveClass => "active";
 
-    public static string? AnimationClass { get; }
+    static abstract string? AnimationClass { get; }
 }

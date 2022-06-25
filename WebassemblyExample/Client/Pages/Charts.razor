@@ -6,6 +6,7 @@
 @using Controls.Charts.Legends.LegendElements
 @using Controls.Charts.Markers
 @using Controls.Charts._1DCharts
+@using Controls.Charts._1DCharts.CircleCharts
 @using Controls.Code
 @using Controls.Lists
 @using Controls.Selection
@@ -64,6 +65,12 @@
             IsAntialias = true,
             Color = SKColors.Black,
         });
+    private static readonly SKPaint iconTitlePaint = new()
+    {
+        Color = SKColors.Black,
+        IsAntialias = true,
+        TextSize = 24,
+    };
     private static readonly VerticalLegend verticalLegend = new(new List<ILegendElement>()
     {
         new IconElement(new CircleMarker(new SKPaint(){ Color = SKColors.Red }), "Apples"),

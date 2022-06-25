@@ -1,6 +1,6 @@
 ﻿using SkiaSharp;
 
-namespace Controls.Charts._1DCharts;
+namespace Controls.Charts._1DCharts.CircleCharts;
 
 public class PieChart<T> : I1DChart where T : class
 {
@@ -78,15 +78,28 @@ public class PieChart<T> : I1DChart where T : class
         return maxExplodeOffset;
     }
 
-    public void Draw(ref SKCanvas canvas, ref SKImageInfo info, SKRect bounds)
+    private SKPoint center;
+    private SKRect bounds;
+    public SKRect Bounds 
     {
-        if (shouldComputeOffset)
+        get => bounds;
+        set
         {
-            shouldComputeOffset = false;
-            explodeOffset = ComputeExplodeOffet(Data.Select(LabelSelector), TextPaint);
+            bounds = value;
+            center = new(bounds.MidX, bounds.MidY);
         }
+    }
 
-        SKPoint center = new(bounds.MidX, bounds.MidY);
+    private const float DegreeToRadian = MathF.PI * 2 / 360;
+
+    public void Draw(ref SKCanvas canvas, ref SKImageInfo info)
+    {
+        //if (shouldComputeOffset)
+        //{
+        //    shouldComputeOffset = false;
+        //    explodeOffset = ComputeExplodeOffet(Data.Select(LabelSelector), TextPaint);
+        //}
+
         float radius = Math.Min(bounds.Width / 2, bounds.Height / 2) - explodeOffset;
         SKRect rect = new(center.X - radius, center.Y - radius, center.X + radius, center.Y + radius);
 
@@ -98,32 +111,35 @@ public class PieChart<T> : I1DChart where T : class
         {
             var sweepAngle = 360f * PercentSelector.Invoke(item);
 
-            using SKPath path = new();
-            path.MoveTo(center);
-            path.ArcTo(rect, startAngle, sweepAngle, false);
-            path.Close();
+            // arc
+            using (SKPath path = new())
+            {
+                path.MoveTo(center);
+                path.ArcTo(rect, startAngle, sweepAngle, false);
+                path.Close();
 
+                canvas.DrawPath(path, PaintSelector.Invoke(item));
+                canvas.DrawPath(path, OutlinePaint);
+            }
+                
+            // label
             var text = LabelSelector.Invoke(item);
-            SKRect frameRect = new();
-            TextPaint.MeasureText(text, ref frameRect);
 
-            float angle = startAngle + 0.5f * sweepAngle;
-            float x = radius * MathF.Cos(MathF.PI * angle / 180);
-            float y = radius * MathF.Sin(MathF.PI * angle / 180);
+            float angle = startAngle + (sweepAngle / 2);
+            var x = rect.MidX + (rect.Width / 4) * MathF.Cos(DegreeToRadian * angle);
+            var y = rect.MidY + (rect.Height / 4) * MathF.Sin(DegreeToRadian * angle);
 
-            x += x > 0 ? frameRect.Width / 2 : -frameRect.Width / 2;
-            y += y > 0 ? frameRect.Height / 2 : -frameRect.Height / 2;
+            TextPaint.TextAlign = SKTextAlign.Center;
 
-            TextPaint.TextAlign = x > 0 ? SKTextAlign.Left : SKTextAlign.Right;
-
-            canvas.DrawPath(path, PaintSelector.Invoke(item));
-            canvas.DrawPath(path, OutlinePaint);
-
-            var textX = rect.MidX + x;
-            var textY = rect.MidY + y;
-            canvas.DrawText(text, textX, textY, TextPaint);
+            canvas.DrawText(text, x, y, TextPaint);
+            canvas.DrawLine(center, new SKPoint(x, y), TextPaint);
 
             startAngle += sweepAngle;
         }
+    }
+
+    public void Draw(ref SKCanvas canvas, ref SKImageInfo info, SKRect bounds)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -2,23 +2,18 @@
 @using Controls.Animations.Background
 @using Microsoft.AspNetCore.Components.Routing
 
+@typeparam T where T : IAnimation
+
 @inject NavigationManager NavigationManager
 
-<span>
-    <Fade>
-        <NavLink
-            @onmouseover=OnMouseOver 
-            @onmouseout=OnMouseOut
-            ActiveClass=@activeClass
-            href=@Link
-            class=@CssClass
-            ChildContent=ChildContent
-            Match=@Match
-            @attributes=InputAttributes
-            />
-    </Fade>
-</span>
-
+<NavLink @onmouseover=OnMouseOver
+         @onmouseout=OnMouseOut
+         ActiveClass=@activeClass
+         href=@Link
+         class=@CssClass
+         ChildContent=ChildContent
+         Match=@Match
+         @attributes=InputAttributes />
 
 @code {
     private bool isHovered;
@@ -52,8 +47,8 @@
 
     protected override void OnParametersSet()
     {
-        hoveredClass = $"nav-item {Fade.AnimationClass} {IAnimation.ActiveClass} {Class}";
-        defaultClass = $"nav-item {Fade.AnimationClass} {Class}";
+        hoveredClass = $"nav-item {T.AnimationClass} {IAnimation.ActiveClass} {Class}";
+        defaultClass = $"nav-item {T.AnimationClass} {Class}";
         activeClass = $"selected {ActiveClass}";
     }
 

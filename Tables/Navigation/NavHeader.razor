@@ -1,9 +1,12 @@
-﻿@using Controls.Collapsibles
+﻿@using Controls.Animations
+@using Controls.Collapsibles
 @using Controls.Buttons
 @using Controls.Selection
 
+@typeparam T where T : IAnimation
+
 <div class="nav-header-container">
-    <Button @onclick=OnClick>
+    <Button @onclick=OnClick @attributes=InputAttributes>
         <CollapsibleSelector IsCollapsed="isSelected"><span class="nav-header-text">@Text</span></CollapsibleSelector>
     </Button>
 
@@ -18,7 +21,9 @@
 
 
 @code {
-    private bool isSelected;
+    private bool isSelected, isHovered;
+    private string? hoveredClass, defaultClass, activeClass;
+    private string? CssClass => isHovered ? hoveredClass : defaultClass;
 
     [CascadingParameter]
     public NavHeader? CurrentHeader { get; set; }
@@ -29,12 +34,26 @@
     [Parameter, EditorRequired]
     public RenderFragment? ChildContent { get; set; }
 
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? InputAttributes { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        hoveredClass = $"nav-item {T.AnimationClass} {IAnimation.ActiveClass} {Class}";
+        defaultClass = $"nav-item {T.AnimationClass} {Class}";
+        activeClass = $"selected {ActiveClass}";
+    }
+
     public void Select(bool isSelected)
     {
         this.isSelected = isSelected;
         StateHasChanged();
         CurrentHeader?.Select(isSelected);
     }
+
+    private void OnMouseOver() => isHovered = true;
+
+    private void OnMouseOut() => isHovered = false;
 
     private void OnClick() => isSelected = !isSelected;
 }
