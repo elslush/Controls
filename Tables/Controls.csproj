@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	  <PublishTrimmed>true</PublishTrimmed>
 	  <TrimmerDefaultAction>link</TrimmerDefaultAction>
+	  <Configurations>Release;Debug</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -314,7 +315,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="SkiaSharp.Views.Blazor" Version="2.88.0-preview.256" />
+    <PackageReference Include="SkiaSharp.Views.Blazor" Version="2.88.1-preview.71" />
     <PackageReference Include="System.Text.Json" Version="7.0.0-preview.3.22175.4" />
   </ItemGroup>
 

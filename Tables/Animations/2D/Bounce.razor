@@ -1,10 +1,13 @@
 ﻿@implements IAnimation
 
 <span>
-    
+    @ChildContent
 </span>
 
 
 @code {
-    
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+
+    public static string? AnimationClass => "bounce";
 }

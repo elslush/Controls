@@ -3,7 +3,7 @@
 @using Controls.Buttons
 @using Controls.Selection
 
-@typeparam T where T : IAnimation
+@*@typeparam T where T : IAnimation*@
 
 <div class="nav-header-container">
     <Button @onclick=OnClick @attributes=InputAttributes>
@@ -37,12 +37,12 @@
     [Parameter(CaptureUnmatchedValues = true)]
     public IReadOnlyDictionary<string, object>? InputAttributes { get; set; }
 
-    protected override void OnParametersSet()
+    @*protected override void OnParametersSet()
     {
         hoveredClass = $"nav-item {T.AnimationClass} {IAnimation.ActiveClass} {Class}";
         defaultClass = $"nav-item {T.AnimationClass} {Class}";
         activeClass = $"selected {ActiveClass}";
-    }
+    }*@
 
     public void Select(bool isSelected)
     {
